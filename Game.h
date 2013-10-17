@@ -33,6 +33,8 @@ private:
 	//Level[] levels = new Level[5];
 	int * colors;
 	int * pixels;
+
+	void renderGui();
 };
 
 #endif /* GAME_H_ */

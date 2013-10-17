@@ -19,6 +19,7 @@ public:
 	virtual void hurt(Mob * mob, int damage, int attackDir);
 	virtual void hurt(Tile * tile, int x, int y, int damage);
 	virtual void heal(int heal);
+	virtual Type type();
 
 protected:
 	int walkDist;

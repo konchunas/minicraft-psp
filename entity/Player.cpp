@@ -229,7 +229,7 @@ bool Player::interact(int x0, int y0, int x1, int y1)
 	for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++ )
 	{
 		Entity * e = *it;
-		//if (e != this) if (e->interact(this, activeItem, attackDir)) return true;
+		if (e != this) if (e->interact(this, activeItem, attackDir)) return true;
 	}
 	return false;
 }
@@ -422,4 +422,9 @@ void Player::gameWon()
 {
 	//level->player.invulnerableTime = 60 * 5;
 	//game.won();
+}
+
+Type Player::type()
+{
+	return PLAYER;
 }

@@ -157,5 +157,7 @@ bool Mob::findStartPos(Level * level)
 	return false;
 }
 
-
-
+Type Mob::type()
+{
+	return MOB;
+}

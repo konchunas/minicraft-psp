@@ -240,9 +240,10 @@ random(new Random())
 	}
 
 	void Level::add(Entity * entity) {
-		//if (entity instanceof Player) {
+		if (entity->instanceOf(PLAYER))
+		{
 			player = (Player*)entity;
-		//}
+		}
 		entity->removed = false;
 		entities.push_back(entity);
 		entity->init(this);

@@ -3,12 +3,13 @@
 
 #include "level/tile/Tile.h"
 #include "Screen.h"
+#include "../Typeable.h"
 
 class Level;
 class Mob;
 class Player;
 
-class Entity {
+class Entity : public Typeable {
 public:
 	Entity();
 	virtual ~Entity();

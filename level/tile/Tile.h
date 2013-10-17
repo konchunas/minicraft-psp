@@ -8,6 +8,7 @@ class Entity;
 class Screen;
 class Mob;
 class Player;
+class Item;
 
 typedef unsigned short ushort;
 
@@ -42,7 +43,7 @@ public:
 	virtual void bumpedInto(Level * level, int xt, int yt, Entity * entity);
 	virtual void tick(Level * level, int xt, int yt);
 	virtual void steppedOn(Level * level, int xt, int yt, Entity * entity);
-//	virtual bool interact(Level * level, int xt, int yt, Player player, Item item, int attackDir);
+	virtual bool interact(Level * level, int xt, int yt, Player * player, Item * item, int attackDir);
 	virtual bool use(Level * level, int xt, int yt, Player * player, int attackDir);
 	virtual bool connectsToLiquid();
 

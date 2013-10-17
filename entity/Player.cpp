@@ -155,64 +155,65 @@ void Player::attack()
 {
 	walkDist += 8;
 	attackDir = dir;
-//	attackItem = activeItem;
-//	bool done = false;
-//
-//	if (activeItem != NULL) {
-//		attackTime = 10;
-//		int yo = -2;
-//		int range = 12;
-//		if (dir == 0 && interact(x - 8, y + 4 + yo, x + 8, y + range + yo)) done = true;
-//		if (dir == 1 && interact(x - 8, y - range + yo, x + 8, y - 4 + yo)) done = true;
-//		if (dir == 3 && interact(x + 4, y - 8 + yo, x + range, y + 8 + yo)) done = true;
-//		if (dir == 2 && interact(x - range, y - 8 + yo, x - 4, y + 8 + yo)) done = true;
-//		if (done) return;
-//
-//		int xt = x >> 4;
-//		int yt = (y + yo) >> 4;
-//		int r = 12;
-//		if (attackDir == 0) yt = (y + r + yo) >> 4;
-//		if (attackDir == 1) yt = (y - r + yo) >> 4;
-//		if (attackDir == 2) xt = (x - r) >> 4;
-//		if (attackDir == 3) xt = (x + r) >> 4;
-//
-//		if (xt >= 0 && yt >= 0 && xt < level->w && yt < level->h) {
-//			if (activeItem.interactOn(level->getTile(xt, yt), level, xt, yt, this, attackDir)) {
-//				done = true;
-//			} else {
-//				if (level->getTile(xt, yt).interact(level, xt, yt, this, activeItem, attackDir)) {
-//					done = true;
-//				}
-//			}
-//			if (activeItem.isDepleted()) {
-//				activeItem = NULL;
-//			}
-//		}
-//	}
-//
-//	if (done) return;
-//
-//	if (activeItem == NULL || activeItem.canAttack()) {
-//		attackTime = 5;
-//		int yo = -2;
-//		int range = 20;
-//		if (dir == 0) hurt(x - 8, y + 4 + yo, x + 8, y + range + yo);
-//		if (dir == 1) hurt(x - 8, y - range + yo, x + 8, y - 4 + yo);
-//		if (dir == 3) hurt(x + 4, y - 8 + yo, x + range, y + 8 + yo);
-//		if (dir == 2) hurt(x - range, y - 8 + yo, x - 4, y + 8 + yo);
-//
-//		int xt = x >> 4;
-//		int yt = (y + yo) >> 4;
-//		int r = 12;
-//		if (attackDir == 0) yt = (y + r + yo) >> 4;
-//		if (attackDir == 1) yt = (y - r + yo) >> 4;
-//		if (attackDir == 2) xt = (x - r) >> 4;
-//		if (attackDir == 3) xt = (x + r) >> 4;
-//
-//		if (xt >= 0 && yt >= 0 && xt < level->w && yt < level->h) {
-//			level->getTile(xt, yt).hurt(level, xt, yt, this, random.nextInt(3) + 1, attackDir);
-//		}
-//	}
+	attackItem = activeItem;
+	bool done = false;
+
+	if (activeItem != NULL) {
+		attackTime = 10;
+		int yo = -2;
+		int range = 12;
+		if (dir == 0 && interact(x - 8, y + 4 + yo, x + 8, y + range + yo)) done = true;
+		if (dir == 1 && interact(x - 8, y - range + yo, x + 8, y - 4 + yo)) done = true;
+		if (dir == 3 && interact(x + 4, y - 8 + yo, x + range, y + 8 + yo)) done = true;
+		if (dir == 2 && interact(x - range, y - 8 + yo, x - 4, y + 8 + yo)) done = true;
+		if (done) return;
+
+		int xt = x >> 4;
+		int yt = (y + yo) >> 4;
+		int r = 12;
+		if (attackDir == 0) yt = (y + r + yo) >> 4;
+		if (attackDir == 1) yt = (y - r + yo) >> 4;
+		if (attackDir == 2) xt = (x - r) >> 4;
+		if (attackDir == 3) xt = (x + r) >> 4;
+
+		if (xt >= 0 && yt >= 0 && xt < level->w && yt < level->h) {
+			if (activeItem->interactOn(level->getTile(xt, yt), level, xt, yt, this, attackDir)) {
+				done = true;
+			} else {
+				if (level->getTile(xt, yt)->interact(level, xt, yt, this, activeItem, attackDir)) {
+					done = true;
+				}
+			}
+			if (activeItem->isDepleted()) {
+				activeItem = NULL;
+			}
+		}
+	}
+
+	if (done) return;
+
+	if (activeItem == NULL || activeItem->canAttack())
+	{
+		attackTime = 5;
+		int yo = -2;
+		int range = 20;
+		if (dir == 0) hurt(x - 8, y + 4 + yo, x + 8, y + range + yo);
+		if (dir == 1) hurt(x - 8, y - range + yo, x + 8, y - 4 + yo);
+		if (dir == 3) hurt(x + 4, y - 8 + yo, x + range, y + 8 + yo);
+		if (dir == 2) hurt(x - range, y - 8 + yo, x - 4, y + 8 + yo);
+
+		int xt = x >> 4;
+		int yt = (y + yo) >> 4;
+		int r = 12;
+		if (attackDir == 0) yt = (y + r + yo) >> 4;
+		if (attackDir == 1) yt = (y - r + yo) >> 4;
+		if (attackDir == 2) xt = (x - r) >> 4;
+		if (attackDir == 3) xt = (x + r) >> 4;
+
+		if (xt >= 0 && yt >= 0 && xt < level->w && yt < level->h) {
+			level->getTile(xt, yt)->hurt(level, xt, yt, this, random->nextInt(3) + 1, attackDir);
+		}
+	}
 }
 
 bool Player::use(int x0, int y0, int x1, int y1)
@@ -250,9 +251,9 @@ void Player::hurt(int x0, int y0, int x1, int y1)
 int Player::getAttackDamage(Entity * e)
 {
 	int dmg = random->nextInt(3) + 1;
-//	if (attackItem != NULL) {
-//		dmg += attackItem.getAttackDamageBonus(e);
-//	}
+	if (attackItem != NULL) {
+		dmg += attackItem->getAttackDamageBonus(e);
+	}
 	return dmg;
 }
 
@@ -400,10 +401,11 @@ void Player::touchedBy(Entity * entity)
 {
 	//no rtti no dynamic_cast
 	//if (!(dynamic_cast<Player*>(entity)))
-	if (entity == this)
-	{
-		entity->touchedBy(this);
-	}
+	if (!entity->instanceOf(PLAYER))
+		if (entity == this)
+		{
+			entity->touchedBy(this);
+		}
 }
 
 void Player::doHurt(int damage, int attackDir)

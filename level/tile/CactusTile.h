@@ -13,7 +13,7 @@ public:
 	virtual ~CactusTile();
 	void render(Screen * screen, Level * level, int x, int y);
 	bool mayPass(Level * level, int x, int y, Entity * e);
-	//void hurt(Level * level, int x, int y, Mob * source, int dmg, int attackDir);
+	void hurt(Level * level, int x, int y, Mob * source, int dmg, int attackDir);
 	void bumpedInto(Level * level, int x, int y, Entity * entity);
 	void tick(Level * level, int xt, int yt);
 };

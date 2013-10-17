@@ -61,46 +61,43 @@ bool TreeTile::mayPass(Level * level, int x, int y, Entity * e)
 
 void TreeTile::hurt(Level * level, int x, int y, Mob * source, int dmg, int attackDir)
 {
-	//no hurt for now
-	//hurt(level, x, y, dmg);
+	hurt(level, x, y, dmg);
 }
 
-//	bool TreeTile::interact(Level * level, int xt, int yt, Player * player, Item * item, int attackDir) {
-//		if (item instanceof ToolItem) {
-//			ToolItem tool = (ToolItem) item;
-//			if (tool->type == ToolType::axe) {
-//				if (player->payStamina(4 - tool->level)) {
-//					hurt(level, xt, yt, random->nextInt(10) + (tool->level) * 5 + 10);
-//					return true;
-//				}
+bool TreeTile::interact(Level * level, int xt, int yt, Player * player, Item * item, int attackDir) {
+//	if (item instanceof ToolItem) {
+//		ToolItem tool = (ToolItem) item;
+//		if (tool->type == ToolType::axe) {
+//			if (player->payStamina(4 - tool->level)) {
+//				hurt(level, xt, yt, random->nextInt(10) + (tool->level) * 5 + 10);
+//				return true;
 //			}
 //		}
-//		return false;
 //	}
+	return false;
+}
 
-//void TreeTile::hurt(Level * level, int x, int y, int dmg)
-//{
-//	{
-//		int count = random->nextInt(10) == 0 ? 1 : 0;
-//		for (int i = 0; i < count; i++) {
+void TreeTile::hurt(Level * level, int x, int y, int dmg)
+{
+	int count = random->nextInt(10) == 0 ? 1 : 0;
+	for (int i = 0; i < count; i++) {
 //			level->add(new ItemEntity(new ResourceItem(Resource::apple), x * 16 + random->nextInt(10) + 3, y * 16 + random->nextInt(10) + 3));
-//		}
-//	}
-//	int damage = level->getData(x, y) + dmg;
-//	level->add(new SmashParticle(x * 16 + 8, y * 16 + 8));
-//	level->add(new TextParticle("" + dmg, x * 16 + 8, y * 16 + 8, Color::get(-1, 500, 500, 500)));
-//	if (damage >= 20) {
-//		int count = random->nextInt(2) + 1;
-//		for (int i = 0; i < count; i++) {
-//			level->add(new ItemEntity(new ResourceItem(Resource::wood), x * 16 + random->nextInt(10) + 3, y * 16 + random->nextInt(10) + 3));
-//		}
-//		count = random->nextInt(random->nextInt(4) + 1);
-//		for (int i = 0; i < count; i++) {
-//			level->add(new ItemEntity(new ResourceItem(Resource::acorn), x * 16 + random->nextInt(10) + 3, y * 16 + random->nextInt(10) + 3));
-//		}
-//		level->setTile(x, y, Tile::grass, 0);
-//	} else {
-//		level->setData(x, y, damage);
-//	}
-//}
+	}
+	int damage = level->getData(x, y) + dmg;
+	//level->add(new SmashParticle(x * 16 + 8, y * 16 + 8));
+	//level->add(new TextParticle("" + dmg, x * 16 + 8, y * 16 + 8, Color::get(-1, 500, 500, 500)));
+	if (damage >= 20) {
+		int count = random->nextInt(2) + 1;
+		for (int i = 0; i < count; i++) {
+			//level->add(new ItemEntity(new ResourceItem(Resource::wood), x * 16 + random->nextInt(10) + 3, y * 16 + random->nextInt(10) + 3));
+		}
+		count = random->nextInt(random->nextInt(4) + 1);
+		for (int i = 0; i < count; i++) {
+			//level->add(new ItemEntity(new ResourceItem(Resource::acorn), x * 16 + random->nextInt(10) + 3, y * 16 + random->nextInt(10) + 3));
+		}
+		level->setTile(x, y, Tile::grass, 0);
+	} else {
+		level->setData(x, y, damage);
+	}
+}
 

@@ -9,7 +9,6 @@ class Player;
 class Tile;
 class Level;
 class Entity;
-//class string;
 
 using namespace std;
 

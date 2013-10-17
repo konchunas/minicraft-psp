@@ -11,6 +11,7 @@
 #include "../../entity/Mob.h"
 #include "../../entity/Player.h"
 #include "../../Screen.h"
+#include "../../item/Item.h"
 
 
 #include "GrassTile.h"
@@ -101,10 +102,11 @@ void Tile::tick(Level * level, int xt, int yt) {
 void Tile::steppedOn(Level * level, int xt, int yt, Entity * entity) {
 }
 
-//	bool interact(Level * level, int xt, int yt, Player player, Item item, int attackDir) {
-//		return false;
-//	}
-//
+bool Tile::interact(Level * level, int xt, int yt, Player * player, Item * item, int attackDir)
+{
+	return false;
+}
+
 bool Tile::use(Level * level, int xt, int yt, Player * player, int attackDir)
 {
 	return false;

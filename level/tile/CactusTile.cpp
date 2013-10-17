@@ -26,21 +26,21 @@ bool CactusTile::mayPass(Level * level, int x, int y, Entity * e)
 	return false;
 }
 
-//public void CactusTile::hurt(Level * level, int x, int y, Mob * source, int dmg, int attackDir)
-//{
-//	int damage = level->getData(x, y) + dmg;
-//	level->add(new SmashParticle(x * 16 + 8, y * 16 + 8));
-//	level->add(new TextParticle("" + dmg, x * 16 + 8, y * 16 + 8, Color::get(-1, 500, 500, 500)));
-//	if (damage >= 10) {
-//		int count = random->nextInt(2) + 1;
-//		for (int i = 0; i < count; i++) {
-//			level->add(new ItemEntity(new ResourceItem(Resource::cactusFlower), x * 16 + random->nextInt(10) + 3, y * 16 + random->nextInt(10) + 3));
-//		}
-//		level->setTile(x, y, Tile::sand, 0);
-//	} else {
-//		level->setData(x, y, damage);
-//	}
-//}
+void CactusTile::hurt(Level * level, int x, int y, Mob * source, int dmg, int attackDir)
+{
+	int damage = level->getData(x, y) + dmg;
+	//level->add(new SmashParticle(x * 16 + 8, y * 16 + 8));
+	//level->add(new TextParticle("" + dmg, x * 16 + 8, y * 16 + 8, Color::get(-1, 500, 500, 500)));
+	if (damage >= 10) {
+		int count = random->nextInt(2) + 1;
+		for (int i = 0; i < count; i++) {
+			//level->add(new ItemEntity(new ResourceItem(Resource::cactusFlower), x * 16 + random->nextInt(10) + 3, y * 16 + random->nextInt(10) + 3));
+		}
+		level->setTile(x, y, Tile::sand, 0);
+	} else {
+		level->setData(x, y, damage);
+	}
+}
 
 void CactusTile::bumpedInto(Level * level, int x, int y, Entity * entity)
 {

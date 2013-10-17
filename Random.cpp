@@ -8,10 +8,6 @@
 
 Random::Random()
 {
-	//unsigned long long last_tick;
-	//sceRtcGetCurrentTick(&last_tick);
-	//
-	//srand(last_tick);
 	oslSrand(time(0));
 }
 
@@ -27,4 +23,9 @@ int Random::nextInt(int upper)
 float Random::nextFloat()
 {
 	return oslRandf(0, (float)0.99999999999);
+}
+
+double Random::nextGaussian()
+{
+	return nextFloat();
 }

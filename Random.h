@@ -14,6 +14,7 @@ public:
 	virtual ~Random();
 	int nextInt(int);
 	float nextFloat();
+	double nextGaussian();
 };
 
 #endif /* RANDOM_H_ */

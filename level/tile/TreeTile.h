@@ -7,6 +7,8 @@ class Level;
 class Entity;
 class Screen;
 
+#include "../../entity/ItemEntity.h"
+
 class TreeTile : public Tile {
 public:
 	TreeTile(int id);

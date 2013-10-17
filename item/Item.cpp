@@ -1,24 +1,11 @@
-/*
- * Item.cpp
- *
- *  Created on: 17 окт. 2013 г.
- *      Author: user
- */
-
-#include "../Screen.h";
-#include "../entity/Player.h";
-#include "../level/tile/Tile.h";
-#include "../level/Level.h";
-#include "../entity/Entity.h";
-
-
-
+#include "../Screen.h"
+#include "../entity/Player.h"
+#include "../entity/Entity.h"
+#include "../entity/ItemEntity.h"
+#include "../level/tile/Tile.h"
+#include "../level/Level.h"
 
 #include "Item.h"
-Item::Item()
-{
-	// TODO Auto-generated constructor stub
-}
 
 int Item::getColor()
 {
@@ -30,9 +17,9 @@ int Item::getSprite()
 	return 0;
 }
 
-//	  void Item::onTake(ItemEntity * itemEntity)
-//	  {
-//	  }
+void Item::onTake(ItemEntity * itemEntity)
+{
+}
 
 void Item::renderInventory(Screen * screen, int x, int y) {
 }
@@ -67,6 +54,6 @@ std::string Item::getName()
 
 bool Item::matches(Item * item)
 {
-	//return item.getClass() == getClass();
+	return (type() != UNDEFINED) && (item->type() == type());
 }
 

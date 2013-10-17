@@ -3,6 +3,8 @@
 #include "../../Color.h"
 #include "../Level.h"
 #include "../../Random.h"
+#include "../../entity/ItemEntity.h"
+#include "../../item/ResourceItem.h"
 
 TreeTile::TreeTile(int id) : Tile(id)
 {
@@ -89,7 +91,7 @@ void TreeTile::hurt(Level * level, int x, int y, int dmg)
 	if (damage >= 20) {
 		int count = random->nextInt(2) + 1;
 		for (int i = 0; i < count; i++) {
-			//level->add(new ItemEntity(new ResourceItem(Resource::wood), x * 16 + random->nextInt(10) + 3, y * 16 + random->nextInt(10) + 3));
+			level->add(new ItemEntity(new ResourceItem(Resource::wood), x * 16 + random->nextInt(10) + 3, y * 16 + random->nextInt(10) + 3));
 		}
 		count = random->nextInt(random->nextInt(4) + 1);
 		for (int i = 0; i < count; i++) {

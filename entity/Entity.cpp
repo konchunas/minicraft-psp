@@ -8,6 +8,7 @@
 #include "Entity.h"
 #include "Mob.h"
 #include "Player.h"
+#include "ItemEntity.h"
 #include "../item/Item.h"
 #include "../Random.h"
 #include "../level/Level.h"
@@ -129,8 +130,9 @@ bool Entity::isBlockableBy(Mob * mob)
 	return true;
 }
 
-//	public void touchItem(ItemEntity itemEntity) {
-//	}
+void Entity::touchItem(ItemEntity * itemEntity)
+{
+}
 
 bool Entity::canSwim()
 {

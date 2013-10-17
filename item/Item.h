@@ -2,6 +2,7 @@
 #define ITEM_H_
 
 #include "../menu/ListItem.h"
+#include "../Typeable.h"
 #include <string>
 
 class Screen;
@@ -9,16 +10,15 @@ class Player;
 class Tile;
 class Level;
 class Entity;
+class ItemEntity;
 
 using namespace std;
 
-class Item : public ListItem {
+class Item : public ListItem, public Typeable {
 public:
-	Item();
-	virtual ~Item();
 	virtual int getColor();
 	virtual int getSprite();
-	//void onTake(ItemEntity itemEntity);
+	virtual void onTake(ItemEntity * itemEntity);
 	virtual void renderInventory(Screen * screen, int x, int y);
 	virtual bool interact(Player * player, Entity * entity, int attackDir);
 	virtual void renderIcon(Screen * screen, int x, int y);

@@ -3,10 +3,14 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	Screen.o Font.o \
 	Typeable.o \
 	Random.o \
+	item/Item.o \
+	item/resource/Resource.o \
+	item/ResourceItem.o \
 	menu/ListItem.o \
 	entity/Entity.o \
 	entity/Mob.o \
 	entity/Player.o \
+	entity/ItemEntity.o \
 	level/Level.o level/LevelGen.o \
 	level/tile/Tile.o \
 	level/tile/RockTile.o level/tile/GrassTile.o level/tile/WaterTile.o \

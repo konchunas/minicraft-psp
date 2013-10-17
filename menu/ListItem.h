@@ -1,16 +1,14 @@
-/*
- * ListItem.h
- *
- *  Created on: 17 окт. 2013 г.
- *      Author: user
- */
-
 #ifndef LISTITEM_H_
 #define LISTITEM_H_
 
+#include "../Screen.h"
+
 class ListItem
 {
-	virtual void renderInventory(Screen screen, int i, int j) = 0;
+	virtual void renderInventory(Screen * screen, int i, int j)
+	{
+
+	}
 };
 
 #endif /* LISTITEM_H_ */

@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "../Game.h"
 #include "../InputHandler_Key.h"
+#include "../item/Item.h"
 
 #include <oslib/oslib.h>
 
@@ -19,7 +20,9 @@ Player::~Player() {
 
 Player::Player(Game * game, InputHandler * input) :
 maxStamina(10),
-invulnerableTime(0)
+invulnerableTime(0),
+attackItem(NULL),
+activeItem(NULL)
 {
 	this->game = game;
 	this->input = input;

@@ -10,7 +10,7 @@
 
 class ListItem
 {
-	void renderInventory(Screen screen, int i, int j) = 0;
-}
+	virtual void renderInventory(Screen screen, int i, int j) = 0;
+};
 
 #endif /* LISTITEM_H_ */

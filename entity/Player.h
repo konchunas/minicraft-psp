@@ -9,9 +9,11 @@
 #define PLAYER_H_
 
 class Game;
+class Item;
 
 #include "Mob.h"
 #include "../InputHandler.h"
+
 
 class Player : public Mob {
 public:
@@ -20,8 +22,8 @@ public:
 
 	Game * game;
 //	Inventory inventory = new Inventory();
-//	Item attackItem;
-//	Item activeItem;
+	Item * attackItem;
+	Item * activeItem;
 	int stamina;
 	int staminaRecharge;
 	int staminaRechargeDelay;

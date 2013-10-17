@@ -1,7 +1,7 @@
 #ifndef ITEM_H_
 #define ITEM_H_
 
-#include <../menu/ListItem.h>
+#include "../menu/ListItem.h"
 #include <string>
 
 class Screen;
@@ -9,6 +9,9 @@ class Player;
 class Tile;
 class Level;
 class Entity;
+//class string;
+
+using namespace std;
 
 class Item : public ListItem {
 public:
@@ -24,7 +27,7 @@ public:
 	virtual bool isDepleted();
 	virtual bool canAttack();
 	virtual int getAttackDamageBonus(Entity * e);
-	virtual std::string getName();
+	virtual string getName();
 	virtual bool matches(Item * item);
 };
 

@@ -8,6 +8,7 @@
 class Level;
 class Mob;
 class Player;
+class Item;
 
 class Entity : public Typeable {
 public:
@@ -32,6 +33,7 @@ public:
 	virtual int getLightRadius();
 	virtual bool isBlockableBy(Mob * mob);
 	virtual bool use(Player * player, int attackDir);
+	virtual bool interact(Player * player, Item * item, int attackDir);
 
 	//this was protected in java
 	virtual void touchedBy(Entity * entity);

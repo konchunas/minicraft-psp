@@ -3,6 +3,7 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	Screen.o Font.o \
 	Typeable.o \
 	Random.o \
+	menu/ListItem.o \
 	entity/Entity.o \
 	entity/Mob.o \
 	entity/Player.o \

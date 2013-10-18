@@ -3,6 +3,8 @@
 #include "../Level.h"
 
 #include "../../Random.h"
+#include "../../entity/ItemEntity.h"
+#include "../../item/ResourceItem.h"
 
 RockTile::RockTile(int id) : Tile (id)
 {
@@ -67,41 +69,43 @@ bool RockTile::mayPass(Level * level, int x, int y, Entity * e)
 	return false;
 }
 
-//	void hurt(Level * level, int x, int y, Mob source, int dmg, int attackDir) {
-//		hurt(level, x, y, dmg);
-//	}
+void RockTile::hurt(Level * level, int x, int y, Mob * source, int dmg, int attackDir)
+{
+	hurt(level, x, y, dmg);
+}
 
-//	public boolean interact(Level level, int xt, int yt, Player player, Item item, int attackDir) {
-//		if (item instanceof ToolItem) {
-//			ToolItem tool = (ToolItem) item;
-//			if (tool.type == ToolType.pickaxe) {
-//				if (player.payStamina(4 - tool.level)) {
-//					hurt(level, xt, yt, random.nextInt(10) + (tool.level) * 5 + 10);
-//					return true;
-//				}
+bool RockTile::interact(Level * level, int xt, int yt, Player * player, Item * item, int attackDir) {
+//	if (item instanceof ToolItem) {
+//		ToolItem tool = (ToolItem) item;
+//		if (tool.type == ToolType.pickaxe) {
+//			if (player.payStamina(4 - tool.level)) {
+//				hurt(level, xt, yt, random.nextInt(10) + (tool.level) * 5 + 10);
+//				return true;
 //			}
 //		}
-//		return false;
 //	}
+	return false;
+}
 
-//	void hurt(Level * level, int x, int y, int dmg) {
-//		int damage = level->getData(x, y) + dmg;
-//		//level->add(new SmashParticle(x * 16 + 8, y * 16 + 8));
-//		//level->add(new TextParticle("" + dmg, x * 16 + 8, y * 16 + 8, Color.get(-1, 500, 500, 500)));
-//		if (damage >= 50) {
-//			int count = random->nextInt(4) + 1;
-//			for (int i = 0; i < count; i++) {
-//				level->add(new ItemEntity(new ResourceItem(Resource.stone), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
-//			}
-//			count = random->nextInt(2);
-//			for (int i = 0; i < count; i++) {
-//				level->add(new ItemEntity(new ResourceItem(Resource.coal), x * 16 + random.nextInt(10) + 3, y * 16 + random.nextInt(10) + 3));
-//			}
-//			level->setTile(x, y, Tile.dirt, 0);
-//		} else {
-//			level->setData(x, y, damage);
-//		}
-//	}
+void RockTile::hurt(Level * level, int x, int y, int dmg)
+{
+	int damage = level->getData(x, y) + dmg;
+	//level->add(new SmashParticle(x * 16 + 8, y * 16 + 8));
+	//level->add(new TextParticle("" + dmg, x * 16 + 8, y * 16 + 8, Color.get(-1, 500, 500, 500)));
+	if (damage >= 50) {
+		int count = random->nextInt(4) + 1;
+		for (int i = 0; i < count; i++) {
+			level->add(new ItemEntity(new ResourceItem(Resource::stone), x * 16 + random->nextInt(10) + 3, y * 16 + random->nextInt(10) + 3));
+		}
+		count = random->nextInt(2);
+		for (int i = 0; i < count; i++) {
+			level->add(new ItemEntity(new ResourceItem(Resource::coal), x * 16 + random->nextInt(10) + 3, y * 16 + random->nextInt(10) + 3));
+		}
+		level->setTile(x, y, Tile::dirt, 0);
+	} else {
+		level->setData(x, y, damage);
+	}
+}
 
 void RockTile::tick(Level * level, int xt, int yt)
 {

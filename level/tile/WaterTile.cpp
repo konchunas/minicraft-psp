@@ -73,8 +73,8 @@ void WaterTile::tick(Level * level, int xt, int yt)
 	else
 		yn += random->nextInt(2) * 2 - 1;
 
-//	if (level->getTile(xn, yn) == Tile.hole) {
-//		level->setTile(xn, yn, this, 0);
-//	}
+	if (level->getTile(xn, yn) == Tile::hole) {
+		level->setTile(xn, yn, this, 0);
+	}
 }
 

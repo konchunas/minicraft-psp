@@ -33,16 +33,20 @@ void Menu::renderItemList(Screen * screen, int xo, int yo, int x1, int y1, deque
 	int i0 = 0;
 	int i1 = listItems.size();
 	if (i1 > h) i1 = h;
-	int io = selected - h / 2;
-	if (io > listItems.size() - h) io = listItems.size() - h;
+	int io = selected - int(h / 2);
+
+	//this piece of code does not work in java copypaste
+	//so I had to create separate variable to workaround this
+	//java: if (io > listItems.size() - h) io = listItems.size() - h;
+	int heightDiff = listItems.size() - h;
+	if (io > heightDiff) io = heightDiff;
+
 	if (io < 0) io = 0;
 
 	for (int i = i0; i < i1; i++)
 	{
-		//oslDebug(i + io);
 		listItems.at(i + io)->renderInventory(screen, (1 + xo) * 8, (i + 1 + yo) * 8);
 	}
-
 	if (renderCursor)
 	{
 		int yy = selected + 1 - io + yo;

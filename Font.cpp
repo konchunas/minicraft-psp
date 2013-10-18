@@ -22,7 +22,8 @@ void Font::draw(string  msg, Screen * screen, int x, int y, int col)
 	for (unsigned int i = 0; i < msg.length(); i++)
 	{
 		int ix = chars.find_first_of(msg.at(i));
-		if (ix >= 0) {
+		if (ix >= 0)
+		{
 			screen->render(x + i * 8, y, ix + 30 * 32, col, 0);
 		}
 	}

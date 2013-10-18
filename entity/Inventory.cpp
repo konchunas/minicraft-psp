@@ -33,7 +33,6 @@ void Inventory::add(int slot, Item * item)
 		ResourceItem * has = findResource(toTake->resource);
 		if (has == NULL)
 		{
-
 			items.insert(slotIterator, toTake);
 		}
 		else
@@ -93,8 +92,9 @@ void Inventory::remove(Item * item)
 Item* Inventory::removeAt(int index)
 {
 	deque<Item*>::iterator it = items.begin() + index;
-	it = items.erase(it);
-	return *it;
+	Item * item = *it;
+	items.erase(it);
+	return item;
 }
 
 int Inventory::count(Item * item)

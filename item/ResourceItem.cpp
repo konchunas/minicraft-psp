@@ -4,6 +4,8 @@
 #include "../Color.h"
 #include "../entity/Player.h"
 
+#include <sstream>
+
 ResourceItem::~ResourceItem() {
 	// TODO Auto-generated destructor stub
 }
@@ -38,8 +40,10 @@ void ResourceItem::renderInventory(Screen * screen, int x, int y) {
 	screen->render(x, y, resource->sprite, resource->color, 0);
 	Font::draw(resource->name, screen, x + 32, y, Color::get(-1, 555, 555, 555));
 	int cc = count;
-	if (cc > 999) cc = 999;
-	Font::draw("" + cc, screen, x + 8, y, Color::get(-1, 444, 444, 444));
+	if (count > 999) cc = 999;
+	stringstream ss;
+	ss << cc;
+	Font::draw(ss.str(), screen, x + 8, y, Color::get(-1, 444, 444, 444));
 }
 
 string ResourceItem::getName()

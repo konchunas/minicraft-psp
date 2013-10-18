@@ -13,7 +13,7 @@ class Item;
 
 #include "Mob.h"
 #include "../InputHandler.h"
-
+#include "Inventory.h"
 
 class Player : public Mob {
 public:
@@ -21,7 +21,7 @@ public:
 	virtual ~Player();
 
 	Game * game;
-//	Inventory inventory = new Inventory();
+	Inventory * inventory;
 	Item * attackItem;
 	Item * activeItem;
 	int stamina;
@@ -32,7 +32,7 @@ public:
 	int invulnerableTime;
 
 	void render(Screen * screen);
-	//void touchItem(ItemEntity * itemEntity);
+	void touchItem(ItemEntity * itemEntity);
 	bool canSwim();
 	bool findStartPos(Level * level);
 	bool payStamina(int cost);

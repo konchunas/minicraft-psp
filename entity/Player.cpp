@@ -9,6 +9,10 @@
 #include "../Game.h"
 #include "../InputHandler_Key.h"
 #include "../item/Item.h"
+#include "ItemEntity.h"
+#include "../menu/InventoryMenu.h"
+#include "../item/resource/Resource.h"
+#include "../Color.h"
 
 #include <oslib/oslib.h>
 
@@ -16,20 +20,17 @@ Player::~Player() {
 	// TODO Auto-generated destructor stub
 }
 
-#include "../Color.h"
-
 Player::Player(Game * game, InputHandler * input) :
-maxStamina(10),
-invulnerableTime(0),
-attackItem(NULL),
-activeItem(NULL)
-{
+		inventory(new Inventory()), attackItem(NULL), activeItem(NULL), maxStamina(
+				10), invulnerableTime(0) {
 	this->game = game;
 	this->input = input;
 	x = 24;
 	y = 24;
 	stamina = maxStamina;
 
+	inventory->add(new ResourceItem(Resource::dirt));
+	inventory->add(new ResourceItem(Resource::wood));
 //	inventory.add(new FurnitureItem(new Workbench()));
 //	inventory.add(new PowerGloveItem());
 }
@@ -37,8 +38,8 @@ activeItem(NULL)
 void Player::tick() {
 	Mob::tick();
 
-
-	if (invulnerableTime > 0) invulnerableTime--;
+	if (invulnerableTime > 0)
+		invulnerableTime--;
 	Tile * onTile = level->getTile(x >> 4, y >> 4);
 //	if (onTile == Tile.stairsDown || onTile == Tile.stairsUp
 //			{
@@ -49,10 +50,9 @@ void Player::tick() {
 //		}
 //		onStairDelay = 10;
 //	} else {
-		if (onStairDelay > 0) onStairDelay--;
+	if (onStairDelay > 0)
+		onStairDelay--;
 //	}
-
-
 
 	if (stamina <= 0 && staminaRechargeDelay == 0 && staminaRecharge == 0) {
 		staminaRechargeDelay = 40;
@@ -69,32 +69,23 @@ void Player::tick() {
 		}
 		while (staminaRecharge > 10) {
 			staminaRecharge -= 10;
-			if (stamina < maxStamina) stamina++;
+			if (stamina < maxStamina)
+				stamina++;
 		}
 	}
 
-
-
 	int xa = 0;
 	int ya = 0;
-	if (input->up->down)
-	{
-		//oslDebug("up");
+	if (input->up->down) {
 		ya--;
 	}
-	if (input->down->down)
-	{
-		//oslDebug("down");
+	if (input->down->down) {
 		ya++;
 	}
-	if (input->left->down)
-	{
-		//oslDebug("left");
+	if (input->left->down) {
 		xa--;
 	}
-	if (input->right->down)
-	{
-		//oslDebug("right");
+	if (input->right->down) {
 		xa++;
 	}
 
@@ -121,38 +112,46 @@ void Player::tick() {
 	}
 	if (input->menu->clicked) {
 		if (!use()) {
-			//game.setMenu(new InventoryMenu(this));
+			game->setMenu(new InventoryMenu(this));
 		}
 	}
-	if (attackTime > 0) attackTime--;
+	if (attackTime > 0)
+		attackTime--;
 
 }
 
-bool Player::use()
-{
+bool Player::use() {
 	int yo = -2;
-	if (dir == 0 && use(x - 8, y + 4 + yo, x + 8, y + 12 + yo)) return true;
-	if (dir == 1 && use(x - 8, y - 12 + yo, x + 8, y - 4 + yo)) return true;
-	if (dir == 3 && use(x + 4, y - 8 + yo, x + 12, y + 8 + yo)) return true;
-	if (dir == 2 && use(x - 12, y - 8 + yo, x - 4, y + 8 + yo)) return true;
+	if (dir == 0 && use(x - 8, y + 4 + yo, x + 8, y + 12 + yo))
+		return true;
+	if (dir == 1 && use(x - 8, y - 12 + yo, x + 8, y - 4 + yo))
+		return true;
+	if (dir == 3 && use(x + 4, y - 8 + yo, x + 12, y + 8 + yo))
+		return true;
+	if (dir == 2 && use(x - 12, y - 8 + yo, x - 4, y + 8 + yo))
+		return true;
 
 	int xt = x >> 4;
 	int yt = (y + yo) >> 4;
 	int r = 12;
-	if (attackDir == 0) yt = (y + r + yo) >> 4;
-	if (attackDir == 1) yt = (y - r + yo) >> 4;
-	if (attackDir == 2) xt = (x - r) >> 4;
-	if (attackDir == 3) xt = (x + r) >> 4;
+	if (attackDir == 0)
+		yt = (y + r + yo) >> 4;
+	if (attackDir == 1)
+		yt = (y - r + yo) >> 4;
+	if (attackDir == 2)
+		xt = (x - r) >> 4;
+	if (attackDir == 3)
+		xt = (x + r) >> 4;
 
 	if (xt >= 0 && yt >= 0 && xt < level->w && yt < level->h) {
-		if (level->getTile(xt, yt)->use(level, xt, yt, this, attackDir)) return true;
+		if (level->getTile(xt, yt)->use(level, xt, yt, this, attackDir))
+			return true;
 	}
 
 	return false;
 }
 
-void Player::attack()
-{
+void Player::attack() {
 	walkDist += 8;
 	attackDir = dir;
 	attackItem = activeItem;
@@ -162,25 +161,36 @@ void Player::attack()
 		attackTime = 10;
 		int yo = -2;
 		int range = 12;
-		if (dir == 0 && interact(x - 8, y + 4 + yo, x + 8, y + range + yo)) done = true;
-		if (dir == 1 && interact(x - 8, y - range + yo, x + 8, y - 4 + yo)) done = true;
-		if (dir == 3 && interact(x + 4, y - 8 + yo, x + range, y + 8 + yo)) done = true;
-		if (dir == 2 && interact(x - range, y - 8 + yo, x - 4, y + 8 + yo)) done = true;
-		if (done) return;
+		if (dir == 0 && interact(x - 8, y + 4 + yo, x + 8, y + range + yo))
+			done = true;
+		if (dir == 1 && interact(x - 8, y - range + yo, x + 8, y - 4 + yo))
+			done = true;
+		if (dir == 3 && interact(x + 4, y - 8 + yo, x + range, y + 8 + yo))
+			done = true;
+		if (dir == 2 && interact(x - range, y - 8 + yo, x - 4, y + 8 + yo))
+			done = true;
+		if (done)
+			return;
 
 		int xt = x >> 4;
 		int yt = (y + yo) >> 4;
 		int r = 12;
-		if (attackDir == 0) yt = (y + r + yo) >> 4;
-		if (attackDir == 1) yt = (y - r + yo) >> 4;
-		if (attackDir == 2) xt = (x - r) >> 4;
-		if (attackDir == 3) xt = (x + r) >> 4;
+		if (attackDir == 0)
+			yt = (y + r + yo) >> 4;
+		if (attackDir == 1)
+			yt = (y - r + yo) >> 4;
+		if (attackDir == 2)
+			xt = (x - r) >> 4;
+		if (attackDir == 3)
+			xt = (x + r) >> 4;
 
 		if (xt >= 0 && yt >= 0 && xt < level->w && yt < level->h) {
-			if (activeItem->interactOn(level->getTile(xt, yt), level, xt, yt, this, attackDir)) {
+			if (activeItem->interactOn(level->getTile(xt, yt), level, xt, yt,
+					this, attackDir)) {
 				done = true;
 			} else {
-				if (level->getTile(xt, yt)->interact(level, xt, yt, this, activeItem, attackDir)) {
+				if (level->getTile(xt, yt)->interact(level, xt, yt, this,
+						activeItem, attackDir)) {
 					done = true;
 				}
 			}
@@ -190,66 +200,76 @@ void Player::attack()
 		}
 	}
 
-	if (done) return;
+	if (done)
+		return;
 
-	if (activeItem == NULL || activeItem->canAttack())
-	{
+	if (activeItem == NULL || activeItem->canAttack()) {
 		attackTime = 5;
 		int yo = -2;
 		int range = 20;
-		if (dir == 0) hurt(x - 8, y + 4 + yo, x + 8, y + range + yo);
-		if (dir == 1) hurt(x - 8, y - range + yo, x + 8, y - 4 + yo);
-		if (dir == 3) hurt(x + 4, y - 8 + yo, x + range, y + 8 + yo);
-		if (dir == 2) hurt(x - range, y - 8 + yo, x - 4, y + 8 + yo);
+		if (dir == 0)
+			hurt(x - 8, y + 4 + yo, x + 8, y + range + yo);
+		if (dir == 1)
+			hurt(x - 8, y - range + yo, x + 8, y - 4 + yo);
+		if (dir == 3)
+			hurt(x + 4, y - 8 + yo, x + range, y + 8 + yo);
+		if (dir == 2)
+			hurt(x - range, y - 8 + yo, x - 4, y + 8 + yo);
 
 		int xt = x >> 4;
 		int yt = (y + yo) >> 4;
 		int r = 12;
-		if (attackDir == 0) yt = (y + r + yo) >> 4;
-		if (attackDir == 1) yt = (y - r + yo) >> 4;
-		if (attackDir == 2) xt = (x - r) >> 4;
-		if (attackDir == 3) xt = (x + r) >> 4;
+		if (attackDir == 0)
+			yt = (y + r + yo) >> 4;
+		if (attackDir == 1)
+			yt = (y - r + yo) >> 4;
+		if (attackDir == 2)
+			xt = (x - r) >> 4;
+		if (attackDir == 3)
+			xt = (x + r) >> 4;
 
 		if (xt >= 0 && yt >= 0 && xt < level->w && yt < level->h) {
-			level->getTile(xt, yt)->hurt(level, xt, yt, this, random->nextInt(3) + 1, attackDir);
+			level->getTile(xt, yt)->hurt(level, xt, yt, this,
+					random->nextInt(3) + 1, attackDir);
 		}
 	}
 }
 
-bool Player::use(int x0, int y0, int x1, int y1)
-{
+bool Player::use(int x0, int y0, int x1, int y1) {
 	list<Entity*> entities = level->getEntities(x0, y0, x1, y1);
-	for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++ )
-	{
+	for (list<Entity*>::iterator it = entities.begin(); it != entities.end();
+			it++) {
 		Entity * e = *it;
-		if (e != this) if (e->use(this, attackDir)) return true;
+		if (e != this)
+			if (e->use(this, attackDir))
+				return true;
 	}
 	return false;
 }
 
-bool Player::interact(int x0, int y0, int x1, int y1)
-{
+bool Player::interact(int x0, int y0, int x1, int y1) {
 	list<Entity*> entities = level->getEntities(x0, y0, x1, y1);
-	for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++ )
-	{
+	for (list<Entity*>::iterator it = entities.begin(); it != entities.end();
+			it++) {
 		Entity * e = *it;
-		if (e != this) if (e->interact(this, activeItem, attackDir)) return true;
+		if (e != this)
+			if (e->interact(this, activeItem, attackDir))
+				return true;
 	}
 	return false;
 }
 
-void Player::hurt(int x0, int y0, int x1, int y1)
-{
+void Player::hurt(int x0, int y0, int x1, int y1) {
 	list<Entity*> entities = level->getEntities(x0, y0, x1, y1);
-	for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++ )
-	{
+	for (list<Entity*>::iterator it = entities.begin(); it != entities.end();
+			it++) {
 		Entity * e = *it;
-		if (e != this) e->hurt(this, getAttackDamage(e), attackDir);
+		if (e != this)
+			e->hurt(this, getAttackDamage(e), attackDir);
 	}
 }
 
-int Player::getAttackDamage(Entity * e)
-{
+int Player::getAttackDamage(Entity * e) {
 	int dmg = random->nextInt(3) + 1;
 	if (attackItem != NULL) {
 		dmg += attackItem->getAttackDamageBonus(e);
@@ -257,8 +277,7 @@ int Player::getAttackDamage(Entity * e)
 	return dmg;
 }
 
-void Player::render(Screen * screen)
-{
+void Player::render(Screen * screen) {
 	int xt = 0;
 	int yt = 14;
 
@@ -290,8 +309,10 @@ void Player::render(Screen * screen)
 	}
 
 	if (attackTime > 0 && attackDir == 1) {
-		screen->render(xo + 0, yo - 4, 6 + 13 * 32, Color::get(-1, 555, 555, 555), 0);
-		screen->render(xo + 8, yo - 4, 6 + 13 * 32, Color::get(-1, 555, 555, 555), 1);
+		screen->render(xo + 0, yo - 4, 6 + 13 * 32,
+				Color::get(-1, 555, 555, 555), 0);
+		screen->render(xo + 8, yo - 4, 6 + 13 * 32,
+				Color::get(-1, 555, 555, 555), 1);
 //		if (attackItem != NULL) {
 //			attackItem.renderIcon(screen, xo + 4, yo - 4);
 //		}
@@ -308,26 +329,33 @@ void Player::render(Screen * screen)
 	screen->render(xo + 8 - 8 * flip1, yo + 0, xt + 1 + yt * 32, col, flip1);
 	if (!isSwimming()) {
 		screen->render(xo + 8 * flip2, yo + 8, xt + (yt + 1) * 32, col, flip2);
-		screen->render(xo + 8 - 8 * flip2, yo + 8, xt + 1 + (yt + 1) * 32, col, flip2);
+		screen->render(xo + 8 - 8 * flip2, yo + 8, xt + 1 + (yt + 1) * 32, col,
+				flip2);
 	}
 
 	if (attackTime > 0 && attackDir == 2) {
-		screen->render(xo - 4, yo, 7 + 13 * 32, Color::get(-1, 555, 555, 555), 1);
-		screen->render(xo - 4, yo + 8, 7 + 13 * 32, Color::get(-1, 555, 555, 555), 3);
+		screen->render(xo - 4, yo, 7 + 13 * 32, Color::get(-1, 555, 555, 555),
+				1);
+		screen->render(xo - 4, yo + 8, 7 + 13 * 32,
+				Color::get(-1, 555, 555, 555), 3);
 //		if (attackItem != NULL) {
 //			attackItem.renderIcon(screen, xo - 4, yo + 4);
 //		}
 	}
 	if (attackTime > 0 && attackDir == 3) {
-		screen->render(xo + 8 + 4, yo, 7 + 13 * 32, Color::get(-1, 555, 555, 555), 0);
-		screen->render(xo + 8 + 4, yo + 8, 7 + 13 * 32, Color::get(-1, 555, 555, 555), 2);
+		screen->render(xo + 8 + 4, yo, 7 + 13 * 32,
+				Color::get(-1, 555, 555, 555), 0);
+		screen->render(xo + 8 + 4, yo + 8, 7 + 13 * 32,
+				Color::get(-1, 555, 555, 555), 2);
 //		if (attackItem != NULL) {
 //			attackItem.renderIcon(screen, xo + 8 + 4, yo + 4);
 //		}
 	}
 	if (attackTime > 0 && attackDir == 0) {
-		screen->render(xo + 0, yo + 8 + 4, 6 + 13 * 32, Color::get(-1, 555, 555, 555), 2);
-		screen->render(xo + 8, yo + 8 + 4, 6 + 13 * 32, Color::get(-1, 555, 555, 555), 3);
+		screen->render(xo + 0, yo + 8 + 4, 6 + 13 * 32,
+				Color::get(-1, 555, 555, 555), 2);
+		screen->render(xo + 8, yo + 8 + 4, 6 + 13 * 32,
+				Color::get(-1, 555, 555, 555), 3);
 //		if (attackItem != NULL) {
 //			attackItem.renderIcon(screen, xo + 4, yo + 8 + 4);
 //		}
@@ -341,24 +369,20 @@ void Player::render(Screen * screen)
 //	}
 }
 
-//void Player::touchItem(ItemEntity * itemEntity)
-//{
-//	itemEntity.take(this);
-//	inventory.add(itemEntity.item);
-//}
+void Player::touchItem(ItemEntity * itemEntity) {
+	itemEntity->take(this);
+	inventory->add(itemEntity->item);
+}
 
-bool Player::canSwim()
-{
+bool Player::canSwim() {
 	return true;
 }
 
-bool Player::findStartPos(Level * level)
-{
+bool Player::findStartPos(Level * level) {
 	while (true) {
 		int x = random->nextInt(level->w);
 		int y = random->nextInt(level->h);
-		if (level->getTile(x, y) == Tile::tiles[0])
-		{
+		if (level->getTile(x, y) == Tile::tiles[0]) {
 			this->x = x * 16 + 8;
 			this->y = y * 16 + 8;
 			return true;
@@ -366,20 +390,18 @@ bool Player::findStartPos(Level * level)
 	}
 }
 
-bool Player::payStamina(int cost)
-{
-	if (cost > stamina) return false;
+bool Player::payStamina(int cost) {
+	if (cost > stamina)
+		return false;
 	stamina -= cost;
 	return true;
 }
 
-void Player::changeLevel(int dir)
-{
+void Player::changeLevel(int dir) {
 	//game->scheduleLevelChange(dir);
 }
 
-int Player::getLightRadius()
-{
+int Player::getLightRadius() {
 	return 0; //remove when ready
 //	int r = 2;
 //	if (activeItem != NULL) {
@@ -391,45 +413,44 @@ int Player::getLightRadius()
 //	return r;
 }
 
-void Player::die()
-{
+void Player::die() {
 	Mob::die();
 	//Sound.playerDeath.play();
 }
 
-void Player::touchedBy(Entity * entity)
-{
+void Player::touchedBy(Entity * entity) {
 	//no rtti no dynamic_cast
 	//if (!(dynamic_cast<Player*>(entity)))
 	if (!entity->instanceOf(PLAYER))
-		if (entity == this)
-		{
+		if (entity == this) {
 			entity->touchedBy(this);
 		}
 }
 
-void Player::doHurt(int damage, int attackDir)
-{
-	if (hurtTime > 0 || invulnerableTime > 0) return;
+void Player::doHurt(int damage, int attackDir) {
+	if (hurtTime > 0 || invulnerableTime > 0)
+		return;
 
 	//Sound.playerHurt.play();
 	//level->add(new TextParticle("" + damage, x, y, Color::get(-1, 504, 504, 504)));
 	health -= damage;
-	if (attackDir == 0) yKnockback = +6;
-	if (attackDir == 1) yKnockback = -6;
-	if (attackDir == 2) xKnockback = -6;
-	if (attackDir == 3) xKnockback = +6;
+	if (attackDir == 0)
+		yKnockback = +6;
+	if (attackDir == 1)
+		yKnockback = -6;
+	if (attackDir == 2)
+		xKnockback = -6;
+	if (attackDir == 3)
+		xKnockback = +6;
 	hurtTime = 10;
 	invulnerableTime = 30;
 }
 
-void Player::gameWon()
-{
+void Player::gameWon() {
 	//level->player.invulnerableTime = 60 * 5;
 	//game.won();
 }
 
-Type Player::type()
-{
+Type Player::type() {
 	return PLAYER;
 }

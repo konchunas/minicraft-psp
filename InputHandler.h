@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "InputHandler_Key.h"
-#include "Game.h"
 
 class InputHandler
 {

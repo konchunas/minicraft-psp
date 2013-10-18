@@ -8,6 +8,8 @@
 #include "entity/Player.h"
 #include "level/Level.h"
 
+class Menu;
+
 class Game {
 public:
 	Game();
@@ -16,6 +18,7 @@ public:
 	void init();
 	void render();
 	void tick();
+	void setMenu(Menu*);
 
 	bool running;
 
@@ -30,9 +33,11 @@ private:
 	InputHandler * input;
 	Level * level;
 	Player * player;
+	Menu * menu;
 	//Level[] levels = new Level[5];
 	int * colors;
 	int * pixels;
+
 
 	void renderGui();
 };

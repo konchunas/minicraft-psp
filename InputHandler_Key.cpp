@@ -9,8 +9,8 @@
 InputHandler_Key::InputHandler_Key(InputHandler * inputHandler):
 absorbs(0),
 presses(0),
-down(0),
-clicked(0)
+down(false),
+clicked(false)
 {
 	inputHandler->add(this);
 }
@@ -26,19 +26,24 @@ void InputHandler_Key::toggle(bool pressed)
     {
         down = pressed;
     }
-    if(pressed) {
+    if(pressed)
+    {
         presses++;
     }
 }
 
 void InputHandler_Key::tick()
 {
-    if(absorbs < presses) {
-        absorbs++;
-        clicked = true;
-    } else {
-        clicked = false;
-    }
+//    if(absorbs < presses) {
+//        absorbs++;
+//        clicked = true;
+//    } else {
+//        clicked = false;
+//    }
+	if (clicked)
+	{
+		clicked = false;
+	}
 }
 
 

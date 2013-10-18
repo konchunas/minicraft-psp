@@ -16,7 +16,10 @@
 #include "Color.h"
 #include "Game.h"
 
-Game::Game()
+#include "menu/Menu.h"
+
+Game::Game():
+menu(NULL)
 //xScroll(0),
 //yScroll(0)
 {
@@ -65,11 +68,11 @@ void Game::render()
 	level->renderBackground(screen, xScroll, yScroll);
 	level->renderSprites(screen, xScroll, yScroll);
 
-	//if (currentLevel < 3) {
+//	if (currentLevel < 3) {
 //		lightScreen->clear(0);
 //		level->renderLight(lightScreen, xScroll, yScroll);
 //		screen->overlay(lightScreen, xScroll, yScroll);
-	//}
+//	}
 
 	renderGui();
 
@@ -130,11 +133,12 @@ void Game::render()
 }
 void Game::renderGui()
 {
-	for (int y = 0; y < 2; y++) {
-		for (int x = 0; x < 20; x++) {
-			screen->render(x * 8, screen->h - 16 + y * 8, 0 + 12 * 32, Color::get(000, 000, 000, 000), 0);
-		}
-	}
+	//Font::draw("game mode",screen,200,0,Color:: get(5, 555, 555, 555));
+//	for (int y = 0; y < 2; y++) {
+//		for (int x = 0; x < 20; x++) {
+//			screen->render(x * 8, screen->h - 16 + y * 8, 0 + 12 * 32, Color::get(000, 000, 000, 000), 0);
+//		}
+//	}
 
 	for (int i = 0; i < 10; i++) {
 		if (i < player->health)
@@ -157,10 +161,10 @@ void Game::renderGui()
 	//if (player.activeItem != null) {
 	//	player.activeItem.renderInventory(screen, 10 * 8, screen->h - 16);
 	//}
-
-	// (menu != null) {
-	//	menu.render(screen);
-	//}
+	if (menu != NULL)
+	{
+		menu->render(screen);
+	}
 }
 
 void Game::init()
@@ -254,8 +258,25 @@ void Game::run()
 
 void Game::tick()
 {
+	if (menu != NULL)
+	{
+		menu->tick();
+	}
+	else
+	{
+		level->tick();
+		Tile::tickCount++;
+	}
 	input->tick();
-	level->tick();
-	Tile::tickCount++;
+}
+
+void Game::setMenu(Menu * menu)
+{
+	this->menu = menu;
+	if (menu != NULL)
+	{
+		menu->init(this, input);
+	}
+
 }
 

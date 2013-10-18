@@ -29,8 +29,9 @@ int initOSLib(){
     oslSetFrameskip(1);
     oslSetQuitOnLoadFailure(1);
     oslSetKeyAnalogToDPad(80);
-    oslSetKeyAutorepeatInit(40);
-    oslSetKeyAutorepeatInterval(20);
+    oslSetKeyAutorepeatMask(OSL_KEYMASK_CROSS);
+    oslSetKeyAutorepeatInit(30);
+    oslSetKeyAutorepeatInterval(5);
     //oslSysBenchmarkDisplay();
     oslBenchmarkTest(OSL_BENCH_INIT);
     return 0;

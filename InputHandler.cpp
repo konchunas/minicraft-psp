@@ -5,7 +5,6 @@
 
 InputHandler::InputHandler()
 {
-	//game->addKeyListener(this);
 	init();
 }
 
@@ -46,8 +45,17 @@ void InputHandler::handleKeys(OSL_CONTROLLER * keys)
 		down->toggle(keys->held.down);
 		left->toggle(keys->held.left);
 		right->toggle(keys->held.right);
-		menu->toggle(keys->held.start);
-		attack->toggle(keys->held.cross);
+
+		up->clicked = keys->pressed.up;
+		down->clicked = keys->pressed.down;
+
+		//if (keys->pressed.cross);
+		attack->clicked = keys->pressed.cross;
+		menu->clicked = keys->pressed.square;
+
+		//menu->toggle(keys->held.start);
+		//menu->toggle(keys->held.square);
+
 //    if(npc(ke)->getKeyCode() == ::java::awt::event::KeyEvent::VK_NUMPAD8)
 //        npc(up)->toggle(pressed);
 //

@@ -2,6 +2,7 @@
 
 #include "../Font.h"
 #include "../Color.h"
+#include "../entity/Player.h"
 
 ResourceItem::~ResourceItem() {
 	// TODO Auto-generated destructor stub
@@ -59,4 +60,9 @@ bool ResourceItem::interactOn(Tile * tile, Level * level, int xt, int yt, Player
 
 bool ResourceItem::isDepleted() {
 	return count <= 0;
+}
+
+Type ResourceItem::type()
+{
+	return RESOURCE_ITEM;
 }

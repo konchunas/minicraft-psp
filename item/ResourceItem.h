@@ -6,9 +6,10 @@
 #include "../level/Level.h"
 #include "../level/tile/Tile.h"
 #include "../screen.h"
-#include "../entity/Player.h"
 #include "../Screen.h"
 #include "resource/Resource.h"
+
+class Player;
 
 class ResourceItem : public Item {
 public:
@@ -26,6 +27,7 @@ public:
 	void onTake(ItemEntity * itemEntity);
 	bool interactOn(Tile * tile, Level * level, int xt, int yt, Player * player, int attackDir);
 	bool isDepleted();
+	Type type();
 
 };
 

@@ -22,7 +22,6 @@ GrassTile::~GrassTile() {
 
 void GrassTile::render(Screen * screen, Level * level, int x, int y)
 {
-	//oslDebug("grasstile render");
 	int col = Color::get(level->grassColor, level->grassColor, level->grassColor + 111, level->grassColor + 111);
 	int transitionColor = Color::get(level->grassColor - 111, level->grassColor, level->grassColor + 111, level->dirtColor);
 

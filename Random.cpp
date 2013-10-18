@@ -8,11 +8,16 @@
 
 Random::Random()
 {
-	oslSrand(time(0));
+	setSeed(time(0));
 }
 
 Random::~Random() {
 	// TODO Auto-generated destructor stub
+}
+
+void Random::setSeed(unsigned long seed)
+{
+	oslSrand(seed);
 }
 
 int Random::nextInt(int upper)
@@ -29,3 +34,9 @@ double Random::nextGaussian()
 {
 	return nextFloat();
 }
+
+bool Random::nextBoolean()
+{
+	return (bool)nextInt(2);
+}
+

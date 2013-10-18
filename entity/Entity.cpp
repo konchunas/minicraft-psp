@@ -27,7 +27,8 @@ yr(6)
 
 }
 
-void Entity::render(Screen * screen) {
+void Entity::render(Screen * screen)
+{
 }
 
 void Entity::tick() {

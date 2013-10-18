@@ -19,21 +19,41 @@
 #include "WaterTile.h"
 #include "FLowerTile.h"
 #include "TreeTile.h"
+#include "DirtTile.h"
 #include "SandTile.h"
 #include "CactusTile.h"
+#include "HoleTile.h"
+#include "SaplingTile.h"
+
+#include "LavaTile.h"
 #include "StairsTile.h"
 
+
 Tile** Tile::tiles = new Tile*[256];
-Tile* Tile::grass = new GrassTile(0);
-Tile* Tile::rock = new RockTile(1);
-Tile* Tile::water = new WaterTile(2);
-Tile* Tile::flower = new FlowerTile(3);
-Tile* Tile::tree = new TreeTile(4);
-//Tile* Tile::dirt = new DirtTile(5);
-Tile* Tile::sand = new SandTile(6);
-Tile* Tile::cactus = new CactusTile(7);
-Tile* Tile::stairsDown = new StairsTile(14, false);
-Tile* Tile::stairsUp = new StairsTile(15, true);
+Tile * Tile::grass = new GrassTile(0);
+Tile * Tile::rock = new RockTile(1);
+Tile * Tile::water = new WaterTile(2);
+Tile * Tile::flower = new FlowerTile(3);
+Tile * Tile::tree = new TreeTile(4);
+Tile * Tile::dirt = new DirtTile(5);
+Tile * Tile::sand = new SandTile(6);
+Tile * Tile::cactus = new CactusTile(7);
+Tile * Tile::hole = new HoleTile(8);
+Tile * Tile::treeSapling = new SaplingTile(9, grass, tree);
+//Tile * Tile::cactusSapling = new SaplingTile(10, sand, cactus);
+//Tile * Tile::farmland = new FarmTile(11);
+//Tile * Tile::wheat = new WheatTile(12);
+Tile * Tile::lava = new LavaTile(13);
+Tile * Tile::stairsDown = new StairsTile(14, false);
+Tile * Tile::stairsUp = new StairsTile(15, true);
+//Tile * Tile::infiniteFall = new InfiniteFallTile(16);
+//Tile * Tile::cloud = new CloudTile(17);
+//Tile * Tile::hardRock = new HardRockTile(18);
+//Tile * Tile::ironOre = new OreTile(19, Resource::ironOre);
+//Tile * Tile::goldOre = new OreTile(20, Resource::goldOre);
+//Tile * Tile::gemOre = new OreTile(21, Resource::gem);
+//Tile * Tile::cloudCactus = new CloudCactusTile(22);
+
 int Tile::tickCount = 0;
 
 Tile::Tile(int id):
@@ -50,32 +70,6 @@ connectsToWater(false)
 Tile::~Tile() {
 	// TODO Auto-generated destructor stub
 }
-
-
-
-//	public static Tile grass = new GrassTile(0);
-
-//	public static Tile water = new WaterTile(2);
-//	public static Tile flower = new FlowerTile(3);
-//	public static Tile tree = new TreeTile(4);
-//	public static Tile dirt = new DirtTile(5);
-//	public static Tile sand = new SandTile(6);
-//	public static Tile cactus = new CactusTile(7);
-//	public static Tile hole = new HoleTile(8);
-//	public static Tile treeSapling = new SaplingTile(9, grass, tree);
-//	public static Tile cactusSapling = new SaplingTile(10, sand, cactus);
-//	public static Tile farmland = new FarmTile(11);
-//	public static Tile wheat = new WheatTile(12);
-//	public static Tile lava = new LavaTile(13);
-//	public static Tile stairsDown = new StairsTile(14, false);
-//	public static Tile stairsUp = new StairsTile(15, true);
-//	public static Tile infiniteFall = new InfiniteFallTile(16);
-//	public static Tile cloud = new CloudTile(17);
-//	public static Tile hardRock = new HardRockTile(18);
-//	public static Tile ironOre = new OreTile(19, Resource.ironOre);
-//	public static Tile goldOre = new OreTile(20, Resource.goldOre);
-//	public static Tile gemOre = new OreTile(21, Resource.gem);
-//	public static Tile cloudCactus = new CloudCactusTile(22);
 
 void Tile::render(Screen * screen, Level * level, int x, int y) {
 }

@@ -58,9 +58,10 @@ void SandTile::tick(Level * level, int x, int y) {
 
 void SandTile::steppedOn(Level * level, int x, int y, Entity * entity)
 {
-	//if (entity instanceof Mob) {
+	if (entity->instanceOf(MOB))
+	{
 		level->setData(x, y, 10);
-	//}
+	}
 }
 
 //	bool SandTile::interact(Level * level, int xt, int yt, Player * player, Item * item, int attackDir)

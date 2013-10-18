@@ -83,7 +83,7 @@ void TreeTile::hurt(Level * level, int x, int y, int dmg)
 {
 	int count = random->nextInt(10) == 0 ? 1 : 0;
 	for (int i = 0; i < count; i++) {
-//			level->add(new ItemEntity(new ResourceItem(Resource::apple), x * 16 + random->nextInt(10) + 3, y * 16 + random->nextInt(10) + 3));
+			level->add(new ItemEntity(new ResourceItem(Resource::apple), x * 16 + random->nextInt(10) + 3, y * 16 + random->nextInt(10) + 3));
 	}
 	int damage = level->getData(x, y) + dmg;
 	//level->add(new SmashParticle(x * 16 + 8, y * 16 + 8));
@@ -95,7 +95,7 @@ void TreeTile::hurt(Level * level, int x, int y, int dmg)
 		}
 		count = random->nextInt(random->nextInt(4) + 1);
 		for (int i = 0; i < count; i++) {
-			//level->add(new ItemEntity(new ResourceItem(Resource::acorn), x * 16 + random->nextInt(10) + 3, y * 16 + random->nextInt(10) + 3));
+			level->add(new ItemEntity(new ResourceItem(Resource::acorn), x * 16 + random->nextInt(10) + 3, y * 16 + random->nextInt(10) + 3));
 		}
 		level->setTile(x, y, Tile::grass, 0);
 	} else {

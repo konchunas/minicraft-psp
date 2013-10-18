@@ -5,8 +5,12 @@ enum Type
 {
 	UNDEFINED,
 	MOB,
-	PLAYER
+	PLAYER,
+	TOOL_ITEM,
+	RESOURCE_ITEM
 };
+
+//this class is intended to replace java instainceOf function using predefined enums
 
 class Typeable {
 public:

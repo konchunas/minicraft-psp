@@ -1,37 +1,30 @@
-/*
- * WaterTile.cpp
- *
- *  Created on: 16 окт. 2013 г.
- *      Author: user
- */
-
-#include "WaterTile.h"
+#include "LavaTile.h"
 
 #include "../../Color.h"
 #include "../Level.h"
+#include "../../Random.h"
+#include "../../item/ResourceItem.h"
 
-WaterTile::~WaterTile() {
-	// TODO Auto-generated destructor stub
-}
 
-WaterTile::WaterTile(int id) : Tile(id),
+LavaTile::LavaTile(int id) : Tile(id),
 wRandom(new Random())
 {
 	connectsToSand = true;
-	connectsToWater = true;
+	connectsToLava = true;
+}
+LavaTile::~LavaTile() {
 }
 
-void WaterTile::render(Screen * screen, Level * level, int x, int y)
-{
+void LavaTile::render(Screen * screen, Level * level, int x, int y) {
 	wRandom->setSeed((tickCount + (x / 2 - y) * 4311) / 10 * 54687121l + x * 3271612l + y * 3412987161l);
-	int col = Color::get(005, 005, 115, 115);
-	int transitionColor1 = Color::get(3, 005, level->dirtColor - 111, level->dirtColor);
-	int transitionColor2 = Color::get(3, 005, level->sandColor - 110, level->sandColor);
+	int col = Color::get(500, 500, 520, 550);
+	int transitionColor1 = Color::get(3, 500, level->dirtColor - 111, level->dirtColor);
+	int transitionColor2 = Color::get(3, 500, level->sandColor - 110, level->sandColor);
 
-	bool u = !level->getTile(x, y - 1)->connectsToWater;
-	bool d = !level->getTile(x, y + 1)->connectsToWater;
-	bool l = !level->getTile(x - 1, y)->connectsToWater;
-	bool r = !level->getTile(x + 1, y)->connectsToWater;
+	bool u = !level->getTile(x, y - 1)->connectsToLava;
+	bool d = !level->getTile(x, y + 1)->connectsToLava;
+	bool l = !level->getTile(x - 1, y)->connectsToLava;
+	bool r = !level->getTile(x + 1, y)->connectsToLava;
 
 	bool su = u && level->getTile(x, y - 1)->connectsToSand;
 	bool sd = d && level->getTile(x, y + 1)->connectsToSand;
@@ -58,23 +51,25 @@ void WaterTile::render(Screen * screen, Level * level, int x, int y)
 		screen->render(x * 16 + 8, y * 16 + 8, (r ? 16 : 15) + (d ? 2 : 1) * 32, (sd || sr) ? transitionColor2 : transitionColor1, 0);
 }
 
-bool WaterTile::mayPass(Level * level, int x, int y, Entity * e)
-{
+bool LavaTile::mayPass(Level * level, int x, int y, Entity * e) {
 	return e->canSwim();
 }
 
-void WaterTile::tick(Level * level, int xt, int yt)
-{
+void LavaTile::tick(Level * level, int xt, int yt) {
 	int xn = xt;
 	int yn = yt;
 
-	if (random->nextInt(2))
+	if (random->nextBoolean())
 		xn += random->nextInt(2) * 2 - 1;
 	else
 		yn += random->nextInt(2) * 2 - 1;
 
-//	if (level->getTile(xn, yn) == Tile.hole) {
-//		level->setTile(xn, yn, this, 0);
-//	}
+	if (level->getTile(xn, yn) == Tile::hole)
+	{
+		level->setTile(xn, yn, this, 0);
+	}
 }
 
+int LavaTile::getLightRadius(Level * level, int x, int y) {
+	return 6;
+}

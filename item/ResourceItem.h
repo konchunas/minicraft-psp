@@ -27,7 +27,7 @@ public:
 	void onTake(ItemEntity * itemEntity);
 	bool interactOn(Tile * tile, Level * level, int xt, int yt, Player * player, int attackDir);
 	bool isDepleted();
-	Type type();
+	ClassType classType();
 
 };
 

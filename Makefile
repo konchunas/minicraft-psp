@@ -8,6 +8,8 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	item/resource/PlantableResource.o \
 	item/resource/FoodResource.o \
 	item/ResourceItem.o \
+	item/ToolItem.o \
+	item/ToolType.o \
 	menu/ListItem.o \
 	menu/Menu.o \
 	menu/InventoryMenu.o \

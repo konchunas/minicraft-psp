@@ -3,8 +3,10 @@
 #include "../Level.h"
 
 #include "../../Random.h"
+#include "../../entity/Player.h"
 #include "../../entity/ItemEntity.h"
 #include "../../item/ResourceItem.h"
+#include "../../item/ToolItem.h"
 
 RockTile::RockTile(int id) : Tile (id)
 {
@@ -74,16 +76,19 @@ void RockTile::hurt(Level * level, int x, int y, Mob * source, int dmg, int atta
 	hurt(level, x, y, dmg);
 }
 
-bool RockTile::interact(Level * level, int xt, int yt, Player * player, Item * item, int attackDir) {
-//	if (item instanceof ToolItem) {
-//		ToolItem tool = (ToolItem) item;
-//		if (tool.type == ToolType.pickaxe) {
-//			if (player.payStamina(4 - tool.level)) {
-//				hurt(level, xt, yt, random.nextInt(10) + (tool.level) * 5 + 10);
-//				return true;
-//			}
-//		}
-//	}
+bool RockTile::interact(Level * level, int xt, int yt, Player * player, Item * item, int attackDir)
+{
+	if (item->instanceOf(TOOL_ITEM))
+	{
+		ToolItem * tool = (ToolItem*) item;
+		if (tool->type == ToolType::pickaxe) {
+			if (player->payStamina(4 - tool->level))
+			{
+				hurt(level, xt, yt, random->nextInt(10) + (tool->level) * 5 + 10);
+				return true;
+			}
+		}
+	}
 	return false;
 }
 

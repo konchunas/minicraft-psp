@@ -13,6 +13,7 @@
 #include "../menu/InventoryMenu.h"
 #include "../item/resource/Resource.h"
 #include "../Color.h"
+#include "../item/ToolItem.h"
 
 #include <oslib/oslib.h>
 
@@ -29,8 +30,10 @@ Player::Player(Game * game, InputHandler * input) :
 	y = 24;
 	stamina = maxStamina;
 
-	inventory->add(new ResourceItem(Resource::dirt));
-	inventory->add(new ResourceItem(Resource::wood));
+	//inventory->add(new ResourceItem(Resource::dirt));
+	//inventory->add(new ResourceItem(Resource::wood));
+	inventory->add(new ToolItem(ToolType::pickaxe,2));
+
 //	inventory.add(new FurnitureItem(new Workbench()));
 //	inventory.add(new PowerGloveItem());
 }
@@ -313,9 +316,10 @@ void Player::render(Screen * screen) {
 				Color::get(-1, 555, 555, 555), 0);
 		screen->render(xo + 8, yo - 4, 6 + 13 * 32,
 				Color::get(-1, 555, 555, 555), 1);
-//		if (attackItem != NULL) {
-//			attackItem.renderIcon(screen, xo + 4, yo - 4);
-//		}
+		if (attackItem != NULL)
+		{
+			attackItem->renderIcon(screen, xo + 4, yo - 4);
+		}
 	}
 	int col = Color::get(-1, 100, 220, 532);
 	if (hurtTime > 0) {
@@ -338,27 +342,28 @@ void Player::render(Screen * screen) {
 				1);
 		screen->render(xo - 4, yo + 8, 7 + 13 * 32,
 				Color::get(-1, 555, 555, 555), 3);
-//		if (attackItem != NULL) {
-//			attackItem.renderIcon(screen, xo - 4, yo + 4);
-//		}
+		if (attackItem != NULL)
+		{
+			attackItem->renderIcon(screen, xo - 4, yo + 4);
+		}
 	}
 	if (attackTime > 0 && attackDir == 3) {
 		screen->render(xo + 8 + 4, yo, 7 + 13 * 32,
 				Color::get(-1, 555, 555, 555), 0);
 		screen->render(xo + 8 + 4, yo + 8, 7 + 13 * 32,
 				Color::get(-1, 555, 555, 555), 2);
-//		if (attackItem != NULL) {
-//			attackItem.renderIcon(screen, xo + 8 + 4, yo + 4);
-//		}
+		if (attackItem != NULL) {
+			attackItem->renderIcon(screen, xo + 8 + 4, yo + 4);
+		}
 	}
 	if (attackTime > 0 && attackDir == 0) {
 		screen->render(xo + 0, yo + 8 + 4, 6 + 13 * 32,
 				Color::get(-1, 555, 555, 555), 2);
 		screen->render(xo + 8, yo + 8 + 4, 6 + 13 * 32,
 				Color::get(-1, 555, 555, 555), 3);
-//		if (attackItem != NULL) {
-//			attackItem.renderIcon(screen, xo + 4, yo + 8 + 4);
-//		}
+		if (attackItem != NULL) {
+			attackItem->renderIcon(screen, xo + 4, yo + 8 + 4);
+		}
 	}
 
 //	if (activeItem instanceof FurnitureItem) {
@@ -420,7 +425,6 @@ void Player::die() {
 
 void Player::touchedBy(Entity * entity) {
 	//no rtti no dynamic_cast
-	//if (!(dynamic_cast<Player*>(entity)))
 	if (!entity->instanceOf(PLAYER))
 		if (entity == this) {
 			entity->touchedBy(this);
@@ -451,6 +455,6 @@ void Player::gameWon() {
 	//game.won();
 }
 
-Type Player::type() {
+ClassType Player::classType() {
 	return PLAYER;
 }

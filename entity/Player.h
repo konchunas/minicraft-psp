@@ -39,7 +39,7 @@ public:
 	void changeLevel(int dir);
 	int getLightRadius();
 	void gameWon();
-	virtual Type type();
+	virtual ClassType classType();
 
 private:
 	InputHandler * input;

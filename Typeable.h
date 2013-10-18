@@ -1,7 +1,7 @@
 #ifndef TYPEABLE_H_
 #define TYPEABLE_H_
 
-enum Type
+enum ClassType
 {
 	UNDEFINED,
 	MOB,
@@ -14,14 +14,14 @@ enum Type
 
 class Typeable {
 public:
-	bool instanceOf(Type t)
+	bool instanceOf(ClassType t)
 	{
-		if (this->type() == t)
+		if (this->classType() == t)
 			return true;
 		return false;
 	}
 
-	virtual Type type()
+	virtual ClassType classType()
 	{
 		return UNDEFINED;
 	}

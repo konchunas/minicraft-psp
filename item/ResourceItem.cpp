@@ -62,7 +62,7 @@ bool ResourceItem::isDepleted() {
 	return count <= 0;
 }
 
-Type ResourceItem::type()
+ClassType ResourceItem::classType()
 {
 	return RESOURCE_ITEM;
 }

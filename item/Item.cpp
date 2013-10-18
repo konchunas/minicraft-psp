@@ -54,6 +54,6 @@ std::string Item::getName()
 
 bool Item::matches(Item * item)
 {
-	return (type() != UNDEFINED) && (item->type() == type());
+	return (classType() != UNDEFINED) && (item->classType() == classType());
 }
 

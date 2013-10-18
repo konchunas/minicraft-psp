@@ -55,3 +55,7 @@ void Menu::renderItemList(Screen * screen, int xo, int yo, int x1, int y1, deque
 	}
 }
 
+void Menu::renderItemList(Screen * screen, int xo, int yo, int x1, int y1, deque<ListItem*> &listItems, int selected)
+{
+
+}

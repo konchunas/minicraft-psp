@@ -85,9 +85,8 @@ bool Mob::move(int xa, int ya) {
 
 bool Mob::isSwimming()
 {
-	return false;
-//	Tile * tile = level->getTile(x >> 4, y >> 4);
-//	return tile == Tile.water || tile == Tile.lava;
+	Tile * tile = level->getTile(x >> 4, y >> 4);
+	return tile == Tile::water || tile == Tile::lava;
 }
 
 bool Mob::blocks(Entity * e) {

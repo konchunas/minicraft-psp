@@ -7,7 +7,9 @@ enum ClassType
 	MOB,
 	PLAYER,
 	TOOL_ITEM,
-	RESOURCE_ITEM
+	RESOURCE_ITEM,
+	POWERGLOVE_ITEM,
+	FURNITURE_ITEM
 };
 
 //this class is intended to replace java instainceOf function using predefined enums

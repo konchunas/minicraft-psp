@@ -10,6 +10,7 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	item/ResourceItem.o \
 	item/ToolItem.o \
 	item/ToolType.o \
+	item/FurnitureItem.o \
 	menu/ListItem.o \
 	menu/Menu.o \
 	menu/InventoryMenu.o \
@@ -18,6 +19,8 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	entity/Player.o \
 	entity/Inventory.o \
 	entity/ItemEntity.o \
+	entity/Furniture.o \
+	entity/Workbench.o \
 	level/Level.o level/LevelGen.o \
 	level/tile/Tile.o \
 	level/tile/RockTile.o level/tile/GrassTile.o level/tile/WaterTile.o \

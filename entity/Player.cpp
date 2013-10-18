@@ -12,6 +12,8 @@
 #include "ItemEntity.h"
 #include "../menu/InventoryMenu.h"
 #include "../item/resource/Resource.h"
+#include "../item/FurnitureItem.h"
+#include "../entity/Workbench.h"
 #include "../Color.h"
 #include "../item/ToolItem.h"
 
@@ -32,7 +34,9 @@ Player::Player(Game * game, InputHandler * input) :
 
 	//inventory->add(new ResourceItem(Resource::dirt));
 	//inventory->add(new ResourceItem(Resource::wood));
-	inventory->add(new ToolItem(ToolType::pickaxe,2));
+	inventory->add(new FurnitureItem(new Workbench()));
+	inventory->add(new ToolItem(ToolType::pickaxe,1));
+
 
 //	inventory.add(new FurnitureItem(new Workbench()));
 //	inventory.add(new PowerGloveItem());
@@ -301,7 +305,8 @@ void Player::render(Screen * screen) {
 
 	int xo = x - 8;
 	int yo = y - 11;
-	if (isSwimming()) {
+	if (isSwimming())
+	{
 		yo += 4;
 		int waterColor = Color::get(-1, -1, 115, 335);
 		if (tickTime / 8 % 2 == 0) {
@@ -326,9 +331,10 @@ void Player::render(Screen * screen) {
 		col = Color::get(-1, 555, 555, 555);
 	}
 
-//	if (activeItem instanceof FurnitureItem) {
-//		yt += 2;
-//	}
+	if (activeItem && activeItem->instanceOf(FURNITURE_ITEM))
+	{
+		yt += 2;
+	}
 	screen->render(xo + 8 * flip1, yo + 0, xt + yt * 32, col, flip1);
 	screen->render(xo + 8 - 8 * flip1, yo + 0, xt + 1 + yt * 32, col, flip1);
 	if (!isSwimming()) {
@@ -365,13 +371,14 @@ void Player::render(Screen * screen) {
 			attackItem->renderIcon(screen, xo + 4, yo + 8 + 4);
 		}
 	}
-
-//	if (activeItem instanceof FurnitureItem) {
-//		Furniture furniture = ((FurnitureItem) activeItem).furniture;
-//		furniture.x = x;
-//		furniture.y = yo;
-//		furniture.render(screen);
-//	}
+	if (activeItem!=NULL)
+		if (activeItem->instanceOf(FURNITURE_ITEM))
+		{
+			Furniture * furniture = static_cast<FurnitureItem*>(activeItem)->furniture;
+			furniture->x = x;
+			furniture->y = yo;
+			furniture->render(screen);
+		}
 }
 
 void Player::touchItem(ItemEntity * itemEntity) {
@@ -379,7 +386,8 @@ void Player::touchItem(ItemEntity * itemEntity) {
 	inventory->add(itemEntity->item);
 }
 
-bool Player::canSwim() {
+bool Player::canSwim()
+{
 	return true;
 }
 
@@ -406,19 +414,23 @@ void Player::changeLevel(int dir) {
 	//game->scheduleLevelChange(dir);
 }
 
-int Player::getLightRadius() {
-	return 0; //remove when ready
-//	int r = 2;
-//	if (activeItem != NULL) {
-//		if (activeItem instanceof FurnitureItem) {
-//			int rr = ((FurnitureItem) activeItem).furniture.getLightRadius();
-//			if (rr > r) r = rr;
-//		}
-//	}
-//	return r;
+int Player::getLightRadius()
+{
+	int r = 2;
+	if (activeItem != NULL)
+	{
+		if (activeItem->instanceOf(FURNITURE_ITEM))
+		{
+			Furniture * furniture = static_cast<FurnitureItem*>(activeItem)->furniture;
+			int rr = furniture->getLightRadius();
+			if (rr > r) r = rr;
+		}
+	}
+	return r;
 }
 
-void Player::die() {
+void Player::die()
+{
 	Mob::die();
 	//Sound.playerDeath.play();
 }

@@ -9,7 +9,7 @@
 #define MENU_H_
 
 #include <deque>
-//#include "ListItem.h"
+#include "ListItem.h"
 
 #include "../item/Item.h"
 
@@ -25,7 +25,11 @@ public:
 	virtual void init(Game * game, InputHandler * input);
 	virtual void tick();
 	virtual void render(Screen * screen);
+
+	//no time for pesky Java generics
+	//simple overload here
 	virtual void renderItemList(Screen * screen, int xo, int yo, int x1, int y1, deque<Item*> &listItems, int selected);
+	virtual void renderItemList(Screen * screen, int xo, int yo, int x1, int y1, deque<ListItem*> &listItems, int selected);
 
 protected:
 	Game * game;

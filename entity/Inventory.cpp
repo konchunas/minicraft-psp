@@ -107,7 +107,7 @@ int Inventory::count(Item * item)
 	else
 	{
 		int count = 0;
-		for (int i=0; i<items.size(); i++) //replace with std::iterating
+		for (unsigned int i=0; i<items.size(); i++) //replace with std::iterating
 		{
 			if (items.at(i)->matches(item)) count++;
 		}

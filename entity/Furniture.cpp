@@ -32,7 +32,6 @@ void Furniture::tick()
 		}
 		shouldTake = NULL;
 	}
-	//oslDebug("%d",pushDir);
 	if (pushDir == 0) move(0, +1);
 	if (pushDir == 1) move(0, -1);
 	if (pushDir == 2) move(-1, 0);
@@ -54,14 +53,8 @@ bool Furniture::blocks(Entity * e)
 	return true;
 }
 
-ClassType Furniture::classType()
-{
-	return FURNITURE_ENTITY;
-}
-
 void Furniture::touchedBy(Entity * entity)
 {
-	oslDebug("furniture touched by");
 	if (entity->instanceOf(PLAYER) && pushTime == 0)
 	{
 		pushDir = static_cast<Player*>(entity)->dir;

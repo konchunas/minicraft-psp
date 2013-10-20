@@ -23,10 +23,12 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	entity/Furniture.o \
 	entity/Workbench.o \
 	entity/Furnace.o \
+	entity/Oven.o \
 	crafting/Recipe.o \
 	crafting/Crafting.o \
 	crafting/ToolRecipe.o \
 	crafting/FurnitureRecipe.o \
+	crafting/ResourceRecipe.o \
 	level/Level.o level/LevelGen.o \
 	level/tile/Tile.o \
 	level/tile/RockTile.o level/tile/GrassTile.o level/tile/WaterTile.o \

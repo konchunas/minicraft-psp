@@ -1,4 +1,8 @@
 #include "../Color.h"
+#include "../entity/Player.h"
+#include "../Game.h"
+#include "../menu/CraftingMenu.h"
+#include "../crafting/Crafting.h"
 
 #include "Furnace.h"
 
@@ -17,6 +21,6 @@ Furnace::~Furnace()
 
 bool Furnace::use(Player * player, int attackDir)
 {
-	//player->game->setMenu(new CraftingMenu(Crafting::furnaceRecipes, player));
+	player->game->setMenu(new CraftingMenu(Crafting::furnaceRecipes, player));
 	return true;
 }

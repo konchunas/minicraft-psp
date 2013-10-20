@@ -2,15 +2,18 @@
 
 #include "Furniture.h"
 #include "Player.h"
+#include "Mob.h"
 
 
-Furniture::~Furniture() {
+Furniture::~Furniture()
+{
 	// TODO Auto-generated destructor stub
 }
 
 Furniture::Furniture(string name):
 pushTime(0),
-pushDir(-1)
+pushDir(-1),
+shouldTake(NULL)
 {
 	this->name = name;
 	xr = 3;
@@ -19,7 +22,8 @@ pushDir(-1)
 
 void Furniture::tick()
 {
-	if (shouldTake != NULL) {
+	if (shouldTake != NULL)
+	{
 		if (shouldTake->activeItem->instanceOf(POWERGLOVE_ITEM))
 		{
 			remove();
@@ -28,6 +32,7 @@ void Furniture::tick()
 		}
 		shouldTake = NULL;
 	}
+	//oslDebug("%d",pushDir);
 	if (pushDir == 0) move(0, +1);
 	if (pushDir == 1) move(0, -1);
 	if (pushDir == 2) move(-1, 0);
@@ -49,11 +54,17 @@ bool Furniture::blocks(Entity * e)
 	return true;
 }
 
+ClassType Furniture::classType()
+{
+	return FURNITURE_ENTITY;
+}
+
 void Furniture::touchedBy(Entity * entity)
 {
+	oslDebug("furniture touched by");
 	if (entity->instanceOf(PLAYER) && pushTime == 0)
 	{
-		//pushDir = static_cast<Player*>(entity)->dir;
+		pushDir = static_cast<Player*>(entity)->dir;
 		pushTime = 10;
 	}
 }

@@ -22,7 +22,11 @@ Entity::~Entity() {
 
 Entity::Entity():
 xr(6),
-yr(6)
+yr(6),
+removed(false),
+random(new Random()),
+x(0),
+y(0)
 {
 
 }
@@ -106,13 +110,20 @@ bool Entity::move2(int xa, int ya) {
 
 		e->touchedBy(this);
 	}
+
+	for (list<Entity*>::iterator it = wasInside.begin(); it != wasInside.end(); it++ )
+	{
+		isInside.remove(*it);
+	}
 	//isInside.removeAll(wasInside);
+
 	for (list<Entity*>::iterator it = isInside.begin(); it != isInside.end(); it++ )
 	{
 		Entity * e = *it;
 		if (e == this) continue;
 
-		if (e->blocks(this)) {
+		if (e->blocks(this))
+		{
 			return false;
 		}
 	}

@@ -57,11 +57,8 @@ random(new Random())
 			//maps = LevelGen.createAndValidateSkyMap(w, h); // Sky level
 			monsterDensity = 4;
 		}
-		oslDebug("tiles = maps0");
 		tiles = maps[0];
-		oslDebug("tiles = maps0 done");
 		data = maps[1];
-		oslDebug("data = maps1 done");
 
 //
 //		int ss = w*h;
@@ -239,7 +236,8 @@ random(new Random())
 		data[x + y * w] = (ushort) val;
 	}
 
-	void Level::add(Entity * entity) {
+	void Level::add(Entity * entity)
+	{
 		if (entity->instanceOf(PLAYER))
 		{
 			player = (Player*)entity;
@@ -264,7 +262,8 @@ random(new Random())
 		entitiesInTiles[x + y * w].push_back(e);
 	}
 
-	void Level::removeEntity(int x, int y, Entity * e) {
+	void Level::removeEntity(int x, int y, Entity * e)
+	{
 		if (x < 0 || y < 0 || x >= w || y >= h) return;
 		entitiesInTiles[x + y * w].remove(e);
 	}
@@ -299,7 +298,7 @@ random(new Random())
 
 		for (int i = 0; i < w * h / 50; i++) {
 			int xt = random->nextInt(w);
-			int yt = random->nextInt(w);
+			int yt = random->nextInt(h);
 			getTile(xt, yt)->tick(this, xt, yt);
 		}
 		for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++ )

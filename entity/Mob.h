@@ -12,6 +12,7 @@ public:
 	int health;
 	int swimTimer;
 	int tickTime;
+	int dir; 	//this used to be protected
 
 	virtual void tick();
 	virtual bool move(int xa, int ya);
@@ -23,7 +24,6 @@ public:
 
 protected:
 	int walkDist;
-	int dir;
 	int xKnockback, yKnockback;
 
 	virtual void die();

@@ -26,24 +26,27 @@ void Inventory::add(Item * item)
 
 void Inventory::add(int slot, Item * item)
 {
-	deque<Item*>::iterator slotIterator = items.begin() + slot;
 	if (item->instanceOf(RESOURCE_ITEM))
 	{
 		ResourceItem * toTake = (ResourceItem*)item;
 		ResourceItem * has = findResource(toTake->resource);
-		if (has == NULL)
-		{
-			items.insert(slotIterator, toTake);
-		}
-		else
+		if (has)
 		{
 			has->count += toTake->count;
+			return;
 		}
+	}
+
+	if (slot == 0)
+	{
+		items.push_front(item);
 	}
 	else
 	{
+		deque<Item*>::iterator slotIterator = items.begin() + slot;
 		items.insert(slotIterator, item);
 	}
+
 }
 
 ResourceItem * Inventory::findResource(Resource * resource)
@@ -85,16 +88,20 @@ void Inventory::remove(Item * item)
 	for (deque<Item*>::iterator it = items.begin(); it != items.end(); it++ )
 	{
 		if (*it == item)
+		{
 			items.erase(it);
+			return;
+		}
+
 	}
 }
 
 Item* Inventory::removeAt(int index)
 {
 	deque<Item*>::iterator it = items.begin() + index;
-	Item * item = *it;
-	items.erase(it);
-	return item;
+	Item * item = *it;	//remember item beforehand
+	items.erase(it);	//remove item from list
+	return item;		//return item
 }
 
 int Inventory::count(Item * item)

@@ -17,6 +17,7 @@
 #include "Game.h"
 
 #include "menu/Menu.h"
+#include "crafting/Crafting.h"
 
 Game::Game():
 menu(NULL)
@@ -199,6 +200,7 @@ void Game::init()
 		player = new Player(this, input);
 		player->findStartPos(level);
 		level->add(player);
+		Crafting::init();
 
 		running = true;
 		//resetGame();

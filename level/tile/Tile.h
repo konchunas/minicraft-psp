@@ -29,9 +29,9 @@ public:
 	static Tile * cactus;
 	static Tile * hole;
 	static Tile * treeSapling;
-//	static Tile * cactusSapling;
-//	static Tile * farmland;
-//	static Tile * wheat;
+	static Tile * cactusSapling;
+	static Tile * farmland;
+	static Tile * wheat;
 	static Tile * lava;
 	static Tile * stairsDown;
 	static Tile * stairsUp;

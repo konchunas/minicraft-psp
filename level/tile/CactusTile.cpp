@@ -3,6 +3,8 @@
 #include "../../Color.h"
 #include "../Level.h"
 #include "../../Random.h"
+#include "../../entity/ItemEntity.h"
+#include "../../item/ResourceItem.h"
 
 
 CactusTile::CactusTile(int id) : Tile(id)
@@ -34,7 +36,7 @@ void CactusTile::hurt(Level * level, int x, int y, Mob * source, int dmg, int at
 	if (damage >= 10) {
 		int count = random->nextInt(2) + 1;
 		for (int i = 0; i < count; i++) {
-			//level->add(new ItemEntity(new ResourceItem(Resource::cactusFlower), x * 16 + random->nextInt(10) + 3, y * 16 + random->nextInt(10) + 3));
+			level->add(new ItemEntity(new ResourceItem(Resource::cactusFlower), x * 16 + random->nextInt(10) + 3, y * 16 + random->nextInt(10) + 3));
 		}
 		level->setTile(x, y, Tile::sand, 0);
 	} else {

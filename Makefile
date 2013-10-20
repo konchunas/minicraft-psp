@@ -14,6 +14,7 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	menu/ListItem.o \
 	menu/Menu.o \
 	menu/InventoryMenu.o \
+	menu/CraftingMenu.o \
 	entity/Entity.o \
 	entity/Mob.o \
 	entity/Player.o \
@@ -21,13 +22,18 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	entity/ItemEntity.o \
 	entity/Furniture.o \
 	entity/Workbench.o \
+	entity/Furnace.o \
+	crafting/Recipe.o \
+	crafting/Crafting.o \
+	crafting/ToolRecipe.o \
+	crafting/FurnitureRecipe.o \
 	level/Level.o level/LevelGen.o \
 	level/tile/Tile.o \
 	level/tile/RockTile.o level/tile/GrassTile.o level/tile/WaterTile.o \
 	level/tile/SandTile.o level/tile/FlowerTile.o level/tile/TreeTile.o \
 	level/tile/StairsTile.o level/tile/SandTile.o level/tile/CactusTile.o \
 	level/tile/SaplingTile.o level/tile/DirtTile.o level/tile/HoleTile.o \
-	level/tile/LavaTile.o
+	level/tile/LavaTile.o level/tile/FarmTile.o level/tile/WheatTile.o
 	
 	
 

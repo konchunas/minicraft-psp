@@ -158,7 +158,8 @@ bool Player::use() {
 	return false;
 }
 
-void Player::attack() {
+void Player::attack()
+{
 	walkDist += 8;
 	attackDir = dir;
 	attackItem = activeItem;
@@ -210,7 +211,8 @@ void Player::attack() {
 	if (done)
 		return;
 
-	if (activeItem == NULL || activeItem->canAttack()) {
+	if (activeItem == NULL || activeItem->canAttack())
+	{
 		attackTime = 5;
 		int yo = -2;
 		int range = 20;
@@ -244,8 +246,8 @@ void Player::attack() {
 
 bool Player::use(int x0, int y0, int x1, int y1) {
 	list<Entity*> entities = level->getEntities(x0, y0, x1, y1);
-	for (list<Entity*>::iterator it = entities.begin(); it != entities.end();
-			it++) {
+	for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++)
+	{
 		Entity * e = *it;
 		if (e != this)
 			if (e->use(this, attackDir))
@@ -438,9 +440,7 @@ void Player::die()
 void Player::touchedBy(Entity * entity) {
 	//no rtti no dynamic_cast
 	if (!entity->instanceOf(PLAYER))
-		if (entity == this) {
-			entity->touchedBy(this);
-		}
+		entity->touchedBy(this);
 }
 
 void Player::doHurt(int damage, int attackDir) {

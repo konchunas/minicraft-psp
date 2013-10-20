@@ -24,7 +24,8 @@
 #include "CactusTile.h"
 #include "HoleTile.h"
 #include "SaplingTile.h"
-
+#include "FarmTile.h"
+#include "WheatTile.h"
 #include "LavaTile.h"
 #include "StairsTile.h"
 
@@ -40,9 +41,9 @@ Tile * Tile::sand = new SandTile(6);
 Tile * Tile::cactus = new CactusTile(7);
 Tile * Tile::hole = new HoleTile(8);
 Tile * Tile::treeSapling = new SaplingTile(9, grass, tree);
-//Tile * Tile::cactusSapling = new SaplingTile(10, sand, cactus);
-//Tile * Tile::farmland = new FarmTile(11);
-//Tile * Tile::wheat = new WheatTile(12);
+Tile * Tile::cactusSapling = new SaplingTile(10, sand, cactus);
+Tile * Tile::farmland = new FarmTile(11);
+Tile * Tile::wheat = new WheatTile(12);
 Tile * Tile::lava = new LavaTile(13);
 Tile * Tile::stairsDown = new StairsTile(14, false);
 Tile * Tile::stairsUp = new StairsTile(15, true);

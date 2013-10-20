@@ -80,7 +80,7 @@ bool GrassTile::interact(Level * level, int xt, int yt, Player * player, Item * 
 				//Sound.monsterHurt.play();
 				if (random->nextInt(5) == 0)
 				{
-					//level->add(new ItemEntity(new ResourceItem(Resource::seeds), xt * 16 + random->nextInt(10) + 3, yt * 16 + random.nextInt(10) + 3));
+					level->add(new ItemEntity(new ResourceItem(Resource::seeds), xt * 16 + random->nextInt(10) + 3, yt * 16 + random->nextInt(10) + 3));
 					return true;
 				}
 			}
@@ -89,10 +89,10 @@ bool GrassTile::interact(Level * level, int xt, int yt, Player * player, Item * 
 			if (player->payStamina(4 - tool->level)) {
 				//Sound.monsterHurt.play();
 				if (random->nextInt(5) == 0) {
-					//level->add(new ItemEntity(new ResourceItem(Resource::seeds), xt * 16 + random->nextInt(10) + 3, yt * 16 + random.nextInt(10) + 3));
+					level->add(new ItemEntity(new ResourceItem(Resource::seeds), xt * 16 + random->nextInt(10) + 3, yt * 16 + random->nextInt(10) + 3));
 					return true;
 				}
-				//level->setTile(xt, yt, Tile::farmland, 0);
+				level->setTile(xt, yt, Tile::farmland, 0);
 				return true;
 			}
 		}

@@ -10,6 +10,7 @@
 
 #include <deque>
 #include "ListItem.h"
+#include "../crafting/Recipe.h"
 
 #include "../item/Item.h"
 
@@ -29,7 +30,7 @@ public:
 	//no time for pesky Java generics
 	//simple overload here
 	virtual void renderItemList(Screen * screen, int xo, int yo, int x1, int y1, deque<Item*> &listItems, int selected);
-	virtual void renderItemList(Screen * screen, int xo, int yo, int x1, int y1, deque<ListItem*> &listItems, int selected);
+	virtual void renderItemList(Screen * screen, int xo, int yo, int x1, int y1, deque<Recipe*> &listItems, int selected);
 
 protected:
 	Game * game;

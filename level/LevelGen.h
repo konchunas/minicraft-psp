@@ -10,16 +10,17 @@ class LevelGen {
 public:
 	LevelGen(int w, int h, int featureSize);
 	virtual ~LevelGen();
-	double * values;
+	float * values;
 	static ushort ** createAndValidateTopMap(int w, int h);
 	static Random * random;
 
 private:
 	int w, h;
+	int widthMinusOne, heightMinusOne;
 
 
-	double sample(int x, int y);
-	void setSample(int x, int y, double value);
+	inline float sample(int x, int y);
+	inline void setSample(int x, int y, float value);
 	static ushort ** createTopMap(int w, int h);
 };
 

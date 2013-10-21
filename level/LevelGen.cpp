@@ -19,8 +19,10 @@ LevelGen::LevelGen(int w, int h, int featureSize)
 {
 	this->w = w;
 	this->h = h;
+	widthMinusOne = w - 1;
+	heightMinusOne = h - 1;
 
-	values = new double[w * h];
+	values = new float[w * h];
 
 	for (int y = 0; y < w; y += featureSize) {
 		for (int x = 0; x < w; x += featureSize) {
@@ -29,37 +31,37 @@ LevelGen::LevelGen(int w, int h, int featureSize)
 	}
 
 	int stepSize = featureSize;
-	double scale = 1.0 / w;
-	double scaleMod = 1;
+	float scale = 1.0 / w;
+	float scaleMod = 1;
 	do {
 		int halfStep = stepSize / 2;
+		float stepSizeByScale = stepSize * scale;
 		for (int y = 0; y < w; y += stepSize) {
 			for (int x = 0; x < w; x += stepSize) {
-				double a = sample(x, y);
-				double b = sample(x + stepSize, y);
-				double c = sample(x, y + stepSize);
-				double d = sample(x + stepSize, y + stepSize);
+				float a = sample(x, y);
+				float b = sample(x + stepSize, y);
+				float c = sample(x, y + stepSize);
+				float d = sample(x + stepSize, y + stepSize);
 
-				double e = (a + b + c + d) / 4.0
-						+ (random->nextFloat() * 2 - 1) * stepSize * scale;
+				float e = (a + b + c + d) / 4.0
+						+ (random->nextFloat() * 2 - 1) * stepSizeByScale;
 				setSample(x + halfStep, y + halfStep, e);
 			}
 		}
+		stepSizeByScale /= 2;	//same as multiply by 0.5 needed for next steps
 		for (int y = 0; y < w; y += stepSize) {
 			for (int x = 0; x < w; x += stepSize) {
-				double a = sample(x, y);
-				double b = sample(x + stepSize, y);
-				double c = sample(x, y + stepSize);
-				double d = sample(x + halfStep, y + halfStep);
-				double e = sample(x + halfStep, y - halfStep);
-				double f = sample(x - halfStep, y + halfStep);
+				float a = sample(x, y);
+				float b = sample(x + stepSize, y);
+				float c = sample(x, y + stepSize);
+				float d = sample(x + halfStep, y + halfStep);
+				float e = sample(x + halfStep, y - halfStep);
+				float f = sample(x - halfStep, y + halfStep);
 
-				double H = (a + b + d + e) / 4.0
-						+ (random->nextFloat() * 2 - 1) * stepSize * scale
-								* 0.5;
-				double g = (a + c + d + f) / 4.0
-						+ (random->nextFloat() * 2 - 1) * stepSize * scale
-								* 0.5;
+				float H = (a + b + d + e) / 4.0
+						+ (random->nextFloat() * 2 - 1) * stepSizeByScale;
+				float g = (a + c + d + f) / 4.0
+						+ (random->nextFloat() * 2 - 1) * stepSizeByScale;
 				setSample(x + halfStep, y, H);
 				setSample(x, y + halfStep, g);
 			}
@@ -70,14 +72,14 @@ LevelGen::LevelGen(int w, int h, int featureSize)
 	} while (stepSize > 1);
 }
 
-double LevelGen::sample(int x, int y)
+float LevelGen::sample(int x, int y)
 {
-	return values[(x & (w - 1)) + (y & (h - 1)) * w];
+	return values[(x & widthMinusOne) + (y & heightMinusOne) * w];
 }
 
-void LevelGen::setSample(int x, int y, double value)
+void LevelGen::setSample(int x, int y, float value)
 {
-	values[(x & (w - 1)) + (y & (h - 1)) * w] = value;
+	values[(x & widthMinusOne) + (y & heightMinusOne) * w] = value;
 }
 
 ushort ** LevelGen::createAndValidateTopMap(int w, int h)
@@ -164,6 +166,7 @@ ushort ** LevelGen::createAndValidateTopMap(int w, int h)
 
 ushort ** LevelGen::createTopMap(int w, int h)
 {
+	oslBenchmarkTest(OSL_BENCH_START);
 	LevelGen * mnoise1 = new LevelGen(w, h, 16);
 	LevelGen * mnoise2 = new LevelGen(w, h, 16);
 	LevelGen * mnoise3 = new LevelGen(w, h, 16);
@@ -171,25 +174,37 @@ ushort ** LevelGen::createTopMap(int w, int h)
 	LevelGen * noise1 = new LevelGen(w, h, 32);
 	LevelGen * noise2 = new LevelGen(w, h, 32);
 
+
 	ushort * map = new ushort[w * h];
 	ushort * data = new ushort[w * h];
 	for (int y = 0; y < h; y++) {
 		for (int x = 0; x < w; x++) {
 			int i = x + y * w;
 
-			double val = oslAbs(noise1->values[i] - noise2->values[i]) * 3 - 2;
-			double mval = oslAbs(mnoise1->values[i] - mnoise2->values[i]);
+			float val = oslAbs(noise1->values[i] - noise2->values[i]) * 3 - 2;
+			float mval = oslAbs(mnoise1->values[i] - mnoise2->values[i]);
 			mval = oslAbs(mval - mnoise3->values[i]) * 3 - 2;
 
-			double xd = x / (w - 1.0) * 2 - 1;
-			double yd = y / (h - 1.0) * 2 - 1;
+			float xd = x / (w - 1.0) * 2 - 1;
+			float yd = y / (h - 1.0) * 2 - 1;
 			if (xd < 0)
 				xd = -xd;
 			if (yd < 0)
 				yd = -yd;
-			double dist = xd >= yd ? xd : yd;
-			dist = dist * dist * dist * dist;
-			dist = dist * dist * dist * dist;
+			float dist = xd >= yd ? xd : yd;
+			if (dist != 1.0)
+			{
+				//oslDebug("first %f",dist);
+				//dist = oslPowf(dist,16.0);
+				dist *= dist;
+				dist *= dist;
+				dist *= dist;
+				dist *= dist;
+				//dist = dist * dist * dist * dist;
+				//dist = dist * dist * dist * dist;
+				//oslDebug("powered %f",dist);
+			}
+
 			val = val + 1 - dist * 20;
 
 			if (val < -0.5) {
@@ -289,6 +304,8 @@ ushort ** LevelGen::createTopMap(int w, int h)
 	ushort ** result = new ushort*[2];
 	result[0] = map;
 	result[1] = data;
+	oslBenchmarkTest(OSL_BENCH_END);
+	oslDebug("%d",oslBenchmarkTest(OSL_BENCH_GET));
 	return result;
 }
 

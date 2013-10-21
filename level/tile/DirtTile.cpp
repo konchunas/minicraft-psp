@@ -3,8 +3,10 @@
 #include "../../Color.h"
 #include "../Level.h"
 #include "../../Random.h"
+#include "../../entity/Player.h"
 #include "../../entity/ItemEntity.h"
 #include "../../item/ResourceItem.h"
+#include "../../item/ToolItem.h"
 
 DirtTile::DirtTile(int id):Tile(id)
 {
@@ -24,23 +26,23 @@ void DirtTile::render(Screen * screen, Level * level, int x, int y)
 
 bool DirtTile::interact(Level * level, int xt, int yt, Player * player, Item * item, int attackDir)
 {
-//	if (item instanceof ToolItem) {
-//		ToolItem tool = (ToolItem) item;
-//		if (tool->type == ToolType::shovel) {
-//			if (player->payStamina(4 - tool->level)) {
-//				level->setTile(xt, yt, Tile::hole, 0);
-//				level->add(new ItemEntity(new ResourceItem(Resource::dirt), xt * 16 + random->nextInt(10) + 3, yt * 16 + random->nextInt(10) + 3));
-//				//Sound::monsterHurt->play();
-//				return true;
-//			}
-//		}
-//		if (tool->type == ToolType::hoe) {
-//			if (player->payStamina(4 - tool->level)) {
-//				level->setTile(xt, yt, Tile::farmland, 0);
-//				Sound::monsterHurt->play();
-//				return true;
-//			}
-//		}
-//	}
+	if (item->instanceOf(TOOL_ITEM)) {
+		ToolItem * tool = (ToolItem*) item;
+		if (tool->type == ToolType::shovel) {
+			if (player->payStamina(4 - tool->level)) {
+				level->setTile(xt, yt, Tile::hole, 0);
+				level->add(new ItemEntity(new ResourceItem(Resource::dirt), xt * 16 + random->nextInt(10) + 3, yt * 16 + random->nextInt(10) + 3));
+				//Sound::monsterHurt->play();
+				return true;
+			}
+		}
+		if (tool->type == ToolType::hoe) {
+			if (player->payStamina(4 - tool->level)) {
+				level->setTile(xt, yt, Tile::farmland, 0);
+				//Sound::monsterHurt->play();
+				return true;
+			}
+		}
+	}
 	return false;
 }

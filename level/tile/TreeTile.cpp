@@ -9,6 +9,8 @@
 #include "../../entity/Furnace.h"
 #include "../../item/FurnitureItem.h"
 #include "../../entity/Player.h"
+#include "../../particle/TextParticle.h"
+#include "../../particle/SmashParticle.h"
 
 TreeTile::TreeTile(int id) : Tile(id)
 {
@@ -94,8 +96,8 @@ void TreeTile::hurt(Level * level, int x, int y, int dmg)
 			level->add(new ItemEntity(new ResourceItem(Resource::apple), x * 16 + random->nextInt(10) + 3, y * 16 + random->nextInt(10) + 3));
 	}
 	int damage = level->getData(x, y) + dmg;
-	//level->add(new SmashParticle(x * 16 + 8, y * 16 + 8));
-	//level->add(new TextParticle("" + dmg, x * 16 + 8, y * 16 + 8, Color::get(-1, 500, 500, 500)));
+	level->add(new SmashParticle(x * 16 + 8, y * 16 + 8));
+	level->add(new TextParticle(dmg, x * 16 + 8, y * 16 + 8, Color::get(-1, 500, 500, 500)));
 	if (damage >= 20)
 	{
 		int count = random->nextInt(2) + 1;

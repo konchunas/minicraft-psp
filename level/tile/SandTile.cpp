@@ -3,6 +3,10 @@
 #include "../../Color.h"
 #include "../Level.h"
 #include "../../Random.h"
+#include "../../entity/Player.h"
+#include "../../entity/ItemEntity.h"
+#include "../../item/ResourceItem.h"
+#include "../../item/ToolItem.h"
 
 SandTile::SandTile(int id) :
 Tile(id)
@@ -64,17 +68,17 @@ void SandTile::steppedOn(Level * level, int x, int y, Entity * entity)
 	}
 }
 
-//	bool SandTile::interact(Level * level, int xt, int yt, Player * player, Item * item, int attackDir)
-//	{
-//		if (item instanceof ToolItem) {
-//			ToolItem tool = (ToolItem) item;
-//			if (tool->type == ToolType::shovel) {
-//				if (player->payStamina(4 - tool->level)) {
-//					level->setTile(xt, yt, Tile::dirt, 0);
-//					level->add(new ItemEntity(new ResourceItem(Resource::sand), xt * 16 + random->nextInt(10) + 3, yt * 16 + random->nextInt(10) + 3));
-//					return true;
-//				}
-//			}
-//		}
-//		return false;
-//	}
+bool SandTile::interact(Level * level, int xt, int yt, Player * player, Item * item, int attackDir)
+{
+	if (item->instanceOf(TOOL_ITEM)) {
+		ToolItem * tool = (ToolItem*) item;
+		if (tool->type == ToolType::shovel) {
+			if (player->payStamina(4 - tool->level)) {
+				level->setTile(xt, yt, Tile::dirt, 0);
+				level->add(new ItemEntity(new ResourceItem(Resource::sand), xt * 16 + random->nextInt(10) + 3, yt * 16 + random->nextInt(10) + 3));
+				return true;
+			}
+		}
+	}
+	return false;
+}

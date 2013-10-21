@@ -5,6 +5,8 @@
 #include "../../Random.h"
 #include "../../entity/ItemEntity.h"
 #include "../../item/ResourceItem.h"
+#include "../../particle/TextParticle.h"
+#include "../../particle/SmashParticle.h"
 
 
 CactusTile::CactusTile(int id) : Tile(id)
@@ -31,8 +33,8 @@ bool CactusTile::mayPass(Level * level, int x, int y, Entity * e)
 void CactusTile::hurt(Level * level, int x, int y, Mob * source, int dmg, int attackDir)
 {
 	int damage = level->getData(x, y) + dmg;
-	//level->add(new SmashParticle(x * 16 + 8, y * 16 + 8));
-	//level->add(new TextParticle("" + dmg, x * 16 + 8, y * 16 + 8, Color::get(-1, 500, 500, 500)));
+	level->add(new SmashParticle(x * 16 + 8, y * 16 + 8));
+	level->add(new TextParticle(dmg, x * 16 + 8, y * 16 + 8, Color::get(-1, 500, 500, 500)));
 	if (damage >= 10) {
 		int count = random->nextInt(2) + 1;
 		for (int i = 0; i < count; i++) {

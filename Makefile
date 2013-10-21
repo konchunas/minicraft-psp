@@ -29,6 +29,9 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	crafting/ToolRecipe.o \
 	crafting/FurnitureRecipe.o \
 	crafting/ResourceRecipe.o \
+	particle/Particle.o \
+	particle/TextParticle.o \
+	particle/SmashParticle.o \
 	level/Level.o level/LevelGen.o \
 	level/tile/Tile.o \
 	level/tile/RockTile.o level/tile/GrassTile.o level/tile/WaterTile.o \

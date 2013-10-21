@@ -7,6 +7,8 @@
 
 #include "Mob.h"
 #include "../level/Level.h"
+#include "../particle/TextParticle.h"
+#include "../Color.h"
 
 Mob::~Mob()
 {
@@ -107,7 +109,7 @@ void Mob::hurt(Tile * tile, int x, int y, int damage)
 void Mob::heal(int heal) {
 	if (hurtTime > 0) return;
 
-	//level->add(new TextParticle("" + heal, x, y, Color.get(-1, 50, 50, 50)));
+	level->add(new TextParticle(heal, x, y, Color::get(-1, 50, 50, 50)));
 	health += heal;
 	if (health > maxHealth) health = maxHealth;
 }
@@ -122,7 +124,7 @@ void Mob::doHurt(int damage, int attackDir) {
 //			//Sound.monsterHurt.play();
 //		}
 //	}
-//	level.add(new TextParticle("" + damage, x, y, Color.get(-1, 500, 500, 500)));
+	level->add(new TextParticle(damage, x, y, Color::get(-1, 500, 500, 500)));
 	health -= damage;
 	if (attackDir == 0) yKnockback = +6;
 	if (attackDir == 1) yKnockback = -6;

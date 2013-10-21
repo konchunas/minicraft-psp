@@ -7,6 +7,8 @@
 #include "../../entity/ItemEntity.h"
 #include "../../item/ResourceItem.h"
 #include "../../item/ToolItem.h"
+#include "../../particle/TextParticle.h"
+#include "../../particle/SmashParticle.h"
 
 RockTile::RockTile(int id) : Tile (id)
 {
@@ -95,8 +97,8 @@ bool RockTile::interact(Level * level, int xt, int yt, Player * player, Item * i
 void RockTile::hurt(Level * level, int x, int y, int dmg)
 {
 	int damage = level->getData(x, y) + dmg;
-	//level->add(new SmashParticle(x * 16 + 8, y * 16 + 8));
-	//level->add(new TextParticle("" + dmg, x * 16 + 8, y * 16 + 8, Color.get(-1, 500, 500, 500)));
+	level->add(new SmashParticle(x * 16 + 8, y * 16 + 8));
+	level->add(new TextParticle(dmg, x * 16 + 8, y * 16 + 8, Color::get(-1, 500, 500, 500)));
 	if (damage >= 50) {
 		int count = random->nextInt(4) + 1;
 		for (int i = 0; i < count; i++) {

@@ -1,10 +1,3 @@
-/*
- * Tile.cpp
- *
- *  Created on: 16 окт. 2013 г.
- *      Author: user
- */
-
 #include "Tile.h"
 #include "../Level.h"
 #include "../../entity/Entity.h"

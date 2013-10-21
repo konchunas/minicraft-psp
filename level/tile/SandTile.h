@@ -14,7 +14,7 @@ public:
 	void render(Screen * screen, Level * level, int x, int y);
 	void tick(Level * level, int x, int y);
 	void steppedOn(Level * level, int x, int y, Entity * entity);
-//	bool interact(Level * level, int x, int y, Player * player, Item * item, int attackDir);
+	bool interact(Level * level, int x, int y, Player * player, Item * item, int attackDir);
 };
 
 #endif /* SANDTILE_H_ */

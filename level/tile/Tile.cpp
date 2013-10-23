@@ -21,6 +21,7 @@
 #include "WheatTile.h"
 #include "LavaTile.h"
 #include "StairsTile.h"
+#include "OreTile.h"
 
 
 Tile** Tile::tiles = new Tile*[256];
@@ -43,9 +44,9 @@ Tile * Tile::stairsUp = new StairsTile(15, true);
 //Tile * Tile::infiniteFall = new InfiniteFallTile(16);
 //Tile * Tile::cloud = new CloudTile(17);
 //Tile * Tile::hardRock = new HardRockTile(18);
-//Tile * Tile::ironOre = new OreTile(19, Resource::ironOre);
-//Tile * Tile::goldOre = new OreTile(20, Resource::goldOre);
-//Tile * Tile::gemOre = new OreTile(21, Resource::gem);
+Tile * Tile::ironOre = new OreTile(19, Resource::ironOre);
+Tile * Tile::goldOre = new OreTile(20, Resource::goldOre);
+Tile * Tile::gemOre = new OreTile(21, Resource::gem);
 //Tile * Tile::cloudCactus = new CloudCactusTile(22);
 
 int Tile::tickCount = 0;

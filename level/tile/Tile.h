@@ -38,9 +38,9 @@ public:
 //	static Tile * infiniteFall;
 //	static Tile * cloud;
 //	static Tile * hardRock;
-//	static Tile * ironOre;
-//	static Tile * goldOre;
-//	static Tile * gemOre;
+	static Tile * ironOre;
+	static Tile * goldOre;
+	static Tile * gemOre;
 //	static Tile * cloudCactus;
 
 	bool connectsToGrass;

@@ -38,7 +38,8 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	level/tile/SandTile.o level/tile/FlowerTile.o level/tile/TreeTile.o \
 	level/tile/StairsTile.o level/tile/SandTile.o level/tile/CactusTile.o \
 	level/tile/SaplingTile.o level/tile/DirtTile.o level/tile/HoleTile.o \
-	level/tile/LavaTile.o level/tile/FarmTile.o level/tile/WheatTile.o
+	level/tile/LavaTile.o level/tile/FarmTile.o level/tile/WheatTile.o \
+	level/tile/OreTile.o
 	
 
 INCDIR = 

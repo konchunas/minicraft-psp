@@ -24,8 +24,17 @@ Player::~Player() {
 }
 
 Player::Player(Game * game, InputHandler * input) :
-		inventory(new Inventory()), attackItem(NULL), activeItem(NULL), maxStamina(
-				10), invulnerableTime(0) {
+inventory(new Inventory()),
+attackItem(NULL),
+activeItem(NULL),
+staminaRecharge(0),
+staminaRechargeDelay(0),
+maxStamina(10),
+invulnerableTime(0),
+onStairDelay(0),
+score(0),
+attackTime(0)
+{
 	this->game = game;
 	this->input = input;
 	x = 24;
@@ -394,7 +403,8 @@ bool Player::canSwim()
 }
 
 bool Player::findStartPos(Level * level) {
-	while (true) {
+	while (true)
+	{
 		int x = random->nextInt(level->w);
 		int y = random->nextInt(level->h);
 		if (level->getTile(x, y) == Tile::tiles[0]) {

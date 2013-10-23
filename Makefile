@@ -40,12 +40,13 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	level/tile/SaplingTile.o level/tile/DirtTile.o level/tile/HoleTile.o \
 	level/tile/LavaTile.o level/tile/FarmTile.o level/tile/WheatTile.o
 	
-	
 
 INCDIR = 
 CFLAGS = -O2 -G0 -Wall
-CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti -g
+CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
 ASFLAGS = $(CFLAGS)
+
+BUILD_PRX=1
 
 LIBDIR =
 LDFLAGS =
@@ -55,8 +56,6 @@ STDLIBS= -lstdc++ -losl -lpng -lz \
          -lpsphprm -lpspsdk -lpspctrl -lpspumd -lpsprtc -lpsppower -lpspgu -lpspgum  -lpspaudiolib -lpspaudio -lpsphttp -lpspssl -lpspwlan \
          -lpspnet_adhocmatching -lpspnet_adhoc -lpspnet_adhocctl -lm -ljpeg 
 LIBS=$(STDLIBS) $(MYLIBS)
-
-BUILD_PRX=1
 
 EXTRA_TARGETS = EBOOT.PBP
 PSP_EBOOT_TITLE = Minicraft

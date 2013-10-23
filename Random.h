@@ -1,10 +1,3 @@
-/*
- * Random.h
- *
- *  Created on: 16 окт. 2013 г.
- *      Author: user
- */
-
 #ifndef RANDOM_H_
 #define RANDOM_H_
 

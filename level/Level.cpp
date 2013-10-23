@@ -13,7 +13,8 @@
 #include "../entity/Player.h"
 #include <oslib/oslib.h>
 
-Level::~Level() {
+Level::~Level()
+{
 	// TODO Auto-generated destructor stub
 }
 
@@ -48,7 +49,7 @@ random(new Random())
 		{
 
 			maps = LevelGen::createAndValidateTopMap(w, h);
-			oslDebug("map created and validated");
+			//oslDebug("map created and validated");
 		}
 		else if (level < 0) {
 			//maps = LevelGen.createAndValidateUndergroundMap(w, h, -level);

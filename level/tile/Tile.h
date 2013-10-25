@@ -50,6 +50,7 @@ public:
 
 	ushort id;
 
+	static void init();
 	virtual void render(Screen * screen, Level * level, int x, int y);
 	virtual bool mayPass(Level * level, int x, int y, Entity * e);
 	virtual int getLightRadius(Level * level, int x, int y);

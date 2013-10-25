@@ -43,6 +43,7 @@ public:
 	int sprite;
 	int color;
 
+	static void init();
 	virtual bool interactOn(Tile * tile, Level * level, int xt, int yt, Player * player, int attackDir);
 };
 

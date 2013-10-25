@@ -2,14 +2,18 @@
 #include <oslib/oslib.h>
 #include <oslib/drawing.h>
 #include <oslib/keys.h>
+#include <pspprof.h>
 
 //#include <SpriteSheet.h>
 //#include <Color.h>
-#include <Game.h>
+#include "crafting/Crafting.h"
+#include "level/tile/Tile.h"
+#include "item/resource/Resource.h"
+#include "Game.h"
 
 typedef unsigned short ushort;
 
-PSP_MODULE_INFO("Hello World", 0, 1, 0);
+PSP_MODULE_INFO("Minicraft", 0, 1, 0);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
 PSP_HEAP_SIZE_KB(12*1024);
 
@@ -44,9 +48,13 @@ int initOSLib(){
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int main()
 {
-	sceGuInit();
     initOSLib();
     oslSetImageAutoSwizzle(false);
+
+    //here we have initialization functions to prevent fiasco
+	Resource::init();
+	Tile::init();
+	Crafting::init();
 
     new Game();
 
@@ -106,5 +114,4 @@ int main()
 
     sceKernelExitGame();
     return 0;
-
 }

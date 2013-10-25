@@ -13,7 +13,7 @@
 OreTile::OreTile(int id, Resource * toDrop) : Tile(id)
 {
 	this->toDrop = toDrop;
-	this->color = toDrop->color & 0xffff00;
+	this->color = (toDrop->color) & 0xffff00;
 }
 OreTile::~OreTile() {
 }

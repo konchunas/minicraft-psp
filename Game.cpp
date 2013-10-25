@@ -17,7 +17,7 @@
 #include "Game.h"
 
 #include "menu/Menu.h"
-#include "crafting/Crafting.h"
+
 
 Game::Game():
 menu(NULL)
@@ -143,20 +143,20 @@ void Game::renderGui()
 
 	for (int i = 0; i < 10; i++) {
 		if (i < player->health)
-			screen->render(i * 8, screen->h - 16, 0 + 12 * 32, Color::get(000, 200, 500, 533), 0);
+			screen->render(i * 8, screen->h - 16, 0 + 12 * 32, Color::get(-1, 200, 500, 533), 0);
 		else
-			screen->render(i * 8, screen->h - 16, 0 + 12 * 32, Color::get(000, 100, 000, 000), 0);
+			screen->render(i * 8, screen->h - 16, 0 + 12 * 32, Color::get(-1, 100, 000, 000), 0);
 
 		if (player->staminaRechargeDelay > 0) {
 			if (player->staminaRechargeDelay / 4 % 2 == 0)
-				screen->render(i * 8, screen->h - 8, 1 + 12 * 32, Color::get(000, 555, 000, 000), 0);
+				screen->render(i * 8, screen->h - 8, 1 + 12 * 32, Color::get(-1, 555, 000, 000), 0);
 			else
-				screen->render(i * 8, screen->h - 8, 1 + 12 * 32, Color::get(000, 110, 000, 000), 0);
+				screen->render(i * 8, screen->h - 8, 1 + 12 * 32, Color::get(-1, 110, 000, 000), 0);
 		} else {
 			if (i < player->stamina)
-				screen->render(i * 8, screen->h - 8, 1 + 12 * 32, Color::get(000, 220, 550, 553), 0);
+				screen->render(i * 8, screen->h - 8, 1 + 12 * 32, Color::get(-1, 220, 550, 553), 0);
 			else
-				screen->render(i * 8, screen->h - 8, 1 + 12 * 32, Color::get(000, 110, 000, 000), 0);
+				screen->render(i * 8, screen->h - 8, 1 + 12 * 32, Color::get(-1, 110, 000, 000), 0);
 		}
 	}
 	//if (player.activeItem != null) {
@@ -200,7 +200,22 @@ void Game::init()
 		player = new Player(this, input);
 		player->findStartPos(level);
 		level->add(player);
-		Crafting::init();
+
+//		int arr[5];
+//		for (int i = 0; i < 5; i++)
+//		{
+//			arr[i] = 0;
+//		}
+//		//check distribution of randoms
+//		Random * random = new Random();
+//		for (long int i = 0; i<100000; i++)
+//		{
+//			arr[random->nextInt(5)]++;
+//		}
+//		for (int i = 0; i < 5; i++)
+//		{
+//			oslDebug("%d's %d", i, arr[i]);
+//		}
 
 		running = true;
 		//resetGame();

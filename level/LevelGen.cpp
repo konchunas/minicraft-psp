@@ -131,7 +131,6 @@ ushort ** LevelGen::createAndValidateTopMap(int w, int h)
 ushort ** LevelGen::createAndValidateUndergroundMap(int w, int h, int depth)
 {
 	int attempt = 0;
-	oslDebug("Welcome! We're about to create underground map! It may take some time.");
 	do {
 		ushort ** result = createUndergroundMap(w, h, depth);
 

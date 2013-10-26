@@ -14,6 +14,7 @@
 #include "../item/resource/Resource.h"
 #include "../item/FurnitureItem.h"
 #include "../entity/Workbench.h"
+#include "../entity/Furnace.h" //temporary include
 #include "../Color.h"
 #include "../item/ToolItem.h"
 
@@ -44,7 +45,10 @@ attackTime(0)
 	//inventory->add(new ResourceItem(Resource::dirt));
 	//inventory->add(new ResourceItem(Resource::wood));
 	inventory->add(new FurnitureItem(new Workbench()));
+	inventory->add(new FurnitureItem(new Furnace()));
 	inventory->add(new ToolItem(ToolType::pickaxe,1));
+	inventory->add(new ResourceItem(Resource::sand, 30));
+	inventory->add(new ResourceItem(Resource::coal, 30));
 
 
 //	inventory.add(new FurnitureItem(new Workbench()));
@@ -57,18 +61,22 @@ void Player::tick() {
 	if (invulnerableTime > 0)
 		invulnerableTime--;
 	Tile * onTile = level->getTile(x >> 4, y >> 4);
-//	if (onTile == Tile.stairsDown || onTile == Tile.stairsUp
-//			{
-//		if (onStairDelay == 0) {
-//			changeLevel((onTile == Tile.stairsUp) ? 1 : -1);
-//			onStairDelay = 10;
-//			return;
-//		}
-//		onStairDelay = 10;
-//	} else {
-	if (onStairDelay > 0)
-		onStairDelay--;
-//	}
+	if (onTile == Tile::stairsDown || onTile == Tile::stairsUp)
+	{
+		//oslDebug("");
+		if (onStairDelay == 0)
+		{
+			changeLevel((onTile == Tile::stairsUp) ? 1 : -1);
+			onStairDelay = 10;
+			return;
+		}
+		onStairDelay = 10;
+	}
+	else
+	{
+		if (onStairDelay > 0)
+			onStairDelay--;
+	}
 
 	if (stamina <= 0 && staminaRechargeDelay == 0 && staminaRecharge == 0) {
 		staminaRechargeDelay = 40;
@@ -422,8 +430,9 @@ bool Player::payStamina(int cost) {
 	return true;
 }
 
-void Player::changeLevel(int dir) {
-	//game->scheduleLevelChange(dir);
+void Player::changeLevel(int dir)
+{
+	game->scheduleLevelChange(dir);
 }
 
 int Player::getLightRadius()

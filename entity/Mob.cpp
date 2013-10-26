@@ -36,10 +36,10 @@ yKnockback(0)
 void Mob::tick()
 {
 	tickTime++;
-//	if (level->getTile(x >> 4, y >> 4) == Tile.lava)
-//	{
-//		hurt(this, 4, dir ^ 1);
-//	}
+	if (level->getTile(x >> 4, y >> 4) == Tile::lava)
+	{
+		hurt(this, 4, dir ^ 1);
+	}
 
 	if (health <= 0) {
 		die();

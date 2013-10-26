@@ -17,7 +17,7 @@
 #include "Game.h"
 
 #include "menu/Menu.h"
-
+#include "menu/LevelTransitionMenu.h"
 
 Game::Game():
 menu(NULL)
@@ -302,17 +302,17 @@ void Game::tick()
 		{
 			if (pendingLevelChange != 0)
 			{
-				//setMenu(new LevelTransitionMenu(pendingLevelChange));
+				setMenu(new LevelTransitionMenu(pendingLevelChange));
 				pendingLevelChange = 0;
 			}
 		}
-		if (wonTimer > 0)
-		{
-			if (--wonTimer == 0)
-			{
-				//setMenu(new WonMenu());
-			}
-		}
+//		if (wonTimer > 0)
+//		{
+//			if (--wonTimer == 0)
+//			{
+//				setMenu(new WonMenu());
+//			}
+//		}
 		level->tick();
 		Tile::tickCount++;
 	}
@@ -331,5 +331,16 @@ void Game::setMenu(Menu * menu)
 void Game::scheduleLevelChange(int dir)
 {
 	pendingLevelChange = dir;
+}
+
+void Game::changeLevel(int dir)
+{
+	level->remove(player);
+	currentLevel += dir;
+	level = levels[currentLevel];
+	player->x = (player->x >> 4) * 16 + 8;
+	player->y = (player->y >> 4) * 16 + 8;
+	level->add(player);
+
 }
 

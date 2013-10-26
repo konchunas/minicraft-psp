@@ -53,7 +53,6 @@ random(new Random())
 		}
 		else if (level < 0) {
 			maps = LevelGen::createAndValidateUndergroundMap(w, h, -level);
-			oslDebug("Underground map is created");
 			monsterDensity = 4;
 		} else {
 			//maps = LevelGen.createAndValidateSkyMap(w, h); // Sky level
@@ -249,6 +248,7 @@ random(new Random())
 		entity->init(this);
 
 		insertEntity(entity->x >> 4, entity->y >> 4, entity);
+		setTile(entity->x >> 4, (entity->y >> 4) + 1, Tile::stairsDown,0);
 	}
 
 	void Level::remove(Entity * e)

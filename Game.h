@@ -20,6 +20,7 @@ public:
 	void tick();
 	void setMenu(Menu*);
 	void scheduleLevelChange(int dir);
+	void changeLevel(int dir);
 
 	bool running;
 

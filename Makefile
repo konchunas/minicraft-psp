@@ -15,6 +15,7 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	menu/Menu.o \
 	menu/InventoryMenu.o \
 	menu/CraftingMenu.o \
+	menu/LevelTransitionMenu.o \
 	entity/Entity.o \
 	entity/Mob.o \
 	entity/Player.o \

@@ -19,6 +19,7 @@ public:
 	void render();
 	void tick();
 	void setMenu(Menu*);
+	void scheduleLevelChange(int dir);
 
 	bool running;
 
@@ -37,6 +38,10 @@ private:
 	//Level[] levels = new Level[5];
 	int * colors;
 	int * pixels;
+	int currentLevel;
+	Level ** levels;
+	int pendingLevelChange;
+	int playerDeadTime;
 
 
 	void renderGui();

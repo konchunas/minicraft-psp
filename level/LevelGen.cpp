@@ -87,11 +87,10 @@ ushort ** LevelGen::createAndValidateTopMap(int w, int h)
 	int attempt = 0;
 	//oslBenchmarkTest(OSL_BENCH_START);
 	do {
-		//oslDebug("Welcome! We're about to create the map! It may take some time.");
 		ushort ** result = createTopMap(w, h);
 		//oslDebug("wehave created the map!!");
 		//oslPrintf("attempt %d",attempt++);
-		int count[256]; //TODO: replace it with pointerless approach
+		int count[256];
 
 		for (int i = 0; i < w * h; i++)
 		{
@@ -119,7 +118,7 @@ ushort ** LevelGen::createAndValidateTopMap(int w, int h)
 		}
 		if (count[Tile::stairsDown->id & 0xff] < 2)
 		{
-			//continue;
+			continue;
 		}
 
 		return result;
@@ -129,27 +128,28 @@ ushort ** LevelGen::createAndValidateTopMap(int w, int h)
 	//oslDebug("%d",oslBenchmarkTest(OSL_BENCH_GET));
 }
 
-//ushort ** LevelGen::createAndValidateUndergroundMap(int w, int h, int depth)
-//{
-//	int attempt = 0;
-//	do {
-//		ushort ** result = createUndergroundMap(w, h, depth);
-//
-//		int* count = new int[256];
-//
-//		for (int i = 0; i < w * h; i++)
-//		{
-//			count[result[0][i] & 0xff]++;
-//		}
-//		if (count[Tile::rock->id & 0xff] < 100) continue;
-//		if (count[Tile::dirt->id & 0xff] < 100) continue;
-////		if (count[(Tile::ironOre->id & 0xff) + depth - 1] < 20) continue;
-//		if (depth < 3) if (count[Tile::stairsDown->id & 0xff] < 2) continue;
-//
-//		return result;
-//
-//	} while (true);
-//}
+ushort ** LevelGen::createAndValidateUndergroundMap(int w, int h, int depth)
+{
+	int attempt = 0;
+	oslDebug("Welcome! We're about to create underground map! It may take some time.");
+	do {
+		ushort ** result = createUndergroundMap(w, h, depth);
+
+		int count[256];
+
+		for (int i = 0; i < w * h; i++)
+		{
+			count[result[0][i] & 0xff]++;
+		}
+		if (count[Tile::rock->id & 0xff] < 100) continue;
+		if (count[Tile::dirt->id & 0xff] < 100) continue;
+		if (count[(Tile::ironOre->id & 0xff) + depth - 1] < 20) continue;
+		if (depth < 3) if (count[Tile::stairsDown->id & 0xff] < 2) continue;
+
+		return result;
+
+	} while (true);
+}
 //
 //	public static byte[][] createAndValidateSkyMap(int w, int h) {
 //		int attempt = 0;
@@ -281,45 +281,29 @@ ushort ** LevelGen::createTopMap(int w, int h)
 		}
 	}
 
-//	while (i < repeats)
-//	{
-//		int x = random->nextInt(w - 2) + 1;
-//		int y = random->nextInt(h - 2) + 1;
-//
-//		for (int yy = y - 1; yy <= y + 1; yy++)
-//			for (int xx = x - 1; xx <= x + 1; xx++)
-//			{
-//				if (map[xx + yy * w] != Tile::rock->id)
-//				{
-//					goto stairsLoop;
-//				}
-//			}
-//
-//		map[x + y * w] = Tile::stairsDown->id;
-//		count++;
-//		if (count == 4)
-//			break;
-//		stairsLoop:
-//		i++;
-//	}
-	
 	int count = 0;
-	for (int i = 0; i < w * h / 100; i++)
+	int i = 0;
+	int repeats = w * h / 100;
+	while (i < repeats)
 	{
-		stairsLoop:
 		int x = random->nextInt(w - 2) + 1;
 		int y = random->nextInt(h - 2) + 1;
 
 		for (int yy = y - 1; yy <= y + 1; yy++)
 			for (int xx = x - 1; xx <= x + 1; xx++)
 			{
-				if (map[xx + yy * w] != Tile::rock->id) goto stairsLoop;
+				if (map[xx + yy * w] != Tile::rock->id)
+				{
+					goto stairsLoop;
+				}
 			}
 
 		map[x + y * w] = Tile::stairsDown->id;
 		count++;
 		if (count == 4)
 			break;
+		stairsLoop:
+		i++;
 	}
 
 	ushort ** result = new ushort*[2];
@@ -328,126 +312,120 @@ ushort ** LevelGen::createTopMap(int w, int h)
 	return result;
 }
 
-//ushort ** LevelGen::createUndergroundMap(int w, int h, int depth)
-//{
-//	LevelGen * mnoise1 = new LevelGen(w, h, 16);
-//	LevelGen * mnoise2 = new LevelGen(w, h, 16);
-//	LevelGen * mnoise3 = new LevelGen(w, h, 16);
-//
-//	LevelGen * nnoise1 = new LevelGen(w, h, 16);
-//	LevelGen * nnoise2 = new LevelGen(w, h, 16);
-//	LevelGen * nnoise3 = new LevelGen(w, h, 16);
-//
-//	LevelGen * wnoise1 = new LevelGen(w, h, 16);
-//	LevelGen * wnoise2 = new LevelGen(w, h, 16);
-//	LevelGen * wnoise3 = new LevelGen(w, h, 16);
-//
-//	LevelGen * noise1 = new LevelGen(w, h, 32);
-//	LevelGen * noise2 = new LevelGen(w, h, 32);
-//
-//	ushort * map = new ushort[w * h];
-//	ushort * data = new ushort[w * h];
-//	for (int y = 0; y < h; y++)
-//	{
-//		for (int x = 0; x < w; x++)
-//		{
-//			int i = x + y * w;
-//
-//			double val = oslAbs(noise1.values[i] - noise2.values[i]) * 3 - 2;
-//
-//			double mval = oslAbs(mnoise1.values[i] - mnoise2.values[i]);
-//			mval = oslAbs(mval - mnoise3.values[i]) * 3 - 2;
-//
-//			double nval = oslAbs(nnoise1.values[i] - nnoise2.values[i]);
-//			nval = oslAbs(nval - nnoise3.values[i]) * 3 - 2;
-//
-//			double wval = oslAbs(wnoise1.values[i] - wnoise2.values[i]);
-//			wval = oslAbs(nval - wnoise3.values[i]) * 3 - 2;
-//
-//			double xd = x / (w - 1.0) * 2 - 1;
-//			double yd = y / (h - 1.0) * 2 - 1;
-//			if (xd < 0) xd = -xd;
-//			if (yd < 0) yd = -yd;
-//			double dist = xd >= yd ? xd : yd;
-//			if (dist != 1.0)
-//			{
-//				dist *= dist;
-//				dist *= dist;
-//				dist *= dist;
-//				dist *= dist;
-//			}
-//
-//			val = val + 1 - dist * 20;
-//
-//			if (val > -2 && wval < -2.0 + (depth) / 2 * 3) {
-//				if (depth > 2)
-//					map[i] = Tile::lava->id;
-//				else
-//					map[i] = Tile::water->id;
-//			} else if (val > -2 && (mval < -1.7 || nval < -1.4)) {
-//				map[i] = Tile::dirt->id;
-//			} else {
-//				map[i] = Tile::rock->id;
-//			}
-//		}
-//	}
-//
-//	{
-//		int r = 2;
-//		for (int i = 0; i < w * h / 400; i++) {
-//			int x = random->nextInt(w);
-//			int y = random->nextInt(h);
-//			for (int j = 0; j < 30; j++) {
-//				int xx = x + random->nextInt(5) - random->nextInt(5);
-//				int yy = y + random->nextInt(5) - random->nextInt(5);
-//				if (xx >= r && yy >= r && xx < w - r && yy < h - r) {
-//					if (map[xx + yy * w] == Tile::rock->id) {
-////						map[xx + yy * w] = (ushort) ((Tile::ironOre->id & 0xff) + depth - 1);
-//					}
-//				}
-//			}
-//		}
-//	}
-//
-//	if (depth < 3) {
-//		int count = 0;
-//		for (int i = 0; i < w * h / 100; i++)
-//		{
-//			stairsLoop:
-//			int x = random->nextInt(w - 20) + 10;
-//			int y = random->nextInt(h - 20) + 10;
-//
-//			for (int yy = y - 1; yy <= y + 1; yy++)
-//				for (int xx = x - 1; xx <= x + 1; xx++) {
-//					if (map[xx + yy * w] != Tile::rock->id) goto stairsLoop;
-//				}
-//
-//			map[x + y * w] = Tile::stairsDown->id;
-//			count++;
-//			if (count == 4) break;
-//		}
-//	}
-//
-//	delete mnoise1;
-//	delete mnoise2;
-//	delete mnoise3;
-//
-//	delete nnoise1;
-//	delete nnoise2;
-//	delete nnoise3;
-//
-//	delete wnoise1;
-//	delete wnoise2;
-//	delete wnoise3;
-//
-//	delete noise1;
-//	delete noise2;
-//
-//	ushort ** result = new ushort*[2];
-//	result[0] = map;
-//	result[1] = data;
-//	return result;
-//}
+ushort ** LevelGen::createUndergroundMap(int w, int h, int depth)
+{
+	LevelGen mnoise1(w, h, 16);
+	LevelGen mnoise2(w, h, 16);
+	LevelGen mnoise3(w, h, 16);
+
+	LevelGen nnoise1(w, h, 16);
+	LevelGen nnoise2(w, h, 16);
+	LevelGen nnoise3(w, h, 16);
+
+	LevelGen wnoise1(w, h, 16);
+	LevelGen wnoise2(w, h, 16);
+	LevelGen wnoise3(w, h, 16);
+
+	LevelGen noise1(w, h, 32);
+	LevelGen noise2(w, h, 32);
+
+	ushort * map = new ushort[w * h];
+	ushort * data = new ushort[w * h];
+	for (int y = 0; y < h; y++)
+	{
+		for (int x = 0; x < w; x++)
+		{
+			int i = x + y * w;
+
+			double val = oslAbs(noise1.values[i] - noise2.values[i]) * 3 - 2;
+
+			double mval = oslAbs(mnoise1.values[i] - mnoise2.values[i]);
+			mval = oslAbs(mval - mnoise3.values[i]) * 3 - 2;
+
+			double nval = oslAbs(nnoise1.values[i] - nnoise2.values[i]);
+			nval = oslAbs(nval - nnoise3.values[i]) * 3 - 2;
+
+			double wval = oslAbs(wnoise1.values[i] - wnoise2.values[i]);
+			wval = oslAbs(nval - wnoise3.values[i]) * 3 - 2;
+
+			double xd = x / (w - 1.0) * 2 - 1;
+			double yd = y / (h - 1.0) * 2 - 1;
+			if (xd < 0) xd = -xd;
+			if (yd < 0) yd = -yd;
+			double dist = xd >= yd ? xd : yd;
+			if (dist != 1.0)
+			{
+				dist *= dist;
+				dist *= dist;
+				dist *= dist;
+				dist *= dist;
+			}
+
+			val = val + 1 - dist * 20;
+
+			if (val > -2 && wval < -2.0 + (depth) / 2 * 3) {
+				if (depth > 2)
+					map[i] = Tile::lava->id;
+				else
+					map[i] = Tile::water->id;
+			} else if (val > -2 && (mval < -1.7 || nval < -1.4)) {
+				map[i] = Tile::dirt->id;
+			} else {
+				map[i] = Tile::rock->id;
+			}
+		}
+	}
+
+	{
+		int r = 2;
+		for (int i = 0; i < w * h / 400; i++) {
+			int x = random->nextInt(w);
+			int y = random->nextInt(h);
+			for (int j = 0; j < 30; j++) {
+				int xx = x + random->nextInt(5) - random->nextInt(5);
+				int yy = y + random->nextInt(5) - random->nextInt(5);
+				if (xx >= r && yy >= r && xx < w - r && yy < h - r) {
+					if (map[xx + yy * w] == Tile::rock->id) {
+						map[xx + yy * w] = (ushort) ((Tile::ironOre->id & 0xff) + depth - 1);
+					}
+				}
+			}
+		}
+	}
+
+	if (depth < 3)
+	{
+		int count = 0;
+		int i = 0;
+		int repeats = w * h / 100;
+		while (i < repeats)
+		{
+			int x = random->nextInt(w - 2) + 1;
+			int y = random->nextInt(h - 2) + 1;
+
+			for (int yy = y - 1; yy <= y + 1; yy++)
+				for (int xx = x - 1; xx <= x + 1; xx++)
+				{
+					if (map[xx + yy * w] != Tile::rock->id)
+					{
+						goto stairsLoop;
+					}
+				}
+
+			map[x + y * w] = Tile::stairsDown->id;
+			count++;
+			if (count == 4)
+				break;
+			stairsLoop:
+			i++;
+		}
+	}
+
+	ushort ** result = new ushort*[2];
+	result[0] = map;
+	result[1] = data;
+	return result;
+}
 
 //	private static byte[][] createSkyMap(int w, int h) {
 //		LevelGen noise1 = new LevelGen(w, h, 8);

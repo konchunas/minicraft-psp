@@ -52,7 +52,8 @@ random(new Random())
 			//oslDebug("map created and validated");
 		}
 		else if (level < 0) {
-			//maps = LevelGen.createAndValidateUndergroundMap(w, h, -level);
+			maps = LevelGen::createAndValidateUndergroundMap(w, h, -level);
+			oslDebug("Underground map is created");
 			monsterDensity = 4;
 		} else {
 			//maps = LevelGen.createAndValidateSkyMap(w, h); // Sky level
@@ -85,35 +86,35 @@ random(new Random())
 //		oslDebug("additional tiles successfully set!");
 		//data[0] = 1;
 
-//		if (parentLevel != NULL) {
-//			for (int y = 0; y < h; y++)
-//				for (int x = 0; x < w; x++) {
-//					if (parentLevel->getTile(x, y) == Tile.stairsDown)
-//					{
-//						setTile(x, y, Tile.stairsUp, 0);
-//						if (level == 0) {
-//							setTile(x - 1, y, Tile.hardRock, 0);
-//							setTile(x + 1, y, Tile.hardRock, 0);
-//							setTile(x, y - 1, Tile.hardRock, 0);
-//							setTile(x, y + 1, Tile.hardRock, 0);
-//							setTile(x - 1, y - 1, Tile.hardRock, 0);
-//							setTile(x - 1, y + 1, Tile.hardRock, 0);
-//							setTile(x + 1, y - 1, Tile.hardRock, 0);
-//							setTile(x + 1, y + 1, Tile.hardRock, 0);
-//						} else {
-//							setTile(x - 1, y, Tile.dirt, 0);
-//							setTile(x + 1, y, Tile.dirt, 0);
-//							setTile(x, y - 1, Tile.dirt, 0);
-//							setTile(x, y + 1, Tile.dirt, 0);
-//							setTile(x - 1, y - 1, Tile.dirt, 0);
-//							setTile(x - 1, y + 1, Tile.dirt, 0);
-//							setTile(x + 1, y - 1, Tile.dirt, 0);
-//							setTile(x + 1, y + 1, Tile.dirt, 0);
-//						}
-//					}
-//
-//				}
-//		}
+		if (parentLevel != NULL) {
+			for (int y = 0; y < h; y++)
+				for (int x = 0; x < w; x++) {
+					if (parentLevel->getTile(x, y) == Tile::stairsDown)
+					{
+						setTile(x, y, Tile::stairsUp, 0);
+						if (level == 0) {
+//							setTile(x - 1, y, Tile::hardRock, 0);
+//							setTile(x + 1, y, Tile::hardRock, 0);
+//							setTile(x, y - 1, Tile::hardRock, 0);
+//							setTile(x, y + 1, Tile::hardRock, 0);
+//							setTile(x - 1, y - 1, Tile::hardRock, 0);
+//							setTile(x - 1, y + 1, Tile::hardRock, 0);
+//							setTile(x + 1, y - 1, Tile::hardRock, 0);
+//							setTile(x + 1, y + 1, Tile::hardRock, 0);
+						} else {
+							setTile(x - 1, y, Tile::dirt, 0);
+							setTile(x + 1, y, Tile::dirt, 0);
+							setTile(x, y - 1, Tile::dirt, 0);
+							setTile(x, y + 1, Tile::dirt, 0);
+							setTile(x - 1, y - 1, Tile::dirt, 0);
+							setTile(x - 1, y + 1, Tile::dirt, 0);
+							setTile(x + 1, y - 1, Tile::dirt, 0);
+							setTile(x + 1, y + 1, Tile::dirt, 0);
+						}
+					}
+
+				}
+		}
 
 		entitiesInTiles = new list<Entity*>[w * h];
 		//for (int i = 0; i < w * h; i++)

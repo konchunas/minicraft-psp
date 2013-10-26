@@ -40,8 +40,6 @@ Game::~Game() {
 
 void Game::render()
 {
-	//sceGuStart(GU_DIRECT,list);
-
 	oslLockImage(image);
 	//BufferStrategy bs = getBufferStrategy();
 	//if (bs == null) {
@@ -159,9 +157,9 @@ void Game::renderGui()
 				screen->render(i * 8, screen->h - 8, 1 + 12 * 32, Color::get(-1, 110, 000, 000), 0);
 		}
 	}
-	//if (player.activeItem != null) {
-	//	player.activeItem.renderInventory(screen, 10 * 8, screen->h - 16);
-	//}
+	if (player->activeItem != NULL) {
+		player->activeItem->renderInventory(screen, 10 * 8, screen->h - 16);
+	}
 	if (menu != NULL)
 	{
 		menu->render(screen);
@@ -196,9 +194,20 @@ void Game::init()
 		screen->clear(Color::get(000, 200, 500, 533));
 		//screen->clear(Color::get(5, 333, 333, 333));
 		//screen->render(0, 96, 3  + 10 * 32, Color::get(5, 333, 333, 333), 0);
-		level = new Level(128, 128, 0, NULL);
+		levels = new Level*[5];
+		currentLevel = 3;
+
+		//levels[4] = new Level(128, 128, 1, NULL);
+		levels[3] = new Level(128, 128, 0, NULL);
+		levels[2] = new Level(128, 128, -1, levels[3]);
+		levels[1] = new Level(128, 128, -2, levels[2]);
+		levels[0] = new Level(128, 128, -3, levels[1]);
+
+		level = levels[currentLevel];
 		player = new Player(this, input);
 		player->findStartPos(level);
+//		player->x = 10 * 16 + 8;
+//		player->y = 10 * 16 + 8;
 		level->add(player);
 
 //		int arr[5];
@@ -281,6 +290,29 @@ void Game::tick()
 	}
 	else
 	{
+		if (player->removed)
+		{
+			playerDeadTime++;
+			if (playerDeadTime > 60)
+			{
+				//setMenu(new DeadMenu());
+			}
+		}
+		else
+		{
+			if (pendingLevelChange != 0)
+			{
+				//setMenu(new LevelTransitionMenu(pendingLevelChange));
+				pendingLevelChange = 0;
+			}
+		}
+		if (wonTimer > 0)
+		{
+			if (--wonTimer == 0)
+			{
+				//setMenu(new WonMenu());
+			}
+		}
 		level->tick();
 		Tile::tickCount++;
 	}
@@ -294,6 +326,10 @@ void Game::setMenu(Menu * menu)
 	{
 		menu->init(this, input);
 	}
+}
 
+void Game::scheduleLevelChange(int dir)
+{
+	pendingLevelChange = dir;
 }
 

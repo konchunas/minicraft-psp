@@ -12,7 +12,7 @@ public:
 	virtual ~LevelGen();
 	double * values;
 	static ushort ** createAndValidateTopMap(int w, int h);
-	//static ushort ** createAndValidateUndergroundMap(int w, int h, int depth);
+	static ushort ** createAndValidateUndergroundMap(int w, int h, int depth);
 	static Random * random;
 
 private:
@@ -23,7 +23,7 @@ private:
 	inline double sample(int x, int y);
 	inline void setSample(int x, int y, double sample);
 	static ushort ** createTopMap(int w, int h);
-	//static ushort ** createUndergroundMap(int w, int h, int depth);
+	static ushort ** createUndergroundMap(int w, int h, int depth);
 };
 
 #endif /* LEVELGEN_H_ */

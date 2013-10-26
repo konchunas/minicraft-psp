@@ -11,3 +11,8 @@
 *.lai
 *.la
 *.a
+PARAM.SFO
+*.elf
+*.prx
+*.PBP
+.pspsh.hist

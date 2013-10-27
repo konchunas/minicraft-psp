@@ -18,6 +18,7 @@
 
 #include "menu/Menu.h"
 #include "menu/LevelTransitionMenu.h"
+#include "menu/DeadMenu.h"
 
 Game::Game():
 menu(NULL)
@@ -191,6 +192,7 @@ void Game::init()
 		lightScreen =  new Screen(WIDTH, HEIGHT, new SpriteSheet(spriteSheet));
 		//oslDeleteImage(spriteSheet);
 
+		gameTime = 0;
 		screen->clear(Color::get(000, 200, 500, 533));
 		//screen->clear(Color::get(5, 333, 333, 333));
 		//screen->render(0, 96, 3  + 10 * 32, Color::get(5, 333, 333, 333), 0);
@@ -290,12 +292,14 @@ void Game::tick()
 	}
 	else
 	{
+		if (!player->removed && !hasWon) gameTime++;
+
 		if (player->removed)
 		{
 			playerDeadTime++;
 			if (playerDeadTime > 60)
 			{
-				//setMenu(new DeadMenu());
+				setMenu(new DeadMenu());
 			}
 		}
 		else

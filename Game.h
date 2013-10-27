@@ -23,6 +23,8 @@ public:
 	void changeLevel(int dir);
 
 	bool running;
+	Player * player;
+	int gameTime;
 
 private:
 	OSL_IMAGE * image;
@@ -34,7 +36,6 @@ private:
 	Screen * lightScreen;
 	InputHandler * input;
 	Level * level;
-	Player * player;
 	Menu * menu;
 	//Level[] levels = new Level[5];
 	int * colors;
@@ -43,6 +44,7 @@ private:
 	Level ** levels;
 	int pendingLevelChange;
 	int playerDeadTime;
+	bool hasWon;
 
 
 	void renderGui();

@@ -16,6 +16,7 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	menu/InventoryMenu.o \
 	menu/CraftingMenu.o \
 	menu/LevelTransitionMenu.o \
+	menu\DeadMenu.o \
 	entity/Entity.o \
 	entity/Mob.o \
 	entity/Player.o \
@@ -25,6 +26,7 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	entity/Workbench.o \
 	entity/Furnace.o \
 	entity/Oven.o \
+	entity/Anvil.o \
 	crafting/Recipe.o \
 	crafting/Crafting.o \
 	crafting/ToolRecipe.o \

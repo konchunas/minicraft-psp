@@ -142,11 +142,11 @@ bool Mob::findStartPos(Level * level)
 	int xx = x * 16 + 8;
 	int yy = y * 16 + 8;
 
-//	if (level.player != NULL) {
-//		int xd = level->player->x - xx;
-//		int yd = level->player->y - yy;
-//		if (xd * xd + yd * yd < 80 * 80) return false;
-//	}
+	if (level->player != NULL) {
+		int xd = level->player->x - xx;
+		int yd = level->player->y - yy;
+		if (xd * xd + yd * yd < 80 * 80) return false;
+	}
 
 	int r = level->monsterDensity * 16;
 	if (level->getEntities(xx - r, yy - r, xx + r, yy + r).size() > 0) return false;

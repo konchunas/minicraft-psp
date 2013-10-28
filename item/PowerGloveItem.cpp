@@ -35,13 +35,19 @@ string PowerGloveItem::getName() {
 	return "Pow glove";
 }
 
-bool PowerGloveItem::interact(Player * player, Entity * entity, int attackDir) {
-	if (entity->instanceOf(FURNITURE_ITEM))
+bool PowerGloveItem::interact(Player * player, Entity * entity, int attackDir)
+{
+	if (entity->instanceOf(FURNITURE))
 	{
 		Furniture * f = (Furniture*) entity;
 		f->take(player);
 		return true;
 	}
 	return false;
+}
+
+ClassType PowerGloveItem::classType()
+{
+	return POWERGLOVE_ITEM;
 }
 

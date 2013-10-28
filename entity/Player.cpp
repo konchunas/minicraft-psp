@@ -15,8 +15,11 @@
 #include "../item/FurnitureItem.h"
 #include "../entity/Workbench.h"
 #include "../entity/Furnace.h" //temporary include
+#include "../item/PowerGloveItem.h"
 #include "../Color.h"
 #include "../item/ToolItem.h"
+#include "../Sound.h"
+#include "../particle/TextParticle.h"
 
 #include <oslib/oslib.h>
 

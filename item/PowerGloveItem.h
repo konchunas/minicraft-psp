@@ -18,6 +18,7 @@ public:
 	void renderInventory(Screen * screen, int x, int y);
 	string getName();
 	bool interact(Player * player, Entity * entity, int attackDir);
+	ClassType classType();
 
 };
 

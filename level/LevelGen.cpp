@@ -182,6 +182,7 @@ ushort ** LevelGen::createTopMap(int w, int h)
 
 	ushort * map = new ushort[w * h];
 	ushort * data = new ushort[w * h];
+	memset(data,0,w*h);
 	for (int y = 0; y < h; y++) {
 		for (int x = 0; x < w; x++) {
 			int i = x + y * w;
@@ -332,6 +333,7 @@ ushort ** LevelGen::createUndergroundMap(int w, int h, int depth)
 
 	ushort * map = new ushort[w * h];
 	ushort * data = new ushort[w * h];
+	memset(data,0,w*h);
 	for (int y = 0; y < h; y++)
 	{
 		for (int x = 0; x < w; x++)
@@ -435,6 +437,7 @@ ushort ** LevelGen::createSkyMap(int w, int h)
 
 	ushort * map = new ushort[w * h];
 	ushort * data = new ushort[w * h];
+	memset(data,0,w*h);
 	for (int y = 0; y < h; y++) {
 		for (int x = 0; x < w; x++) {
 			int i = x + y * w;

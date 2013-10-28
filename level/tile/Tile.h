@@ -35,13 +35,13 @@ public:
 	static Tile * lava;
 	static Tile * stairsDown;
 	static Tile * stairsUp;
-//	static Tile * infiniteFall;
-//	static Tile * cloud;
-//	static Tile * hardRock;
+	static Tile * infiniteFall;
+	static Tile * cloud;
+	static Tile * hardRock;
 	static Tile * ironOre;
 	static Tile * goldOre;
 	static Tile * gemOre;
-//	static Tile * cloudCactus;
+	static Tile * cloudCactus;
 
 	bool connectsToGrass;
 	bool connectsToSand;

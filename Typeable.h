@@ -9,7 +9,8 @@ enum ClassType
 	TOOL_ITEM,
 	RESOURCE_ITEM,
 	POWERGLOVE_ITEM,
-	FURNITURE_ITEM
+	FURNITURE_ITEM,
+	AIR_WIZARD
 };
 
 //this class is intended to replace java instainceOf function using predefined enums

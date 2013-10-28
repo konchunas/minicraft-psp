@@ -22,10 +22,14 @@
 #include "WheatTile.h"
 #include "LavaTile.h"
 #include "StairsTile.h"
+#include "InfiniteFallTile.h"
+#include "CloudTile.h"
+#include "HardRockTile.h"
 #include "OreTile.h"
+#include "CloudCactusTile.h"
 
 
-Tile** Tile::tiles = new Tile*[256];
+Tile** Tile::tiles;
 Tile * Tile::grass;
 Tile * Tile::rock;
 Tile * Tile::water;
@@ -42,18 +46,20 @@ Tile * Tile::wheat;
 Tile * Tile::lava;
 Tile * Tile::stairsDown;
 Tile * Tile::stairsUp;
-// Tile::infiniteFall = new InfiniteFallTile(16);
-// Tile::cloud = new CloudTile(17);
-// Tile::hardRock = new HardRockTile(18);
+Tile * Tile::infiniteFall;
+Tile * Tile::cloud;
+Tile * Tile::hardRock;
 
 Tile * Tile::ironOre;
 Tile * Tile::goldOre;
 Tile * Tile::gemOre;
+Tile* Tile::cloudCactus;
+
 int Tile::tickCount = 0;
 
 void Tile::init()
 {
-	Tile** tiles = new Tile*[256];
+	Tile::tiles = new Tile*[256];
 	Tile::grass = new GrassTile(0);
 	Tile::rock = new RockTile(1);
 	Tile::water = new WaterTile(2);
@@ -70,15 +76,15 @@ void Tile::init()
 	Tile::lava = new LavaTile(13);
 	Tile::stairsDown = new StairsTile(14, false);
 	Tile::stairsUp = new StairsTile(15, true);
-	// Tile::infiniteFall = new InfiniteFallTile(16);
-	// Tile::cloud = new CloudTile(17);
-	// Tile::hardRock = new HardRockTile(18);
+
+	Tile::infiniteFall = new InfiniteFallTile(16);
+	Tile::cloud = new CloudTile(17);
+	Tile::hardRock = new HardRockTile(18);
 
 	Tile::ironOre = new OreTile(19, Resource::ironOre);
 	Tile::goldOre = new OreTile(20, Resource::goldOre);
 	Tile::gemOre = new OreTile(21, Resource::gem);
-
-	// Tile::cloudCactus = new CloudCactusTile(22);
+	Tile::cloudCactus = new CloudCactusTile(22);
 }
 
 Tile::Tile(int id):

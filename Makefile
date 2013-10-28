@@ -16,7 +16,8 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	menu/InventoryMenu.o \
 	menu/CraftingMenu.o \
 	menu/LevelTransitionMenu.o \
-	menu\DeadMenu.o \
+	menu/DeadMenu.o \
+	menu/ContainerMenu.o \
 	entity/Entity.o \
 	entity/Mob.o \
 	entity/Player.o \
@@ -27,6 +28,8 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	entity/Furnace.o \
 	entity/Oven.o \
 	entity/Anvil.o \
+	entity/Chest.o \
+	entity/Lantern.o \
 	crafting/Recipe.o \
 	crafting/Crafting.o \
 	crafting/ToolRecipe.o \
@@ -42,7 +45,8 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	level/tile/StairsTile.o level/tile/SandTile.o level/tile/CactusTile.o \
 	level/tile/SaplingTile.o level/tile/DirtTile.o level/tile/HoleTile.o \
 	level/tile/LavaTile.o level/tile/FarmTile.o level/tile/WheatTile.o \
-	level/tile/OreTile.o
+	level/tile/OreTile.o level/tile/InfiniteFallTile.o level/tile/CloudTile.o \
+	level/tile/CloudCactusTile.o level/tile/HardRockTile.o 
 	
 
 INCDIR = 

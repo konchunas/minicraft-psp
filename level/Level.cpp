@@ -92,14 +92,14 @@ random(new Random())
 					{
 						setTile(x, y, Tile::stairsUp, 0);
 						if (level == 0) {
-//							setTile(x - 1, y, Tile::hardRock, 0);
-//							setTile(x + 1, y, Tile::hardRock, 0);
-//							setTile(x, y - 1, Tile::hardRock, 0);
-//							setTile(x, y + 1, Tile::hardRock, 0);
-//							setTile(x - 1, y - 1, Tile::hardRock, 0);
-//							setTile(x - 1, y + 1, Tile::hardRock, 0);
-//							setTile(x + 1, y - 1, Tile::hardRock, 0);
-//							setTile(x + 1, y + 1, Tile::hardRock, 0);
+							setTile(x - 1, y, Tile::hardRock, 0);
+							setTile(x + 1, y, Tile::hardRock, 0);
+							setTile(x, y - 1, Tile::hardRock, 0);
+							setTile(x, y + 1, Tile::hardRock, 0);
+							setTile(x - 1, y - 1, Tile::hardRock, 0);
+							setTile(x - 1, y + 1, Tile::hardRock, 0);
+							setTile(x + 1, y - 1, Tile::hardRock, 0);
+							setTile(x + 1, y + 1, Tile::hardRock, 0);
 						} else {
 							setTile(x - 1, y, Tile::dirt, 0);
 							setTile(x + 1, y, Tile::dirt, 0);
@@ -131,16 +131,16 @@ random(new Random())
 
 	void Level::renderBackground(Screen * screen, int xScroll, int yScroll)
 	{
-		//oslDebug("render background");
 		int xo = xScroll >> 4;
 		int yo = yScroll >> 4;
 		int w = (screen->w + 15) >> 4;
 		int h = (screen->h + 15) >> 4;
 		screen->setOffset(xScroll, yScroll);
-		for (int y = yo; y <= h + yo; ++y) {
-			for (int x = xo; x <= w + xo; ++x) {
+		for (int y = yo; y <= h + yo; ++y)
+		{
+			for (int x = xo; x <= w + xo; ++x)
+			{
 				getTile(x, y)->render(screen, this, x, y);
-				//oslDebug("%d ",getTile(x, y)->id);
 			}
 		}
 		screen->setOffset(0, 0);
@@ -204,9 +204,10 @@ random(new Random())
 		screen->setOffset(0, 0);
 	}
 
-	// private void renderLight(Screen screen, int x, int y, int r) {
-	// screen.renderLight(x, y, r);
-	// }
+//void renderLight(Screen * screen, int x, int y, int r)
+//{
+//	screen->renderLight(x, y, r);
+//}
 
 //	void Level::sortAndRender(Screen * screen, List<Entity> list) {
 //		Collections.sort(list, spriteSorter);
@@ -215,62 +216,62 @@ random(new Random())
 //		}
 //	}
 
-	Tile * Level::getTile(int x, int y)
+Tile * Level::getTile(int x, int y)
+{
+	if (x < 0 || y < 0 || x >= w || y >= h) return Tile::rock;
+	return Tile::tiles[tiles[x + y * w]];
+}
+
+void Level::setTile(int x, int y, Tile * t, int dataVal) {
+	if (x < 0 || y < 0 || x >= w || y >= h) return;
+	tiles[x + y * w] = t->id;
+	data[x + y * w] = (ushort) dataVal;
+}
+
+int Level::getData(int x, int y) {
+	if (x < 0 || y < 0 || x >= w || y >= h) return 0;
+	return data[x + y * w] & 0xff;
+}
+
+void Level::setData(int x, int y, int val) {
+	if (x < 0 || y < 0 || x >= w || y >= h) return;
+	data[x + y * w] = (ushort) val;
+}
+
+void Level::add(Entity * entity)
+{
+	if (entity->instanceOf(PLAYER))
 	{
-		if (x < 0 || y < 0 || x >= w || y >= h) return Tile::rock;
-		return Tile::tiles[tiles[x + y * w]];
+		player = (Player*)entity;
 	}
+	entity->removed = false;
+	entities.push_back(entity);
+	entity->init(this);
 
-	void Level::setTile(int x, int y, Tile * t, int dataVal) {
-		if (x < 0 || y < 0 || x >= w || y >= h) return;
-		tiles[x + y * w] = t->id;
-		data[x + y * w] = (ushort) dataVal;
-	}
+	insertEntity(entity->x >> 4, entity->y >> 4, entity);
+	//setTile(entity->x >> 4, (entity->y >> 4) + 1, Tile::stairsDown,0);
+}
 
-	int Level::getData(int x, int y) {
-		if (x < 0 || y < 0 || x >= w || y >= h) return 0;
-		return data[x + y * w] & 0xff;
-	}
+void Level::remove(Entity * e)
+{
+	entities.remove(e);
+	int xto = e->x >> 4;
+	int yto = e->y >> 4;
+	removeEntity(xto, yto, e);
+}
 
-	void Level::setData(int x, int y, int val) {
-		if (x < 0 || y < 0 || x >= w || y >= h) return;
-		data[x + y * w] = (ushort) val;
-	}
+void Level::insertEntity(int x, int y, Entity * e) {
+	if (x < 0 || y < 0 || x >= w || y >= h) return;
+	entitiesInTiles[x + y * w].push_back(e);
+}
 
-	void Level::add(Entity * entity)
-	{
-		if (entity->instanceOf(PLAYER))
-		{
-			player = (Player*)entity;
-		}
-		entity->removed = false;
-		entities.push_back(entity);
-		entity->init(this);
+void Level::removeEntity(int x, int y, Entity * e)
+{
+	if (x < 0 || y < 0 || x >= w || y >= h) return;
+	entitiesInTiles[x + y * w].remove(e);
+}
 
-		insertEntity(entity->x >> 4, entity->y >> 4, entity);
-		setTile(entity->x >> 4, (entity->y >> 4) + 1, Tile::stairsDown,0);
-	}
-
-	void Level::remove(Entity * e)
-	{
-		entities.remove(e);
-		int xto = e->x >> 4;
-		int yto = e->y >> 4;
-		removeEntity(xto, yto, e);
-	}
-
-	void Level::insertEntity(int x, int y, Entity * e) {
-		if (x < 0 || y < 0 || x >= w || y >= h) return;
-		entitiesInTiles[x + y * w].push_back(e);
-	}
-
-	void Level::removeEntity(int x, int y, Entity * e)
-	{
-		if (x < 0 || y < 0 || x >= w || y >= h) return;
-		entitiesInTiles[x + y * w].remove(e);
-	}
-
-	void Level::trySpawn(int count) {
+void Level::trySpawn(int count) {
 //		for (int i = 0; i < count; i++) {
 //			Mob mob;
 //
@@ -293,57 +294,57 @@ random(new Random())
 //				this.add(mob);
 //			}
 //		}
+}
+
+void Level::tick() {
+	trySpawn(1);
+
+	for (int i = 0; i < w * h / 50; i++) {
+		int xt = random->nextInt(w);
+		int yt = random->nextInt(h);
+		getTile(xt, yt)->tick(this, xt, yt);
 	}
-
-	void Level::tick() {
-		trySpawn(1);
-
-		for (int i = 0; i < w * h / 50; i++) {
-			int xt = random->nextInt(w);
-			int yt = random->nextInt(h);
-			getTile(xt, yt)->tick(this, xt, yt);
-		}
-		for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++ )
-		{
-			Entity * e = *it;
-			int xto = e->x >> 4;
-			int yto = e->y >> 4;
-
-			e->tick();
-
-			if (e->removed) {
-				it = entities.erase(it);
-				removeEntity(xto, yto, e);
-			} else {
-				int xt = e->x >> 4;
-				int yt = e->y >> 4;
-
-				if (xto != xt || yto != yt) {
-					removeEntity(xto, yto, e);
-					insertEntity(xt, yt, e);
-				}
-			}
-		}
-	}
-
-	list<Entity*> Level::getEntities(int x0, int y0, int x1, int y1)
+	for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++ )
 	{
-		list<Entity*> result;
-		int xt0 = (x0 >> 4) - 1;
-		int yt0 = (y0 >> 4) - 1;
-		int xt1 = (x1 >> 4) + 1;
-		int yt1 = (y1 >> 4) + 1;
-		for (int y = yt0; y <= yt1; y++) {
-			for (int x = xt0; x <= xt1; x++) {
-				if (x < 0 || y < 0 || x >= w || y >= h) continue;
-				list<Entity*> entities = entitiesInTiles[x + y * this->w];
-				for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++ )
-				{
-					Entity * e = *it;
-					if (e->intersects(x0, y0, x1, y1)) result.push_back(e);
-				}
+		Entity * e = *it;
+		int xto = e->x >> 4;
+		int yto = e->y >> 4;
+
+		e->tick();
+
+		if (e->removed) {
+			it = entities.erase(it);
+			removeEntity(xto, yto, e);
+		} else {
+			int xt = e->x >> 4;
+			int yt = e->y >> 4;
+
+			if (xto != xt || yto != yt) {
+				removeEntity(xto, yto, e);
+				insertEntity(xt, yt, e);
 			}
 		}
-		return result;
 	}
+}
+
+list<Entity*> Level::getEntities(int x0, int y0, int x1, int y1)
+{
+	list<Entity*> result;
+	int xt0 = (x0 >> 4) - 1;
+	int yt0 = (y0 >> 4) - 1;
+	int xt1 = (x1 >> 4) + 1;
+	int yt1 = (y1 >> 4) + 1;
+	for (int y = yt0; y <= yt1; y++) {
+		for (int x = xt0; x <= xt1; x++) {
+			if (x < 0 || y < 0 || x >= w || y >= h) continue;
+			list<Entity*> entities = entitiesInTiles[x + y * this->w];
+			for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++ )
+			{
+				Entity * e = *it;
+				if (e->intersects(x0, y0, x1, y1)) result.push_back(e);
+			}
+		}
+	}
+	return result;
+}
 

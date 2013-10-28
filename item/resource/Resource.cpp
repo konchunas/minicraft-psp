@@ -37,7 +37,7 @@ Resource * Resource::goldIngot;
 Resource * Resource::slime;
 Resource * Resource::glass;
 Resource * Resource::cloth;
-//Resource * Resource::Resource::cloud = new PlantableResource("cloud", 2 + 4 * 32, Color::get(-1, 222, 555, 444), Tile::cloud, Tile::infiniteFall);
+Resource * Resource::cloud;
 Resource * Resource::gem;
 
 Resource::~Resource() {
@@ -68,7 +68,7 @@ void Resource::init()
 	Resource::slime = new Resource("SLIME", 10 + 4 * 32, Color::get(-1, 10, 30, 50));
 	Resource::glass = new Resource("glass", 12 + 4 * 32, Color::get(-1, 555, 555, 555));
 	Resource::cloth = new Resource("cloth", 1 + 4 * 32, Color::get(-1, 25, 252, 141));
-	//Resource::Resource::cloud = new PlantableResource("cloud", 2 + 4 * 32, Color::get(-1, 222, 555, 444), Tile::cloud, Tile::infiniteFall);
+	Resource::cloud = new PlantableResource("cloud", 2 + 4 * 32, Color::get(-1, 222, 555, 444), Tile::cloud, 1, Tile::infiniteFall);
 	Resource::gem = new Resource("gem", 13 + 4 * 32, Color::get(-1, 101, 404, 545));
 }
 

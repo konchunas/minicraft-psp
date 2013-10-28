@@ -9,6 +9,7 @@
 #include "crafting/Crafting.h"
 #include "level/tile/Tile.h"
 #include "item/resource/Resource.h"
+#include "Sound.h"
 #include "Game.h"
 
 typedef unsigned short ushort;
@@ -52,6 +53,7 @@ int main()
     oslSetImageAutoSwizzle(false);
 
     //here we have initialization functions to prevent fiasco
+    Sound::initSounds();
 	Resource::init();
 	Tile::init();
 	Crafting::init();

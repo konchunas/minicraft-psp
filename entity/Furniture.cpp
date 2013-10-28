@@ -3,6 +3,7 @@
 #include "Furniture.h"
 #include "Player.h"
 #include "Mob.h"
+#include "../item/FurnitureItem.h"
 
 
 Furniture::~Furniture()
@@ -28,7 +29,7 @@ void Furniture::tick()
 		{
 			remove();
 			shouldTake->inventory->add(0, shouldTake->activeItem);
-//			shouldTake->activeItem = new FurnitureItem(this);
+			shouldTake->activeItem = new FurnitureItem(this);
 		}
 		shouldTake = NULL;
 	}
@@ -51,6 +52,11 @@ void Furniture::render(Screen * screen)
 bool Furniture::blocks(Entity * e)
 {
 	return true;
+}
+
+ClassType Furniture::classType()
+{
+	return FURNITURE;
 }
 
 void Furniture::touchedBy(Entity * entity)

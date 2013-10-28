@@ -30,6 +30,8 @@ public:
 	virtual bool blocks(Entity * e);
 	virtual void take(Player * player);
 
+	ClassType classType();
+
 private:
 	int pushTime;
 	int pushDir;

@@ -51,8 +51,8 @@ attackTime(0)
 	inventory->add(new ResourceItem(Resource::coal, 30));
 
 
-//	inventory.add(new FurnitureItem(new Workbench()));
-//	inventory.add(new PowerGloveItem());
+	inventory->add(new FurnitureItem(new Workbench()));
+	inventory->add(new PowerGloveItem());
 }
 
 void Player::tick() {
@@ -453,7 +453,7 @@ int Player::getLightRadius()
 void Player::die()
 {
 	Mob::die();
-	//Sound.playerDeath.play();
+	Sound::playerDeath->play();
 }
 
 void Player::touchedBy(Entity * entity) {
@@ -466,8 +466,8 @@ void Player::doHurt(int damage, int attackDir) {
 	if (hurtTime > 0 || invulnerableTime > 0)
 		return;
 
-	//Sound.playerHurt.play();
-	//level->add(new TextParticle("" + damage, x, y, Color::get(-1, 504, 504, 504)));
+	Sound::playerHurt->play();
+	level->add(new TextParticle(damage, x, y, Color::get(-1, 504, 504, 504)));
 	health -= damage;
 	if (attackDir == 0)
 		yKnockback = +6;

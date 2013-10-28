@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "../item/Item.h"
 #include "../Color.h"
-//#include "../Random.h"
+#include "../Sound.h"
 
 #include "ItemEntity.h"
 
@@ -83,7 +83,7 @@ void ItemEntity::touchedBy(Entity * entity)
 
 void ItemEntity::take(Player * player)
 {
-	//Sound::pickup->play();
+	Sound::pickup->play();
 	player->score++;
 	item->onTake(this);
 	remove();

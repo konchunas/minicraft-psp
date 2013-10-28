@@ -3,6 +3,7 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	Screen.o Font.o \
 	Typeable.o \
 	Random.o \
+	Sound.o \
 	item/Item.o \
 	item/resource/Resource.o \
 	item/resource/PlantableResource.o \
@@ -11,6 +12,7 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	item/ToolItem.o \
 	item/ToolType.o \
 	item/FurnitureItem.o \
+	item/PowerGloveItem.o \
 	menu/ListItem.o \
 	menu/Menu.o \
 	menu/InventoryMenu.o \

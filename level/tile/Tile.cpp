@@ -91,7 +91,8 @@ Tile::Tile(int id):
 connectsToGrass(false),
 connectsToSand(false),
 connectsToLava(false),
-connectsToWater(false)
+connectsToWater(false),
+random(new Random())
 {
 	this->id = (ushort) id;
 	tiles[id] = this;

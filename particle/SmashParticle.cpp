@@ -1,6 +1,7 @@
 #include "SmashParticle.h"
 
 #include "../Color.h"
+#include "../Sound.h"
 
 SmashParticle::~SmashParticle()
 {
@@ -12,7 +13,7 @@ SmashParticle::SmashParticle(int x, int y)
 	this->x = x;
 	this->y = y;
 	time = 0;
-	//Sound.monsterHurt.play();
+	Sound::monsterHurt->play();
 }
 
 void SmashParticle::tick() {

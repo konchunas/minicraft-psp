@@ -9,6 +9,8 @@
 #include "../level/Level.h"
 #include "../particle/TextParticle.h"
 #include "../Color.h"
+#include "Player.h"
+#include "../Sound.h"
 
 Mob::~Mob()
 {
@@ -117,13 +119,13 @@ void Mob::heal(int heal) {
 void Mob::doHurt(int damage, int attackDir) {
 	if (hurtTime > 0) return;
 
-//	if (level->player != NULL) {
-//		int xd = level->player->x - x;
-//		int yd = level->player->y - y;
-//		if (xd * xd + yd * yd < 80 * 80) {
-//			//Sound.monsterHurt.play();
-//		}
-//	}
+	if (level->player != NULL) {
+		int xd = level->player->x - x;
+		int yd = level->player->y - y;
+		if (xd * xd + yd * yd < 80 * 80) {
+			Sound::monsterHurt->play();
+		}
+	}
 	level->add(new TextParticle(damage, x, y, Color::get(-1, 500, 500, 500)));
 	health -= damage;
 	if (attackDir == 0) yKnockback = +6;

@@ -87,7 +87,7 @@ bool HardRockTile::interact(Level * level, int xt, int yt, Player * player, Item
 void HardRockTile::hurt(Level * level, int x, int y, int dmg) {
 	int damage = level->getData(x, y) + dmg;
 	level->add(new SmashParticle(x * 16 + 8, y * 16 + 8));
-	level->add(new TextParticle("" + dmg, x * 16 + 8, y * 16 + 8, Color::get(-1, 500, 500, 500)));
+	level->add(new TextParticle(dmg, x * 16 + 8, y * 16 + 8, Color::get(-1, 500, 500, 500)));
 	if (damage >= 200) {
 		int count = random->nextInt(4) + 1;
 		for (int i = 0; i < count; i++) {

@@ -6,6 +6,7 @@
 #include "../Font.h"
 #include "../Color.h"
 #include "../Game.h"
+#include "../Sound.h"
 
 #include "CraftingMenu.h"
 
@@ -54,7 +55,7 @@ void CraftingMenu::tick()
 		if (r->canCraft) {
 			r->deductCost(player);
 			r->craft(player);
-			//Sound.craft.play();
+			Sound::craft->play();
 		}
 		for (deque<Recipe*>::iterator it = recipes.begin(); it != recipes.end(); it++ )
 		{

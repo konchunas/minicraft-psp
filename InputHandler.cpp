@@ -48,6 +48,8 @@ void InputHandler::handleKeys(OSL_CONTROLLER * keys)
 
 		up->clicked = keys->pressed.up;
 		down->clicked = keys->pressed.down;
+		right->clicked = keys->pressed.right;
+		left->clicked = keys->pressed.left;
 
 		//if (keys->pressed.cross);
 		attack->clicked = keys->pressed.cross;

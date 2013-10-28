@@ -5,7 +5,7 @@
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.jetdrone.minpsp.managedbuilder.toolchain.psp.base.133171004" moduleId="org.eclipse.cdt.core.settings" name="Default">
 				<externalSettings/>
 				<extensions>
-					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
@@ -13,16 +13,22 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration buildProperties="" id="com.jetdrone.minpsp.managedbuilder.toolchain.psp.base.133171004" name="Default" parent="org.eclipse.cdt.build.core.emptycfg">
+				<configuration artifactName="minicraft" buildProperties="" description="" id="com.jetdrone.minpsp.managedbuilder.toolchain.psp.base.133171004" name="Default" parent="org.eclipse.cdt.build.core.emptycfg">
 					<folderInfo id="com.jetdrone.minpsp.managedbuilder.toolchain.psp.base.133171004.546152196" name="/" resourcePath="">
 						<toolChain id="com.jetdrone.minpsp.managedbuilder.toolchain.psp.base.1221654597" name="com.jetdrone.minpsp.managedbuilder.toolchain.psp.base" superClass="com.jetdrone.minpsp.managedbuilder.toolchain.psp.base">
-							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="com.jetdrone.minpsp.managedbuilder.targetplatform.psp.base.157692333" name="Debug Platfom" superClass="com.jetdrone.minpsp.managedbuilder.targetplatform.psp.base"/>
-							<builder id="com.jetdrone.minpsp.managedbuilder.builder.psp.base.218743765" managedBuildOn="false" name="Gnu Make Builder.Default" superClass="com.jetdrone.minpsp.managedbuilder.builder.psp.base"/>
-							<tool id="com.jetdrone.minpsp.managedbuilder.tool.c.compiler.psp.base.2077548025" name="MinPSP C Compiler" superClass="com.jetdrone.minpsp.managedbuilder.tool.c.compiler.psp.base"/>
-							<tool id="com.jetdrone.minpsp.managedbuilder.tool.cpp.compiler.psp.base.1812900453" name="MinPSP C++ Compiler" superClass="com.jetdrone.minpsp.managedbuilder.tool.cpp.compiler.psp.base"/>
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.GNU_ELF" id="com.jetdrone.minpsp.managedbuilder.targetplatform.psp.base.157692333" name="Debug Platfom" superClass="com.jetdrone.minpsp.managedbuilder.targetplatform.psp.base"/>
+							<builder id="com.jetdrone.minpsp.managedbuilder.builder.psp.base.218743765" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" superClass="com.jetdrone.minpsp.managedbuilder.builder.psp.base"/>
+							<tool id="com.jetdrone.minpsp.managedbuilder.tool.c.compiler.psp.base.2077548025" name="MinPSP C Compiler" superClass="com.jetdrone.minpsp.managedbuilder.tool.c.compiler.psp.base">
+								<inputType id="com.jetdrone.minpsp.managedbuilder.compiler.c.input.46020498" superClass="com.jetdrone.minpsp.managedbuilder.compiler.c.input"/>
+							</tool>
+							<tool id="com.jetdrone.minpsp.managedbuilder.tool.cpp.compiler.psp.base.1812900453" name="MinPSP C++ Compiler" superClass="com.jetdrone.minpsp.managedbuilder.tool.cpp.compiler.psp.base">
+								<inputType id="com.jetdrone.minpsp.managedbuilder.compiler.cpp.input.1150531508" superClass="com.jetdrone.minpsp.managedbuilder.compiler.cpp.input"/>
+							</tool>
 							<tool id="com.jetdrone.minpsp.managedbuilder.tool.c.linker.psp.base.1490084528" name="MinPSP C Linker" superClass="com.jetdrone.minpsp.managedbuilder.tool.c.linker.psp.base"/>
 							<tool id="com.jetdrone.minpsp.managedbuilder.tool.cpp.linker.psp.base.1152059063" name="MinPSP C++ Linker" superClass="com.jetdrone.minpsp.managedbuilder.tool.cpp.linker.psp.base"/>
-							<tool id="com.jetdrone.minpsp.managedbuilder.tool.as.psp.base.1407239922" name="MinPSP Assembler" superClass="com.jetdrone.minpsp.managedbuilder.tool.as.psp.base"/>
+							<tool id="com.jetdrone.minpsp.managedbuilder.tool.as.psp.base.1407239922" name="MinPSP Assembler" superClass="com.jetdrone.minpsp.managedbuilder.tool.as.psp.base">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1503423900" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							</tool>
 							<tool id="com.jetdrone.minpsp.managedbuilder.tool.ar.psp.base.6700653" name="MinPSP Archiver" superClass="com.jetdrone.minpsp.managedbuilder.tool.ar.psp.base"/>
 						</toolChain>
 					</folderInfo>
@@ -34,8 +40,16 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="minicraft.null.496172671" name="minicraft"/>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="refreshScope"/>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="com.jetdrone.minpsp.managedbuilder.toolchain.psp.base.133171004;com.jetdrone.minpsp.managedbuilder.toolchain.psp.base.133171004.546152196;com.jetdrone.minpsp.managedbuilder.tool.c.compiler.psp.base.2077548025;com.jetdrone.minpsp.managedbuilder.compiler.c.input.46020498">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.jetdrone.minpsp.managedbuilder.MinPSPScannerConfig"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="com.jetdrone.minpsp.managedbuilder.toolchain.psp.base.133171004;com.jetdrone.minpsp.managedbuilder.toolchain.psp.base.133171004.546152196;com.jetdrone.minpsp.managedbuilder.tool.cpp.compiler.psp.base.1812900453;com.jetdrone.minpsp.managedbuilder.compiler.cpp.input.1150531508">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="com.jetdrone.minpsp.managedbuilder.MinPSPScannerConfig"/>
+		</scannerConfigBuildInfo>
 	</storageModule>
-	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>

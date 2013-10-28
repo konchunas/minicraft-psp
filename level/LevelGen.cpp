@@ -149,24 +149,26 @@ ushort ** LevelGen::createAndValidateUndergroundMap(int w, int h, int depth)
 
 	} while (true);
 }
-//
-//	public static byte[][] createAndValidateSkyMap(int w, int h) {
-//		int attempt = 0;
-//		do {
-//			byte[][] result = createSkyMap(w, h);
-//
-//			int[] count = new int[256];
-//
-//			for (int i = 0; i < w * h; i++) {
-//				count[result[0][i] & 0xff]++;
-//			}
-//			if (count[Tile::cloud->id & 0xff] < 2000) continue;
-//			if (count[Tile::stairsDown->id & 0xff] < 2) continue;
-//
-//			return result;
-//
-//		} while (true);
-//	}
+
+ushort ** LevelGen::createAndValidateSkyMap(int w, int h)
+{
+	int attempt = 0;
+	do
+	{
+		ushort ** result = createSkyMap(w, h);
+
+		int count[256];
+
+		for (int i = 0; i < w * h; i++) {
+			count[result[0][i] & 0xff]++;
+		}
+		if (count[Tile::cloud->id & 0xff] < 2000) continue;
+		if (count[Tile::stairsDown->id & 0xff] < 2) continue;
+
+		return result;
+
+	} while (true);
+}
 
 ushort ** LevelGen::createTopMap(int w, int h)
 {
@@ -426,65 +428,99 @@ ushort ** LevelGen::createUndergroundMap(int w, int h, int depth)
 	return result;
 }
 
-//	private static byte[][] createSkyMap(int w, int h) {
-//		LevelGen noise1 = new LevelGen(w, h, 8);
-//		LevelGen noise2 = new LevelGen(w, h, 8);
-//
-//		byte[] map = new byte[w * h];
-//		byte[] data = new byte[w * h];
-//		for (int y = 0; y < h; y++) {
-//			for (int x = 0; x < w; x++) {
-//				int i = x + y * w;
-//
-//				double val = oslAbs(noise1.values[i] - noise2.values[i]) * 3 - 2;
-//
-//				double xd = x / (w - 1.0) * 2 - 1;
-//				double yd = y / (h - 1.0) * 2 - 1;
-//				if (xd < 0) xd = -xd;
-//				if (yd < 0) yd = -yd;
-//				double dist = xd >= yd ? xd : yd;
-//				dist = dist * dist * dist * dist;
-//				dist = dist * dist * dist * dist;
-//				val = -val * 1 - 2.2;
-//				val = val + 1 - dist * 20;
-//
-//				if (val < -0.25) {
-//					map[i] = Tile::infiniteFall->id;
-//				} else {
-//					map[i] = Tile::cloud->id;
-//				}
-//			}
-//		}
-//
-//		stairsLoop: for (int i = 0; i < w * h / 50; i++) {
-//			int x = random->nextInt(w - 2) + 1;
-//			int y = random->nextInt(h - 2) + 1;
-//
-//			for (int yy = y - 1; yy <= y + 1; yy++)
-//				for (int xx = x - 1; xx <= x + 1; xx++) {
-//					if (map[xx + yy * w] != Tile::cloud->id) continue stairsLoop;
-//				}
-//
-//			map[x + y * w] = Tile::cloudCactus->id;
-//		}
-//
-//		int count = 0;
-//		stairsLoop: for (int i = 0; i < w * h; i++) {
-//			int x = random->nextInt(w - 2) + 1;
-//			int y = random->nextInt(h - 2) + 1;
-//
-//			for (int yy = y - 1; yy <= y + 1; yy++)
-//				for (int xx = x - 1; xx <= x + 1; xx++) {
-//					if (map[xx + yy * w] != Tile::cloud->id) continue stairsLoop;
-//				}
-//
-//			map[x + y * w] = Tile::stairsDown->id;
-//			count++;
-//			if (count == 2) break;
-//		}
-//
-//		return new byte[][] { map, data };
-//	}
+ushort ** LevelGen::createSkyMap(int w, int h)
+{
+	LevelGen noise1(w, h, 8);
+	LevelGen noise2(w, h, 8);
+
+	ushort * map = new ushort[w * h];
+	ushort * data = new ushort[w * h];
+	for (int y = 0; y < h; y++) {
+		for (int x = 0; x < w; x++) {
+			int i = x + y * w;
+
+			double val = oslAbs(noise1.values[i] - noise2.values[i]) * 3 - 2;
+
+			double xd = x / (w - 1.0) * 2 - 1;
+			double yd = y / (h - 1.0) * 2 - 1;
+			if (xd < 0) xd = -xd;
+			if (yd < 0) yd = -yd;
+			double dist = xd >= yd ? xd : yd;
+			if (dist != 1.0)
+			{
+				dist *= dist;
+				dist *= dist;
+				dist *= dist;
+				dist *= dist;
+			}
+			val = -val * 1 - 2.2;
+			val = val + 1 - dist * 20;
+
+			if (val < -0.25) {
+				map[i] = Tile::infiniteFall->id;
+			} else {
+				map[i] = Tile::cloud->id;
+			}
+		}
+	}
+
+
+	int count = 0;
+	int i = 0;
+	int repeats = w * h / 50;
+	while (i < repeats)
+	{
+		int x = random->nextInt(w - 2) + 1;
+		int y = random->nextInt(h - 2) + 1;
+
+		for (int yy = y - 1; yy <= y + 1; yy++)
+			for (int xx = x - 1; xx <= x + 1; xx++)
+			{
+				if (map[xx + yy * w] != Tile::cloud->id)
+				{
+					goto cloudCactusesLoop;
+				}
+			}
+
+		map[x + y * w] = Tile::cloudCactus->id;
+		//count++;
+		//if (count == 4)
+		//	break;
+		cloudCactusesLoop:
+		i++;
+	}
+
+
+	count = 0;
+	i = 0;
+	repeats = w * h;
+	while (i < repeats)
+	{
+		int x = random->nextInt(w - 2) + 1;
+		int y = random->nextInt(h - 2) + 1;
+
+		for (int yy = y - 1; yy <= y + 1; yy++)
+			for (int xx = x - 1; xx <= x + 1; xx++)
+			{
+				if (map[xx + yy * w] != Tile::cloud->id)
+				{
+					goto stairsLoop;
+				}
+			}
+
+		map[x + y * w] = Tile::stairsDown->id;
+		count++;
+		if (count == 4)
+			break;
+		stairsLoop:
+		i++;
+	}
+
+	ushort ** result = new ushort*[2];
+	result[0] = map;
+	result[1] = data;
+	return result;
+}
 
 //	public static void main(String[] args) {
 //		int d = 0;

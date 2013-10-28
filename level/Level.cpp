@@ -55,7 +55,7 @@ random(new Random())
 			maps = LevelGen::createAndValidateUndergroundMap(w, h, -level);
 			monsterDensity = 4;
 		} else {
-			//maps = LevelGen.createAndValidateSkyMap(w, h); // Sky level
+			maps = LevelGen::createAndValidateSkyMap(w, h); // Sky level
 			monsterDensity = 4;
 		}
 		tiles = maps[0];

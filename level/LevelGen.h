@@ -13,6 +13,7 @@ public:
 	double * values;
 	static ushort ** createAndValidateTopMap(int w, int h);
 	static ushort ** createAndValidateUndergroundMap(int w, int h, int depth);
+	static ushort ** createAndValidateSkyMap(int w, int h);
 	static Random * random;
 
 private:
@@ -24,6 +25,7 @@ private:
 	inline void setSample(int x, int y, double sample);
 	static ushort ** createTopMap(int w, int h);
 	static ushort ** createUndergroundMap(int w, int h, int depth);
+	static ushort ** createSkyMap(int w, int h);
 };
 
 #endif /* LEVELGEN_H_ */

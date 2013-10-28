@@ -56,23 +56,24 @@ void Game::render()
 	if (yScroll < 16) yScroll = 16;
 	if (xScroll > level->w * 16 - screen->w - 16) xScroll = level->w * 16 - screen->w - 16;
 	if (yScroll > level->h * 16 - screen->h - 16) yScroll = level->h * 16 - screen->h - 16;
-	//if (currentLevel > 3) {
-	int col = Color::get(20, 20, 121, 121);
-		for (int y = 0; y < 14; y++)
-			for (int x = 0; x < 24; x++) {
-				screen->render(x * 8 - ((xScroll / 4) & 7), y * 8 - ((yScroll / 4) & 7), 0, col, 0);
-			}
-	//}
+	if (currentLevel > 3)
+	{
+		int col = Color::get(20, 20, 121, 121);
+			for (int y = 0; y < 14; y++)
+				for (int x = 0; x < 24; x++) {
+					screen->render(x * 8 - ((xScroll / 4) & 7), y * 8 - ((yScroll / 4) & 7), 0, col, 0);
+				}
+	}
 	//oslDebug("%d %d",player->x, player->y);
 
 	level->renderBackground(screen, xScroll, yScroll);
 	level->renderSprites(screen, xScroll, yScroll);
 
-//	if (currentLevel < 3) {
-//		lightScreen->clear(0);
-//		level->renderLight(lightScreen, xScroll, yScroll);
-//		screen->overlay(lightScreen, xScroll, yScroll);
-//	}
+	if (currentLevel < 3) {
+		lightScreen->clear(0);
+		level->renderLight(lightScreen, xScroll, yScroll);
+		screen->overlay(lightScreen, xScroll, yScroll);
+	}
 
 	renderGui();
 
@@ -199,8 +200,8 @@ void Game::init()
 		levels = new Level*[5];
 		currentLevel = 3;
 
-		//levels[4] = new Level(128, 128, 1, NULL);
-		levels[3] = new Level(128, 128, 0, NULL);
+		levels[4] = new Level(128, 128, 1, NULL);
+		levels[3] = new Level(128, 128, 0, levels[4]);
 		levels[2] = new Level(128, 128, -1, levels[3]);
 		levels[1] = new Level(128, 128, -2, levels[2]);
 		levels[0] = new Level(128, 128, -3, levels[1]);

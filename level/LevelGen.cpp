@@ -182,7 +182,7 @@ ushort ** LevelGen::createTopMap(int w, int h)
 
 	ushort * map = new ushort[w * h];
 	ushort * data = new ushort[w * h];
-	memset(data,0,w*h);
+	memset(data, 0 ,w * h * sizeof(ushort));
 	for (int y = 0; y < h; y++) {
 		for (int x = 0; x < w; x++) {
 			int i = x + y * w;
@@ -230,7 +230,8 @@ ushort ** LevelGen::createTopMap(int w, int h)
 				for (int yy = yo - 1; yy <= yo + 1; yy++)
 					for (int xx = xo - 1; xx <= xo + 1; xx++)
 						if (xx >= 0 && yy >= 0 && xx < w && yy < h) {
-							if (map[xx + yy * w] == Tile::grass->id) {
+							if (map[xx + yy * w] == Tile::grass->id)
+							{
 								map[xx + yy * w] = Tile::sand->id;
 							}
 						}
@@ -333,7 +334,7 @@ ushort ** LevelGen::createUndergroundMap(int w, int h, int depth)
 
 	ushort * map = new ushort[w * h];
 	ushort * data = new ushort[w * h];
-	memset(data,0,w*h);
+	memset(data, 0 ,w * h * sizeof(ushort));
 	for (int y = 0; y < h; y++)
 	{
 		for (int x = 0; x < w; x++)
@@ -437,7 +438,7 @@ ushort ** LevelGen::createSkyMap(int w, int h)
 
 	ushort * map = new ushort[w * h];
 	ushort * data = new ushort[w * h];
-	memset(data,0,w*h);
+	memset(data, 0 ,w * h * sizeof(ushort));
 	for (int y = 0; y < h; y++) {
 		for (int x = 0; x < w; x++) {
 			int i = x + y * w;

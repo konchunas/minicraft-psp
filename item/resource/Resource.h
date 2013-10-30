@@ -44,6 +44,7 @@ public:
 	int color;
 
 	static void init();
+	static void initPlantable();
 	virtual bool interactOn(Tile * tile, Level * level, int xt, int yt, Player * player, int attackDir);
 };
 

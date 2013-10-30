@@ -56,6 +56,7 @@ int main()
     Sound::initSounds();
 	Resource::init();
 	Tile::init();
+	Resource::initPlantable();	//plantable resources require some tiles to be already initialized
 	Crafting::init();
 
     new Game();

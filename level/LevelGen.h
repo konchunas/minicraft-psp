@@ -10,7 +10,7 @@ class LevelGen {
 public:
 	LevelGen(int w, int h, int featureSize);
 	virtual ~LevelGen();
-	double * values;
+	float * values;
 	static ushort ** createAndValidateTopMap(int w, int h);
 	static ushort ** createAndValidateUndergroundMap(int w, int h, int depth);
 	static ushort ** createAndValidateSkyMap(int w, int h);
@@ -21,8 +21,8 @@ private:
 	int widthMinusOne, heightMinusOne;
 
 
-	inline double sample(int x, int y);
-	inline void setSample(int x, int y, double sample);
+	inline float sample(int x, int y);
+	inline void setSample(int x, int y, float sample);
 	static ushort ** createTopMap(int w, int h);
 	static ushort ** createUndergroundMap(int w, int h, int depth);
 	static ushort ** createSkyMap(int w, int h);

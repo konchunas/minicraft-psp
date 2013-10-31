@@ -55,14 +55,15 @@ void SandTile::render(Screen * screen, Level * level, int x, int y)
 		screen->render(x * 16 + 8, y * 16 + 8, (r ? 13 : 12) + (d ? 2 : 1) * 32, transitionColor, 0);
 }
 
-void SandTile::tick(Level * level, int x, int y) {
+void SandTile::tick(Level * level, int x, int y)
+{
 	int d = level->getData(x, y);
 	if (d > 0) level->setData(x, y, d - 1);
 }
 
 void SandTile::steppedOn(Level * level, int x, int y, Entity * entity)
 {
-	if (entity->instanceOf(MOB))
+	if (entity->instanceOf(MOB) || entity->instanceOf(PLAYER))
 	{
 		level->setData(x, y, 10);
 	}

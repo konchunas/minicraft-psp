@@ -23,6 +23,10 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	entity/Entity.o \
 	entity/Mob.o \
 	entity/Player.o \
+	entity/Slime.o \
+	entity/Zombie.o \
+	entity/AirWizard.o \
+	entity/Spark.o \
 	entity/Inventory.o \
 	entity/ItemEntity.o \
 	entity/Furniture.o \

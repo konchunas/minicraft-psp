@@ -95,7 +95,7 @@ void Game::render()
 //	}
 	std::stringstream ss;
 	ss << oslBenchmarkTest(OSL_BENCH_GET);
-	Font::draw(ss.str(),screen,0,0,Color:: get(5, 555, 555, 555));
+	Font::draw(ss.str(),screen, 0 , 0 , Color::get(-1, 555, 555, 555));
 
 	//nearest neighbor to scale
 	//and to move from screen to image

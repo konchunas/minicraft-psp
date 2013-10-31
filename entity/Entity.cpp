@@ -16,8 +16,9 @@
 
 using namespace std;
 
-Entity::~Entity() {
-	// TODO Auto-generated destructor stub
+Entity::~Entity()
+{
+	delete random;
 }
 
 Entity::Entity():

@@ -20,6 +20,7 @@ public:
 	virtual void hurt(Mob * mob, int damage, int attackDir);
 	virtual void hurt(Tile * tile, int x, int y, int damage);
 	virtual void heal(int heal);
+	virtual bool findStartPos(Level * level);
 	virtual ClassType classType();
 
 protected:
@@ -29,7 +30,6 @@ protected:
 	virtual void die();
 	virtual bool isSwimming();
 	virtual void doHurt(int damage, int attackDir);
-	virtual bool findStartPos(Level * level);
 };
 
 #endif /* MOB_H_ */

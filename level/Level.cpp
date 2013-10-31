@@ -11,6 +11,9 @@
 #include "LevelGen.h"
 #include "tile/Tile.h"
 #include "../entity/Player.h"
+#include "../entity/Slime.h"
+#include "../entity/Zombie.h"
+#include "../entity/AirWizard.h"
 #include <oslib/oslib.h>
 
 Level::~Level()
@@ -121,12 +124,13 @@ random(new Random())
 		//	entitiesInTiles[i] = new list<Entity*>;
 		//}
 
-		//if (level==1) {
-		//	AirWizard aw = new AirWizard();
-		//	aw.x = w*8;
-		//	aw.y = h*8;
-		//	add(aw);
-		//}
+		if (level == 1)
+		{
+			AirWizard * aw = new AirWizard();
+			aw->x = w*8;
+			aw->y = h*8;
+			add(aw);
+		}
 	}
 
 	void Level::renderBackground(Screen * screen, int xScroll, int yScroll)
@@ -271,35 +275,46 @@ void Level::removeEntity(int x, int y, Entity * e)
 	entitiesInTiles[x + y * w].remove(e);
 }
 
-void Level::trySpawn(int count) {
-//		for (int i = 0; i < count; i++) {
-//			Mob mob;
-//
-//			int minLevel = 1;
-//			int maxLevel = 1;
-//			if (depth < 0) {
-//				maxLevel = (-depth) + 1;
-//			}
-//			if (depth > 0) {
-//				minLevel = maxLevel = 4;
-//			}
-//
-//			int lvl = random->nextInt(maxLevel - minLevel + 1) + minLevel;
-//			if (random->nextInt(2) == 0)
-//				mob = new Slime(lvl);
-//			else
-//				mob = new Zombie(lvl);
-//
-//			if (mob.findStartPos(this)) {
-//				this.add(mob);
-//			}
-//		}
+void Level::trySpawn(int count)
+{
+	for (int i = 0; i < count; i++)
+	{
+		Mob * mob;
+
+		int minLevel = 1;
+		int maxLevel = 1;
+		if (depth < 0) {
+			maxLevel = (-depth) + 1;
+		}
+		if (depth > 0) {
+			minLevel = maxLevel = 4;
+		}
+
+		int lvl = random->nextInt(maxLevel - minLevel + 1) + minLevel;
+		if (random->nextInt(2) == 0)
+			mob = new Slime(lvl);
+		else
+		{
+			mob = new Zombie(lvl);
+		}
+
+		if (mob->findStartPos(this))
+		{
+			this->add(mob);
+		}
+		else
+		{
+			delete mob;
+		}
+	}
 }
 
-void Level::tick() {
-	trySpawn(1);
+void Level::tick()
+{
+	trySpawn(5);
 
-	for (int i = 0; i < w * h / 50; i++) {
+	for (int i = 0; i < w * h / 50; i++)
+	{
 		int xt = random->nextInt(w);
 		int yt = random->nextInt(h);
 		getTile(xt, yt)->tick(this, xt, yt);

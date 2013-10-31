@@ -31,9 +31,10 @@ int initOSLib(){
     oslInit(0);
     oslInitGfx(OSL_PF_8888, 1);
     oslInitAudio();
+    oslSetFramerate(60);
     oslSetFrameskip(1);
     oslSetQuitOnLoadFailure(1);
-    oslSetKeyAnalogToDPad(80);
+    oslSetKeyAnalogToDPad(100);
     oslSetKeyAutorepeatMask(OSL_KEYMASK_CROSS);
     oslSetKeyAutorepeatInit(30);
     oslSetKeyAutorepeatInterval(5);

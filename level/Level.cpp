@@ -157,15 +157,21 @@ random(new Random())
 		int h = (screen->h + 15) >> 4;
 
 		screen->setOffset(xScroll, yScroll);
-		for (int y = yo; y <= h + yo; ++y) {
-			for (int x = xo; x <= w + xo; ++x) {
-				if (x < 0 || y < 0 || x >= this->w || y >= this->h) continue;
+		for (int y = yo; y <= h + yo; ++y)
+		{
+			if (y < 0 || y >= this->h) continue;
+			for (int x = xo; x <= w + xo; ++x)
+			{
+				if (x < 0 || x >= this->w) continue;
 				//rowSprites.splice(rowSprites.end(),entitiesInTiles[x + y * this->w]);
 				list<Entity*> ent = entitiesInTiles[x + y * this->w];
-				for (list<Entity*>::iterator it = ent.begin(); it != ent.end(); it++ )
+				if (!ent.empty())
 				{
-					Entity * e = *it;
-					e->render(screen);
+					for (list<Entity*>::iterator it = ent.begin(); it != ent.end(); it++ )
+					{
+						Entity * e = *it;
+						e->render(screen);
+					}
 				}
 			}
 //			for (list<Entity*>::iterator it = rowSprites.begin(); it != rowSprites.end(); it++ )
@@ -349,9 +355,12 @@ list<Entity*> Level::getEntities(int x0, int y0, int x1, int y1)
 	int yt0 = (y0 >> 4) - 1;
 	int xt1 = (x1 >> 4) + 1;
 	int yt1 = (y1 >> 4) + 1;
-	for (int y = yt0; y <= yt1; y++) {
-		for (int x = xt0; x <= xt1; x++) {
-			if (x < 0 || y < 0 || x >= w || y >= h) continue;
+	for (int y = yt0; y <= yt1; y++)
+	{
+		if (y < 0 || y >= h) continue;
+		for (int x = xt0; x <= xt1; x++)
+		{
+			if (x < 0  || x >= w) continue;
 			list<Entity*> entities = entitiesInTiles[x + y * this->w];
 			for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++ )
 			{

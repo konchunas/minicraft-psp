@@ -62,7 +62,8 @@ void Entity::hurt(Mob * mob, int dmg, int attackDir)
 void Entity::hurt(Tile * tile, int x, int y, int dmg) {
 }
 
-bool Entity::move(int xa, int ya) {
+bool Entity::move(int xa, int ya)
+{
 	if (xa != 0 || ya != 0) {
 		bool stopped = true;
 		if (xa != 0 && move2(xa, 0)) stopped = false;
@@ -95,7 +96,8 @@ bool Entity::move2(int xa, int ya) {
 		for (int xt = xt0; xt <= xt1; xt++) {
 			if (xt >= xto0 && xt <= xto1 && yt >= yto0 && yt <= yto1) continue;
 			level->getTile(xt, yt)->bumpedInto(level, xt, yt, this);
-			if (!level->getTile(xt, yt)->mayPass(level, xt, yt, this)) {
+			if (!level->getTile(xt, yt)->mayPass(level, xt, yt, this))
+			{
 				blocked = true;
 				return false;
 			}

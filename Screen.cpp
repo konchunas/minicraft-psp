@@ -64,16 +64,18 @@ void Screen::render(int xp, int yp, int tile, int colors, int bits)
 	{
 		int ys = y;
 		if (mirrorY) ys = 7 - y;
-		if (y + yp < 0 || y + yp >= h) continue;
+		int yPlusYp = y + yp;
+		if (yPlusYp < 0 || yPlusYp >= h) continue;
 		int ysByWidthPlusToffs = ys * sheet->width + toffs;
-		int yPlusYpByWidth = (y + yp) * w;
+		int yPlusYpByWidth = yPlusYp * w;
 		for (int x = 0; x < 8; x++)
 		{
-			if (x + xp < 0 || x + xp >= w) continue;
+			int xPlusXp = x + xp;
+			if (xPlusXp < 0 || xPlusXp >= w) continue;
 			int xs = x;
 			if (mirrorX) xs = 7 - x;
 			int col = (colors >> (sheet->pixels[xs + ysByWidthPlusToffs])) & 255;
-			if (col < 255) pixels[(x + xp) + yPlusYpByWidth] = col;
+			if (col < 255) pixels[xPlusXp + yPlusYpByWidth] = col;
 		}
 	}
 }

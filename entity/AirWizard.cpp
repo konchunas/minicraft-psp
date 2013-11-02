@@ -48,9 +48,9 @@ void AirWizard::tick()
 
 	if (attackTime > 0) {
 		attackTime--;
-		double dir = attackTime * 0.25 * (attackTime % 2 * 2 - 1);
-		double speed = (0.7) + attackType * 0.2;
-		level->add(new Spark(this, oslCos(dir,1) * speed, oslSin(dir,1) * speed));
+		float dir = attackTime * 0.25 * (attackTime % 2 * 2 - 1);
+		float speed = (0.7) + attackType * 0.2;
+		level->add(new Spark(this, oslCosf(dir) * speed, oslSinf(dir) * speed));
 		return;
 	}
 

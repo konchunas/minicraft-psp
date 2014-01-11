@@ -92,7 +92,6 @@ void Inventory::remove(Item * item)
 			items.erase(it);
 			return;
 		}
-
 	}
 }
 

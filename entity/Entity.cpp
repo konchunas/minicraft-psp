@@ -16,16 +16,16 @@
 
 using namespace std;
 
+Random* Entity::random = new Random();
+
 Entity::~Entity()
 {
-	delete random;
 }
 
 Entity::Entity():
 xr(6),
 yr(6),
 removed(false),
-random(new Random()),
 x(0),
 y(0)
 {

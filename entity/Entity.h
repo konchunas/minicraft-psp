@@ -40,7 +40,7 @@ public:
 	virtual void touchedBy(Entity * entity);
 
 protected:
-	Random * random;
+	static Random * random;
 	virtual bool move2(int xa, int ya);
 };
 

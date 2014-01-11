@@ -5,7 +5,8 @@
 
 class Player;
 
-class Oven : public Furniture {
+class Oven : public Furniture
+{
 public:
 	Oven();
 	virtual ~Oven();

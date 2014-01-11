@@ -25,7 +25,7 @@ void Slime::tick()
 
 	int speed = 1;
 	//if chance of moving is 1 of 40 as it was in java version, slimes would be standing still all the time
-	if (!move(xa * speed, ya * speed) || random->nextInt(7) == 0)
+	if (!move(xa * speed, ya * speed) || random->nextInt(40) == 0)
 	{
 		if (jumpTime <= -10) {
 			xa = (random->nextInt(3) - 1);

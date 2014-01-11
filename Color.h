@@ -15,8 +15,6 @@ public:
 	static int get(int a, int b, int c, int d)
 	{
 		int i = (get(d) << 24) + (get(c) << 16) + (get(b) << 8) + (get(a));
-		//if (a == 141 )
-			//oslDebug("WOOW %X", i);
 		return i;
 	}
 

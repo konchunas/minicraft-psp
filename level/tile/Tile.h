@@ -63,7 +63,7 @@ public:
 	virtual bool connectsToLiquid();
 
 protected:
-	Random * random;
+	static Random * random;
 
 };
 

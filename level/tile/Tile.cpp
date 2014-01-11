@@ -57,6 +57,8 @@ Tile* Tile::cloudCactus;
 
 int Tile::tickCount = 0;
 
+Random* Tile::random = new Random();
+
 void Tile::init()
 {
 	Tile::tiles = new Tile*[256];
@@ -91,8 +93,8 @@ Tile::Tile(int id):
 connectsToGrass(false),
 connectsToSand(false),
 connectsToLava(false),
-connectsToWater(false),
-random(new Random())
+connectsToWater(false)//,
+//id((ushort)id)
 {
 	this->id = (ushort) id;
 	tiles[id] = this;

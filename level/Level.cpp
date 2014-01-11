@@ -34,104 +34,81 @@ grassColor(141),
 dirtColor(322),
 sandColor(550),
 monsterDensity(8),
+player(NULL),
 random(new Random())
 {
-		if (level < 0) {
-			dirtColor = 222;
-		}
-		this->depth = level;
-		this->w = w;
-		this->h = h;
-		ushort ** maps;
-
-		if (level == 1) {
-			dirtColor = 444;
-		}
-
-		if (level == 0)
-		{
-
-			maps = LevelGen::createAndValidateTopMap(w, h);
-			//oslDebug("map created and validated");
-		}
-		else if (level < 0) {
-			maps = LevelGen::createAndValidateUndergroundMap(w, h, -level);
-			monsterDensity = 4;
-		} else {
-			maps = LevelGen::createAndValidateSkyMap(w, h); // Sky level
-			monsterDensity = 4;
-		}
-		tiles = maps[0];
-		data = maps[1];
-
-//
-//		int ss = w*h;
-//		tiles = new ushort[ss];
-//		for (int i = 0; i < ss/2; ++i)
-//			tiles[i] = 2;
-//		//for (int i = ss/2; i < ss; ++i)
-//		//	tiles[i] = 0;
-//		oslDebug("tiles successfully set!");
-//		data = new ushort[w*h];
-//		for (int i = 0; i < ss; ++i)
-//			data[i] = 1;
-//		oslDebug("datasuccessfully set!");
-//		tiles[0] = 0;
-//		tiles[5] = 0;
-//		tiles[5 + w] = 0;
-//		tiles[6 + w] = 0;
-//
-//		tiles[1 + 2*w] = 0;
-//		tiles[2 + 2*w] = 2;
-//		tiles[3 + 2*w] = 2;
-//		tiles[4 + 2*w] = 2;
-//		oslDebug("additional tiles successfully set!");
-		//data[0] = 1;
-
-		if (parentLevel != NULL) {
-			for (int y = 0; y < h; y++)
-				for (int x = 0; x < w; x++) {
-					if (parentLevel->getTile(x, y) == Tile::stairsDown)
-					{
-						setTile(x, y, Tile::stairsUp, 0);
-						if (level == 0) {
-							setTile(x - 1, y, Tile::hardRock, 0);
-							setTile(x + 1, y, Tile::hardRock, 0);
-							setTile(x, y - 1, Tile::hardRock, 0);
-							setTile(x, y + 1, Tile::hardRock, 0);
-							setTile(x - 1, y - 1, Tile::hardRock, 0);
-							setTile(x - 1, y + 1, Tile::hardRock, 0);
-							setTile(x + 1, y - 1, Tile::hardRock, 0);
-							setTile(x + 1, y + 1, Tile::hardRock, 0);
-						} else {
-							setTile(x - 1, y, Tile::dirt, 0);
-							setTile(x + 1, y, Tile::dirt, 0);
-							setTile(x, y - 1, Tile::dirt, 0);
-							setTile(x, y + 1, Tile::dirt, 0);
-							setTile(x - 1, y - 1, Tile::dirt, 0);
-							setTile(x - 1, y + 1, Tile::dirt, 0);
-							setTile(x + 1, y - 1, Tile::dirt, 0);
-							setTile(x + 1, y + 1, Tile::dirt, 0);
-						}
-					}
-
-				}
-		}
-
-		entitiesInTiles = new list<Entity*>[w * h];
-		//for (int i = 0; i < w * h; i++)
-		//{
-		//	entitiesInTiles[i] = new list<Entity*>;
-		//}
-
-		if (level == 1)
-		{
-			AirWizard * aw = new AirWizard();
-			aw->x = w*8;
-			aw->y = h*8;
-			add(aw);
-		}
+	if (level < 0) {
+		dirtColor = 222;
 	}
+	this->depth = level;
+	this->w = w;
+	this->h = h;
+	ushort ** maps;
+
+	if (level == 1) {
+		dirtColor = 444;
+	}
+
+	if (level == 0)
+	{
+
+		maps = LevelGen::createAndValidateTopMap(w, h);
+	}
+	else if (level < 0)
+	{
+		maps = LevelGen::createAndValidateUndergroundMap(w, h, -level);
+		monsterDensity = 4;
+	} else {
+		maps = LevelGen::createAndValidateSkyMap(w, h); // Sky level
+		monsterDensity = 4;
+	}
+	tiles = maps[0];
+	data = maps[1];
+
+	if (parentLevel != NULL) {
+		for (int y = 0; y < h; y++)
+			for (int x = 0; x < w; x++) {
+				if (parentLevel->getTile(x, y) == Tile::stairsDown)
+				{
+					setTile(x, y, Tile::stairsUp, 0);
+					if (level == 0) {
+						setTile(x - 1, y, Tile::hardRock, 0);
+						setTile(x + 1, y, Tile::hardRock, 0);
+						setTile(x, y - 1, Tile::hardRock, 0);
+						setTile(x, y + 1, Tile::hardRock, 0);
+						setTile(x - 1, y - 1, Tile::hardRock, 0);
+						setTile(x - 1, y + 1, Tile::hardRock, 0);
+						setTile(x + 1, y - 1, Tile::hardRock, 0);
+						setTile(x + 1, y + 1, Tile::hardRock, 0);
+					} else {
+						setTile(x - 1, y, Tile::dirt, 0);
+						setTile(x + 1, y, Tile::dirt, 0);
+						setTile(x, y - 1, Tile::dirt, 0);
+						setTile(x, y + 1, Tile::dirt, 0);
+						setTile(x - 1, y - 1, Tile::dirt, 0);
+						setTile(x - 1, y + 1, Tile::dirt, 0);
+						setTile(x + 1, y - 1, Tile::dirt, 0);
+						setTile(x + 1, y + 1, Tile::dirt, 0);
+					}
+				}
+
+			}
+	}
+
+	entitiesInTiles = new list<Entity*>[w * h];
+	//for (int i = 0; i < w * h; i++)
+	//{
+	//	entitiesInTiles[i] = new list<Entity*>;
+	//}
+
+	if (level == 1)
+	{
+		AirWizard * aw = new AirWizard();
+		aw->x = w*8;
+		aw->y = h*8;
+		add(aw);
+	}
+}
 
 	void Level::renderBackground(Screen * screen, int xScroll, int yScroll)
 	{
@@ -164,7 +141,7 @@ random(new Random())
 			{
 				if (x < 0 || x >= this->w) continue;
 				//rowSprites.splice(rowSprites.end(),entitiesInTiles[x + y * this->w]);
-				list<Entity*> ent = entitiesInTiles[x + y * this->w];
+				list<Entity*> &ent = entitiesInTiles[x + y * this->w];
 				if (!ent.empty())
 				{
 					for (list<Entity*>::iterator it = ent.begin(); it != ent.end(); it++ )
@@ -198,7 +175,7 @@ random(new Random())
 		for (int y = yo - r; y <= h + yo + r; y++) {
 			for (int x = xo - r; x <= w + xo + r; x++) {
 				if (x < 0 || y < 0 || x >= this->w || y >= this->h) continue;
-				list<Entity*> entities = entitiesInTiles[x + y * this->w];
+				list<Entity*> &entities = entitiesInTiles[x + y * this->w];
 				for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++ )
 				{
 					Entity * e = *it;
@@ -289,37 +266,37 @@ void Level::trySpawn(int count)
 
 		int minLevel = 1;
 		int maxLevel = 1;
-		if (depth < 0) {
+		if (depth < 0)
+		{
 			maxLevel = (-depth) + 1;
 		}
-		if (depth > 0) {
+		if (depth > 0)
+		{
 			minLevel = maxLevel = 4;
 		}
-
 		int lvl = random->nextInt(maxLevel - minLevel + 1) + minLevel;
 		if (random->nextInt(2) == 0)
 			mob = new Slime(lvl);
 		else
-		{
 			mob = new Zombie(lvl);
-		}
 
-		if (mob->findStartPos(this))
+		if (!mob->findStartPos(this))
 		{
-			this->add(mob);
+			delete mob;
 		}
 		else
 		{
-			delete mob;
+			this->add(mob);
 		}
 	}
 }
 
 void Level::tick()
 {
-	trySpawn(5);
+	trySpawn(1);
 
-	for (int i = 0; i < w * h / 50; i++)
+	int tilesTickAttempts = w * h / 50;
+	for (int i = 0; i < tilesTickAttempts; ++i)
 	{
 		int xt = random->nextInt(w);
 		int yt = random->nextInt(h);
@@ -348,27 +325,54 @@ void Level::tick()
 	}
 }
 
-list<Entity*> Level::getEntities(int x0, int y0, int x1, int y1)
+list<Entity*> * Level::getEntities(int x0, int y0, int x1, int y1)
 {
-	list<Entity*> result;
+	list<Entity*> * result = new list<Entity*>;
 	int xt0 = (x0 >> 4) - 1;
 	int yt0 = (y0 >> 4) - 1;
 	int xt1 = (x1 >> 4) + 1;
 	int yt1 = (y1 >> 4) + 1;
-	for (int y = yt0; y <= yt1; y++)
+	for (int y = yt0; y <= yt1; ++y)
 	{
 		if (y < 0 || y >= h) continue;
-		for (int x = xt0; x <= xt1; x++)
+		int yByWidth = y * this->w;
+		for (int x = xt0; x <= xt1; ++x)
 		{
 			if (x < 0  || x >= w) continue;
-			list<Entity*> entities = entitiesInTiles[x + y * this->w];
+			list<Entity*> &entities = entitiesInTiles[x + yByWidth];
+			if (entities.empty()) continue;
 			for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++ )
 			{
 				Entity * e = *it;
-				if (e->intersects(x0, y0, x1, y1)) result.push_back(e);
+				if (e->intersects(x0, y0, x1, y1)) result->push_back(e);
 			}
 		}
 	}
 	return result;
+}
+
+bool Level::isRegionEmpty(int x0, int y0, int x1, int y1)
+{
+	int xt0 = (x0 >> 4) - 1;
+	int yt0 = (y0 >> 4) - 1;
+	int xt1 = (x1 >> 4) + 1;
+	int yt1 = (y1 >> 4) + 1;
+	for (int y = yt0; y <= yt1; ++y)
+	{
+		if (y < 0 || y >= h) continue;
+		int yByWidth = y * this->w;
+		for (int x = xt0; x <= xt1; ++x)
+		{
+			if (x < 0  || x >= w) continue;
+			list<Entity*> &entities = entitiesInTiles[x + yByWidth];
+			if (entities.empty()) continue;
+			for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++ )
+			{
+				Entity * e = *it;
+				if (e->intersects(x0, y0, x1, y1)) return false;
+			}
+		}
+	}
+	return true;
 }
 

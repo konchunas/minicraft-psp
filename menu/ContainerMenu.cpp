@@ -20,7 +20,11 @@ selected(0), window(0)
 
 void ContainerMenu::tick()
 {
-	if (input->menu->clicked) game->setMenu(NULL);
+	if (input->menu->clicked ||
+		input->exit->clicked)
+	{
+		game->setMenu(NULL);
+	}
 
 	if (input->left->clicked) {
 		window = 0;

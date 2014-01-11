@@ -21,6 +21,7 @@ void InputHandler::init()
     right = new InputHandler_Key(this);
     attack = new InputHandler_Key(this);
     menu = new InputHandler_Key(this);
+    exit = new InputHandler_Key(this);
 }
 
 void InputHandler::releaseAll()
@@ -54,6 +55,7 @@ void InputHandler::handleKeys(OSL_CONTROLLER * keys)
 		//if (keys->pressed.cross);
 		attack->clicked = keys->pressed.cross;
 		menu->clicked = keys->pressed.square;
+		exit->clicked = keys->pressed.circle;
 
 		//menu->toggle(keys->held.start);
 		//menu->toggle(keys->held.square);

@@ -24,7 +24,11 @@ selected(0)
 
 void InventoryMenu::tick()
 {
-	if (input->menu->clicked) game->setMenu(NULL);
+	if (input->menu->clicked ||
+		input->exit->clicked)
+	{
+		game->setMenu(NULL);
+	}
 
 	if (input->up->clicked) selected--;
 	if (input->down->clicked) selected++;

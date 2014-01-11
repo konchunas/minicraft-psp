@@ -25,7 +25,7 @@ void DeadMenu::tick()
 {
 	if (inputDelay > 0)
 		inputDelay--;
-	else if (input->attack->clicked || input->menu->clicked)
+	else if (input->attack->clicked || input->menu->clicked || input->exit->clicked)
 	{
 		//game->setMenu(new TitleMenu());
 	}

@@ -1,11 +1,14 @@
 #include <list>
+#include <memory>
+
 #include "../Color.h"
 #include "../Screen.h"
 #include "../level/Level.h"
 #include "Mob.h"
 #include "AirWizard.h"
-
 #include "Spark.h"
+
+
 
 using namespace std;
 
@@ -39,8 +42,8 @@ void Spark::tick()
 	yy += ya;
 	x = (int) xx;
 	y = (int) yy;
-	list<Entity*> toHit = level->getEntities(x, y, x, y);
-	for (list<Entity*>::iterator it = toHit.begin(); it != toHit.end(); it++ )
+	auto_ptr<list<Entity*> > toHit(level->getEntities(x, y, x, y));
+	for (list<Entity*>::iterator it = toHit->begin(); it != toHit->end(); it++ )
 	{
 		Entity * e = *it;
 		if ((e->instanceOf(MOB) || e->instanceOf(PLAYER)) && !(e->instanceOf(AIR_WIZARD))) {
@@ -54,16 +57,19 @@ bool Spark::isBlockableBy(Mob * mob)
 	return false;
 }
 
+
+
 void Spark::render(Screen * screen)
 {
 	if (time >= lifeTime - 6 * 20) {
 		if (time / 6 % 2 == 0) return;
 	}
 
-	int xt = 8;
-	int yt = 13;
+//	int xt = 8;
+//	int yt = 13;
 
-	screen->render(x - 4, y - 4 - 2, xt + yt * 32, Color::get(-1, 555, 555, 555), random->nextInt(4));
-	screen->render(x - 4, y - 4 + 2, xt + yt * 32, Color::get(-1, 000, 000, 000), random->nextInt(4));
+	//screen->renderSpark(x - 4, y - 4);
+	screen->render(x - 4, y - 4 - 2, 8 + 13 * 32, Color::get(-1, 555, 555, 555), random->nextInt(4));
+	screen->render(x - 4, y - 4 + 2, 8 + 13 * 32, Color::get(-1, 000, 000, 000), random->nextInt(4));
 }
 

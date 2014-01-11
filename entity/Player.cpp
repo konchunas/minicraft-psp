@@ -22,6 +22,7 @@
 #include "../particle/TextParticle.h"
 
 #include <oslib/oslib.h>
+#include <memory>
 
 Player::~Player() {
 	// TODO Auto-generated destructor stub
@@ -265,36 +266,44 @@ void Player::attack()
 }
 
 bool Player::use(int x0, int y0, int x1, int y1) {
-	list<Entity*> entities = level->getEntities(x0, y0, x1, y1);
-	for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++)
+	auto_ptr<list<Entity*> > entities(level->getEntities(x0, y0, x1, y1));
+	for (list<Entity*>::iterator it = entities->begin(); it != entities->end(); it++)
 	{
 		Entity * e = *it;
 		if (e != this)
 			if (e->use(this, attackDir))
+			{
 				return true;
+			}
 	}
 	return false;
 }
 
-bool Player::interact(int x0, int y0, int x1, int y1) {
-	list<Entity*> entities = level->getEntities(x0, y0, x1, y1);
-	for (list<Entity*>::iterator it = entities.begin(); it != entities.end();
-			it++) {
+bool Player::interact(int x0, int y0, int x1, int y1)
+{
+	auto_ptr<list<Entity*> > entities(level->getEntities(x0, y0, x1, y1));
+	for (list<Entity*>::iterator it = entities->begin(); it != entities->end(); it++)
+	{
 		Entity * e = *it;
 		if (e != this)
 			if (e->interact(this, activeItem, attackDir))
+			{
 				return true;
+			}
 	}
 	return false;
 }
 
-void Player::hurt(int x0, int y0, int x1, int y1) {
-	list<Entity*> entities = level->getEntities(x0, y0, x1, y1);
-	for (list<Entity*>::iterator it = entities.begin(); it != entities.end();
-			it++) {
+void Player::hurt(int x0, int y0, int x1, int y1)
+{
+	auto_ptr<list<Entity*> > entities(level->getEntities(x0, y0, x1, y1));
+	for (list<Entity*>::iterator it = entities->begin(); it != entities->end(); it++)
+	{
 		Entity * e = *it;
 		if (e != this)
+		{
 			e->hurt(this, getAttackDamage(e), attackDir);
+		}
 	}
 }
 
@@ -459,7 +468,8 @@ void Player::die()
 	Sound::playerDeath->play();
 }
 
-void Player::touchedBy(Entity * entity) {
+void Player::touchedBy(Entity * entity)
+{
 	//no rtti no dynamic_cast
 	if (!entity->instanceOf(PLAYER))
 		entity->touchedBy(this);

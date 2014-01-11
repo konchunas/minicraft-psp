@@ -13,6 +13,7 @@
 #include "../Random.h"
 #include "../level/Level.h"
 #include <list>
+#include <memory>
 
 using namespace std;
 
@@ -104,9 +105,10 @@ bool Entity::move2(int xa, int ya) {
 		}
 	if (blocked) return false;
 
-	list<Entity*> wasInside = level->getEntities(x - xr, y - yr, x + xr, y + yr);
-	list<Entity*> isInside = level->getEntities(x + xa - xr, y + ya - yr, x + xa + xr, y + ya + yr);
-	for (list<Entity*>::iterator it = isInside.begin(); it != isInside.end(); it++ )
+	auto_ptr<list<Entity*> > wasInside(level->getEntities(x - xr, y - yr, x + xr, y + yr));
+	auto_ptr<list<Entity*> > isInside(level->getEntities(x + xa - xr, y + ya - yr, x + xa + xr, y + ya + yr));
+
+	for (list<Entity*>::iterator it = isInside->begin(); it != isInside->end(); it++ )
 	{
 		Entity * e = *it;
 		if (e == this) continue;
@@ -114,13 +116,13 @@ bool Entity::move2(int xa, int ya) {
 		e->touchedBy(this);
 	}
 
-	for (list<Entity*>::iterator it = wasInside.begin(); it != wasInside.end(); it++ )
+	for (list<Entity*>::iterator it = wasInside->begin(); it != wasInside->end(); it++ )
 	{
-		isInside.remove(*it);
+		isInside->remove(*it);
 	}
 	//isInside.removeAll(wasInside);
 
-	for (list<Entity*>::iterator it = isInside.begin(); it != isInside.end(); it++ )
+	for (list<Entity*>::iterator it = isInside->begin(); it != isInside->end(); it++ )
 	{
 		Entity * e = *it;
 		if (e == this) continue;

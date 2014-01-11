@@ -310,10 +310,13 @@ void Level::tick()
 
 		e->tick();
 
-		if (e->removed) {
-			it = entities.erase(it);
+		if (e->removed)
+		{
 			removeEntity(xto, yto, e);
-		} else {
+			it = entities.erase(it);
+		}
+		else
+		{
 			int xt = e->x >> 4;
 			int yt = e->y >> 4;
 

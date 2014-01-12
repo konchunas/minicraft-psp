@@ -2,8 +2,7 @@
 #include "../Color.h"
 #include "../Game.h"
 #include "../entity/Player.h"
-#include "../Game.h"
-#include "../item/Item.h"
+#include "TitleMenu.h"
 
 #include "DeadMenu.h"
 
@@ -24,10 +23,12 @@ DeadMenu::~DeadMenu() {
 void DeadMenu::tick()
 {
 	if (inputDelay > 0)
+	{
 		inputDelay--;
+	}
 	else if (input->attack->clicked || input->menu->clicked || input->exit->clicked)
 	{
-		//game->setMenu(new TitleMenu());
+		game->setMenu(new TitleMenu());
 	}
 }
 

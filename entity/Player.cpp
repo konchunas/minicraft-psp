@@ -24,8 +24,9 @@
 #include <oslib/oslib.h>
 #include <memory>
 
-Player::~Player() {
-	// TODO Auto-generated destructor stub
+Player::~Player()
+{
+	delete inventory;
 }
 
 Player::Player(Game * game, InputHandler * input) :
@@ -494,9 +495,10 @@ void Player::doHurt(int damage, int attackDir) {
 	invulnerableTime = 30;
 }
 
-void Player::gameWon() {
-	//level->player.invulnerableTime = 60 * 5;
-	//game.won();
+void Player::gameWon()
+{
+	level->player->invulnerableTime = 60 * 5;
+	game->won();
 }
 
 ClassType Player::classType() {

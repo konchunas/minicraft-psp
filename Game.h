@@ -21,6 +21,8 @@ public:
 	void setMenu(Menu*);
 	void scheduleLevelChange(int dir);
 	void changeLevel(int dir);
+	void won();
+	void resetGame();
 
 	bool running;
 	Player * player;
@@ -37,14 +39,20 @@ private:
 	InputHandler * input;
 	Level * level;
 	Menu * menu;
+	Menu * previousMenu;
 	//Level[] levels = new Level[5];
 	int * colors;
+	short * compressedColors;
 	int * pixels;
 	int currentLevel;
 	Level ** levels;
 	int pendingLevelChange;
 	int playerDeadTime;
 	bool hasWon;
+	unsigned int frameskip;
+	int frames;
+	int ticks;
+	int wonTimer;
 
 
 	void renderGui();

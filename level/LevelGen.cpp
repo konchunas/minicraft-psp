@@ -85,9 +85,16 @@ void LevelGen::setSample(int x, int y, float value)
 ushort ** LevelGen::createAndValidateTopMap(int w, int h)
 {
 	int attempt = 0;
-	//oslBenchmarkTest(OSL_BENCH_START);
-	do {
-		ushort ** result = createTopMap(w, h);
+	ushort ** result = NULL;
+	do
+	{
+		if (result)
+		{
+			delete result[0];
+			delete result[1];
+			delete[] result;
+		}
+		result = createTopMap(w, h);
 		//oslDebug("wehave created the map!!");
 		//oslPrintf("attempt %d",attempt++);
 		int count[256];
@@ -131,8 +138,17 @@ ushort ** LevelGen::createAndValidateTopMap(int w, int h)
 ushort ** LevelGen::createAndValidateUndergroundMap(int w, int h, int depth)
 {
 	int attempt = 0;
-	do {
-		ushort ** result = createUndergroundMap(w, h, depth);
+	ushort ** result = NULL;
+	do
+	{
+		if (result)
+		{
+			delete result[0];
+			delete result[1];
+			delete[] result;
+		}
+
+		result = createUndergroundMap(w, h, depth);
 
 		int count[256];
 
@@ -153,9 +169,16 @@ ushort ** LevelGen::createAndValidateUndergroundMap(int w, int h, int depth)
 ushort ** LevelGen::createAndValidateSkyMap(int w, int h)
 {
 	int attempt = 0;
+	ushort ** result = NULL;
 	do
 	{
-		ushort ** result = createSkyMap(w, h);
+		if (result)
+		{
+			delete result[0];
+			delete result[1];
+			delete[] result;
+		}
+		result = createSkyMap(w, h);
 
 		int count[256];
 

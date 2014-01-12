@@ -17,14 +17,22 @@
 #include "Game.h"
 
 #include "menu/Menu.h"
+#include "menu/TitleMenu.h"
 #include "menu/LevelTransitionMenu.h"
 #include "menu/DeadMenu.h"
-#include "menu/TitleMenu.h"
+#include "menu/WonMenu.h"
+
 
 Game::Game():
-menu(NULL)
-//xScroll(0),
-//yScroll(0)
+menu(NULL),
+previousMenu(NULL),
+frameskip(0),
+wonTimer(0),
+gameTime(0),
+playerDeadTime(0),
+hasWon(false),
+levels(NULL),
+player(NULL)
 {
 	image = oslCreateImage(WIDTH * SCALE, HEIGHT *SCALE, OSL_IN_RAM, OSL_PF_8888);
 	//renderImage = oslCreateImage(WIDTH * SCALE, HEIGHT * SCALE, OSL_IN_RAM, OSL_PF_8888);
@@ -40,17 +48,52 @@ Game::~Game() {
 	delete[] colors;
 }
 
-void Game::render()
+void Game::resetGame()
 {
-	oslLockImage(image);
-	//BufferStrategy bs = getBufferStrategy();
-	//if (bs == null) {
-	//	createBufferStrategy(3);
-	//	requestFocus();
-	//	return;
-	//}
+	//cleanup previous game
+	if (levels)
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			delete levels[i];
+		}
+		delete[] levels;
+	}
+	if (player)
+	{
+		delete player;
+	}
+
+	playerDeadTime = 0;
+	wonTimer = 0;
+	gameTime = 0;
+	hasWon = false;
 
 
+
+
+	levels = new Level*[5];
+	currentLevel = 3;
+
+	levels[4] = new Level(128, 128, 1, NULL);
+	levels[3] = new Level(128, 128, 0, levels[4]);
+	levels[2] = new Level(128, 128, -1, levels[3]);
+	levels[1] = new Level(128, 128, -2, levels[2]);
+	levels[0] = new Level(128, 128, -3, levels[1]);
+
+	level = levels[currentLevel];
+	player = new Player(this, input);
+	player->findStartPos(level);
+
+	level->add(player);
+
+	for (int i = 0; i < 5; i++)
+	{
+		levels[i]->trySpawn(5000);
+	}
+}
+
+void Game::render()
 	int xScroll = player->x - screen->w / 2;
 	int yScroll = player->y - (screen->h + 8) / 2;
 	if (xScroll < 16) xScroll = 16;
@@ -194,30 +237,7 @@ void Game::init()
 		lightScreen =  new Screen(WIDTH, HEIGHT, new SpriteSheet(spriteSheet));
 		//oslDeleteImage(spriteSheet);
 
-		gameTime = 0;
-		screen->clear(Color::get(000, 200, 500, 533));
-		//screen->clear(Color::get(5, 333, 333, 333));
-		//screen->render(0, 96, 3  + 10 * 32, Color::get(5, 333, 333, 333), 0);
-		levels = new Level*[5];
-		currentLevel = 3;
-
-		levels[4] = new Level(128, 128, 1, NULL);
-		levels[3] = new Level(128, 128, 0, levels[4]);
-		levels[2] = new Level(128, 128, -1, levels[3]);
-		levels[1] = new Level(128, 128, -2, levels[2]);
-		levels[0] = new Level(128, 128, -3, levels[1]);
-
-		level = levels[currentLevel];
-		player = new Player(this, input);
-		player->findStartPos(level);
-
-		level->add(player);
-
-		for (int i = 0; i < 5; i++)
-		{
-			levels[i]->trySpawn(5000);
-		}
-
+		resetGame();
 		setMenu(new TitleMenu());
 
 
@@ -274,21 +294,19 @@ void Game::run()
 			render();
 			//oslDebug("rendered!");
 		}
-		if (lastTime - now >= 1)
-		{
-			lastTime = now;
-			//oslPrintf(frames + " fps");
-			frames = 0;
-			ticks = 0;
-		}
+//		long now = time(0);
+//		if (now - lastTime >= 1)
+//		{
+//			lastTime = now;
+//			frames = 0;
+//			ticks = 0;
+//		}
 		oslEndFrame();
 		oslBenchmarkTest(OSL_BENCH_END);
 		shouldNotRender = oslSyncFrame();
 
 
 		input->handleKeys(oslReadKeys());
-		if (osl_keys->released.circle)
-					oslQuit();
 	}
 
 }
@@ -319,13 +337,13 @@ void Game::tick()
 				pendingLevelChange = 0;
 			}
 		}
-//		if (wonTimer > 0)
-//		{
-//			if (--wonTimer == 0)
-//			{
-//				setMenu(new WonMenu());
-//			}
-//		}
+		if (wonTimer > 0)
+		{
+			if (--wonTimer == 0)
+			{
+				setMenu(new WonMenu());
+			}
+		}
 		level->tick();
 		Tile::tickCount++;
 	}

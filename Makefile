@@ -19,6 +19,7 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	menu/CraftingMenu.o \
 	menu/LevelTransitionMenu.o \
 	menu/DeadMenu.o \
+	menu/WonMenu.o \
 	menu/TitleMenu.o \
 	menu/AboutMenu.o \
 	menu/InstructionsMenu.o \

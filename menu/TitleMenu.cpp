@@ -14,7 +14,8 @@
 using namespace std;
 
 
-TitleMenu::TitleMenu()
+TitleMenu::TitleMenu() :
+selected(0)
 {
 	options[0] = "Start game";
 	options[1] = "How to play";
@@ -39,7 +40,7 @@ void TitleMenu::tick()
 		if (selected == 0)
 		{
 			Sound::test->play();
-			//game->resetGame();
+			game->resetGame();
 			game->setMenu(NULL);
 		}
 		if (selected == 1) game->setMenu(new InstructionsMenu(this));

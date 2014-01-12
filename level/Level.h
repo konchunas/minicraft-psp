@@ -26,7 +26,6 @@ public:
 
 	ushort * tiles;
 	ushort * data;
-	list<Entity*> * entitiesInTiles;
 
 	Player * player;
 
@@ -34,7 +33,6 @@ public:
 	int dirtColor;
 	int sandColor;
 	int monsterDensity;
-	list<Entity*> entities;
 
 	void renderBackground(Screen * screen, int xScroll, int yScroll);
 	void renderSprites(Screen * screen, int xScroll, int yScroll);
@@ -47,12 +45,16 @@ public:
 	void remove(Entity * e);
 	void trySpawn(int count);
 	void tick();
-	list<Entity*> getEntities(int x0, int y0, int x1, int y1);
+	list<Entity*> * getEntities(int x0, int y0, int x1, int y1);
+	bool isRegionEmpty(int x0, int y0, int x1, int y1);
 
 private:
 	int depth;
 	Random * random;
 	list<Entity*> rowSprites;
+
+	list<Entity*> entities;
+	list<Entity*> * entitiesInTiles;
 
 	//void sortAndRender(Screen screen, List<Entity> list);
 	void insertEntity(int x, int y, Entity * e);

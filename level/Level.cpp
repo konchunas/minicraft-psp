@@ -18,7 +18,10 @@
 
 Level::~Level()
 {
-	// TODO Auto-generated destructor stub
+	delete[] entitiesInTiles;
+	delete[] tiles;
+	delete[] data;
+	delete random;
 }
 
 //	private Comparator<Entity> spriteSorter = new Comparator<Entity>() {
@@ -51,7 +54,6 @@ random(new Random())
 
 	if (level == 0)
 	{
-
 		maps = LevelGen::createAndValidateTopMap(w, h);
 	}
 	else if (level < 0)
@@ -313,6 +315,10 @@ void Level::tick()
 		if (e->removed)
 		{
 			removeEntity(xto, yto, e);
+			//we should not delete player, because it will freeze on death
+			//we should not delete furniture, because it is used in FurnitureItem, when taken
+			if (!e->instanceOf(PLAYER) && !e->instanceOf(FURNITURE))
+				delete e;
 			it = entities.erase(it);
 		}
 		else

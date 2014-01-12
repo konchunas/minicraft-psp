@@ -19,6 +19,7 @@
 #include "menu/Menu.h"
 #include "menu/LevelTransitionMenu.h"
 #include "menu/DeadMenu.h"
+#include "menu/TitleMenu.h"
 
 Game::Game():
 menu(NULL)
@@ -209,9 +210,16 @@ void Game::init()
 		level = levels[currentLevel];
 		player = new Player(this, input);
 		player->findStartPos(level);
-//		player->x = 10 * 16 + 8;
-//		player->y = 10 * 16 + 8;
+
 		level->add(player);
+
+		for (int i = 0; i < 5; i++)
+		{
+			levels[i]->trySpawn(5000);
+		}
+
+		setMenu(new TitleMenu());
+
 
 //		int arr[5];
 //		for (int i = 0; i < 5; i++)
@@ -346,6 +354,11 @@ void Game::changeLevel(int dir)
 	player->x = (player->x >> 4) * 16 + 8;
 	player->y = (player->y >> 4) * 16 + 8;
 	level->add(player);
+}
 
+void Game::won()
+{
+	wonTimer = 60 * 3;
+	hasWon = true;
 }
 

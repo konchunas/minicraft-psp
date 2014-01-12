@@ -19,6 +19,9 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	menu/CraftingMenu.o \
 	menu/LevelTransitionMenu.o \
 	menu/DeadMenu.o \
+	menu/TitleMenu.o \
+	menu/AboutMenu.o \
+	menu/InstructionsMenu.o \
 	menu/ContainerMenu.o \
 	entity/Entity.o \
 	entity/Mob.o \

@@ -8,16 +8,12 @@
 
 Random::Random()
 {
-	setSeed(time(0));
+	oslSrand(time(0));
 }
 
-Random::~Random() {
-	// TODO Auto-generated destructor stub
-}
-
-void Random::setSeed(unsigned long seed)
+Random::~Random()
 {
-	oslSrand(seed);
+	// TODO Auto-generated destructor stub
 }
 
 int Random::nextInt(int upper)

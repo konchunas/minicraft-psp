@@ -23,7 +23,7 @@ wRandom(new Random())
 
 void WaterTile::render(Screen * screen, Level * level, int x, int y)
 {
-	wRandom->setSeed((tickCount + (x / 2 - y) * 4311) / 10 * 54687121l + x * 3271612l + y * 3412987161l);
+	//wRandom->setSeed((tickCount + (x / 2 - y) * 4311) / 10 * 54687121 + x * 3271612 + y * 3412987161);
 	int col = Color::get(005, 005, 115, 115);
 	int transitionColor1 = Color::get(3, 005, level->dirtColor - 111, level->dirtColor);
 	int transitionColor2 = Color::get(3, 005, level->sandColor - 110, level->sandColor);

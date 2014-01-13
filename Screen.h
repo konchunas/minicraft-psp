@@ -21,7 +21,7 @@ public:
 	static const int BIT_MIRROR_Y = 0x02;
 
 	int w, h;
-	int * pixels;
+	ushort * pixels;
 
 	void clear(int);
 	void renderLight(int x, int y, int r);

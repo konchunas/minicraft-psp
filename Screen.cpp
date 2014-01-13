@@ -34,7 +34,7 @@ xOffset(0), yOffset(0)
 	dither[13] = 7;
 	dither[14] = 13;
 	dither[15] = 5;
-	pixels = new int[w * h];
+	pixels = new ushort[w * h];
 }
 
 Screen::~Screen()
@@ -60,6 +60,8 @@ void Screen::render(int xp, int yp, int tile, int colors, int bits)
 	int yTile = tile / 32;
 	int toffs = xTile * 8 + yTile * 8 * sheet->width;
 
+	int * source = sheet->pixels;
+
 	for (int y = 0; y < 8; y++)
 	{
 		int ys = y;
@@ -74,7 +76,8 @@ void Screen::render(int xp, int yp, int tile, int colors, int bits)
 			if (xPlusXp < 0 || xPlusXp >= w) continue;
 			int xs = x;
 			if (mirrorX) xs = 7 - x;
-			int col = (colors >> (sheet->pixels[xs + ysByWidthPlusToffs])) & 255;
+			ushort col = (colors >> (source[xs + ysByWidthPlusToffs])) & 255;
+			//oslDebug("col: %d",col);
 			if (col < 255) pixels[xPlusXp + yPlusYpByWidth] = col;
 		}
 	}
@@ -90,10 +93,12 @@ void Screen::setOffset(int xOffset, int yOffset)
 
 void Screen::overlay(Screen * screen, int xa, int ya)
 {
-	int * oPixels = screen->pixels;
+	ushort * oPixels = screen->pixels;
 	int i = 0;
-	for (int y = 0; y < h; y++) {
-		for (int x = 0; x < w; x++) {
+	for (int y = 0; y < h; y++)
+	{
+		for (int x = 0; x < w; x++)
+		{
 			if (oPixels[i] / 10 <= dither[((x + xa) & 3) + ((y + ya) & 3) * 4]) pixels[i] = 0;
 			i++;
 		}
@@ -133,9 +138,6 @@ void Screen::renderLight(int x, int y, int r)
 
 void Screen::render2(int xp, int yp, int tile, int colors, int bits)
 {
-
-//
-
 	xp -= xOffset;
 	yp -= yOffset;
 	bool mirrorX = (bits & BIT_MIRROR_X) > 0;

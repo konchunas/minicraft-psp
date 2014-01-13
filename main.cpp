@@ -11,6 +11,7 @@
 #include "item/resource/Resource.h"
 #include "Sound.h"
 #include "Game.h"
+#include "Logger.h"
 
 typedef unsigned short ushort;
 
@@ -29,13 +30,17 @@ PSP_HEAP_SIZE_KB(12*1024);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int initOSLib(){
     oslInit(0);
-    oslInitGfx(OSL_PF_8888, 1);
+    oslInitGfx(OSL_PF_5650, 1);
     oslInitAudio();
     oslSetFramerate(60);
     oslSetFrameskip(1);
     oslSetQuitOnLoadFailure(1);
     oslSetKeyAnalogToDPad(100);
-    oslSetKeyAutorepeatMask(OSL_KEYMASK_CROSS);
+    oslSetKeyAutorepeatMask(OSL_KEYMASK_CROSS |
+    						OSL_KEYMASK_UP |
+    						OSL_KEYMASK_RIGHT |
+    						OSL_KEYMASK_DOWN |
+    						OSL_KEYMASK_LEFT);
     oslSetKeyAutorepeatInit(30);
     oslSetKeyAutorepeatInterval(5);
     //oslSysBenchmarkDisplay();
@@ -54,6 +59,7 @@ int main()
     oslSetImageAutoSwizzle(false);
 
     //here we have initialization functions to prevent fiasco
+    Logger::init();
     Sound::initSounds();
 	Resource::init();
 	Tile::init();
@@ -62,57 +68,6 @@ int main()
 
     new Game();
 
-    //Loads image:
-    //spriteSheet = oslLoadImageFileGIF("icons.gif", OSL_IN_RAM | OSL_UNSWIZZLED, OSL_PF_8888);
-    //sheet = new SpriteSheet(spriteSheet);
-
-
-
-    //oslClearImage(background,RGBA(0,255,128,255));
-
-    //int backgroundByteSize = background->totalSize;
-    //memset(background->data, RGBA(255,255,128,255), backgroundByteSize);
-
-    //pixels = (int*)background->data;
-    //pixels = new int[backgroundByteSize];
-    //memset(background->data,0,background->totalSize);
-
-    //oslUnlockImage(background);
-
-    //oslLockImage(background);
-    //oslLockImage(spriteSheet);
-    //render(0, 96, 3  + 10 * 32, Color::get(-1,555,555,555), 0);
-    //oslUnlockImage(background);
-    //oslUncacheImageData(background);
-
-
-    //Load font:
-//    OSL_FONT *pgfFont = oslLoadFontFile("flash0:/font/ltn0.pgf");
-//    oslIntraFontSetStyle(pgfFont, 1.0, RGBA(255,255,255,255), RGBA(0,0,0,0), INTRAFONT_ALIGN_LEFT);
-//    oslSetFont(pgfFont);
-    //oslPrintf("%d %d",sheet->width, sheet->height);
-    //while(!osl_quit){
-    //   if (!skip){
-    //        oslStartDrawing();
-            //oslDrawImageXY(spriteSheet, 20, 20);
-
-     //       oslDrawImageXY(background, 20, 20);
-
-            //oslDrawString(0,0, __psp_cwd);
-
-
-            //oslDrawString(180, 150, "Hello world");
-            //oslDrawString(150, 250, "Press X to quit");
-
-        //    oslEndDrawing();
-        //}
-        //oslEndFrame();
-        //skip = oslSyncFrame();
-
-        //oslReadKeys();
-        //if (osl_keys->released.cross)
-        //    oslQuit();
-    //}
     //Quit OSL:
     oslEndGfx();
 

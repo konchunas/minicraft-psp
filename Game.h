@@ -8,6 +8,8 @@
 #include "entity/Player.h"
 #include "level/Level.h"
 
+typedef unsigned short ushort;
+
 class Menu;
 
 class Game {
@@ -40,10 +42,8 @@ private:
 	Level * level;
 	Menu * menu;
 	Menu * previousMenu;
-	//Level[] levels = new Level[5];
-	int * colors;
-	short * compressedColors;
-	int * pixels;
+	ushort * colors;
+	ushort * pixels;
 	int currentLevel;
 	Level ** levels;
 	int pendingLevelChange;

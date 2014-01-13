@@ -124,7 +124,8 @@ void Tile::hurt(Level * level, int x, int y, Mob * source, int dmg, int attackDi
 void Tile::bumpedInto(Level * level, int xt, int yt, Entity * entity) {
 }
 
-void Tile::tick(Level * level, int xt, int yt) {
+void Tile::tick(Level * level, int xt, int yt)
+{
 }
 
 void Tile::steppedOn(Level * level, int xt, int yt, Entity * entity) {

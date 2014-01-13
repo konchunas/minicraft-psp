@@ -34,12 +34,10 @@ hasWon(false),
 levels(NULL),
 player(NULL)
 {
-	image = oslCreateImage(WIDTH * SCALE, HEIGHT *SCALE, OSL_IN_RAM, OSL_PF_8888);
-	//renderImage = oslCreateImage(WIDTH * SCALE, HEIGHT * SCALE, OSL_IN_RAM, OSL_PF_8888);
+	image = oslCreateImage(WIDTH * SCALE, HEIGHT *SCALE, OSL_IN_RAM, OSL_PF_5650);
 
-	oslClearImage(image,RGBA(0,128,128,200));
-	colors = new int[256];
-	pixels = (int*)image->data;
+	colors = new ushort[256];
+	pixels = (ushort*)image->data;
 	input = new InputHandler();
 	run();
 }
@@ -69,9 +67,6 @@ void Game::resetGame()
 	gameTime = 0;
 	hasWon = false;
 
-
-
-
 	levels = new Level*[5];
 	currentLevel = 3;
 
@@ -94,29 +89,38 @@ void Game::resetGame()
 }
 
 void Game::render()
-	int xScroll = player->x - screen->w / 2;
-	int yScroll = player->y - (screen->h + 8) / 2;
-	if (xScroll < 16) xScroll = 16;
-	if (yScroll < 16) yScroll = 16;
-	if (xScroll > level->w * 16 - screen->w - 16) xScroll = level->w * 16 - screen->w - 16;
-	if (yScroll > level->h * 16 - screen->h - 16) yScroll = level->h * 16 - screen->h - 16;
-	if (currentLevel > 3)
+{
+	if (player)
 	{
-		int col = Color::get(20, 20, 121, 121);
-			for (int y = 0; y < 14; y++)
-				for (int x = 0; x < 24; x++) {
-					screen->render(x * 8 - ((xScroll / 4) & 7), y * 8 - ((yScroll / 4) & 7), 0, col, 0);
-				}
-	}
-	//oslDebug("%d %d",player->x, player->y);
+		int xScroll = player->x - screen->w / 2;
+		int yScroll = player->y - (screen->h + 8) / 2;
+		if (xScroll < 16) xScroll = 16;
+		if (yScroll < 16) yScroll = 16;
+		if (xScroll > level->w * 16 - screen->w - 16) xScroll = level->w * 16 - screen->w - 16;
+		if (yScroll > level->h * 16 - screen->h - 16) yScroll = level->h * 16 - screen->h - 16;
+		//WTF?
+		// if this condition is set, then every tenth frame is handled for 30ms,
+		//while others are handled in fine 1ms interval
+		//if (currentLevel > 3)
+		{
+			//it is special substrate for sky level to create parallax efect
+			int col = Color::get(20, 20, 121, 121);
+				for (ushort y = 0; y < 14; y++)
+					for (ushort x = 0; x < 24; x++)
+					{
+						screen->render(x * 8 - ((xScroll / 4) & 7), y * 8 - ((yScroll / 4) & 7), 0, col, 0);
+					}
+		}
 
-	level->renderBackground(screen, xScroll, yScroll);
-	level->renderSprites(screen, xScroll, yScroll);
+		level->renderBackground(screen, xScroll, yScroll);
+		level->renderSprites(screen, xScroll, yScroll);
 
-	if (currentLevel < 3) {
-		lightScreen->clear(0);
-		level->renderLight(lightScreen, xScroll, yScroll);
-		screen->overlay(lightScreen, xScroll, yScroll);
+		if (currentLevel < 3)
+		{
+			lightScreen->clear(0);
+			level->renderLight(lightScreen, xScroll, yScroll);
+			screen->overlay(lightScreen, xScroll, yScroll);
+		}
 	}
 
 	renderGui();
@@ -141,34 +145,33 @@ void Game::render()
 	ss << oslBenchmarkTest(OSL_BENCH_GET);
 	Font::draw(ss.str(),screen, 0 , 0 , Color::get(-1, 555, 555, 555));
 
-	//nearest neighbor to scale
+	oslLockImage(image);
+
+	//nearest neighbor for scaling
 	//and to move from screen to image
 	//somewhat optimized
-	int x_ratio = (int)((screen->w<<16)/(SCALED_WIDTH)) +1;
-	int y_ratio = (int)((screen->h<<16)/(SCALED_HEIGHT)) +1;
-	int x = -1, y = -1, prevX = -1;
-	int cc;
-	int * scrPixels = screen->pixels;
-	for (int i = 0; i<SCALED_HEIGHT; ++i)
+	short x_ratio = (short)((screen->w<<16)/(SCALED_WIDTH)) +1;
+	short y_ratio = (short)((screen->h<<16)/(SCALED_HEIGHT)) +1;
+	short x = -1, y = -1, prevX = -1;
+	ushort cc;
+	ushort * screenPixels = screen->pixels;
+	for (short i = 0; i<SCALED_HEIGHT; ++i)
 	{
 		y = ((i*y_ratio)>>16);
-		int yByScreenWidth = y * screen->w;
+		short yByScreenWidth = y * screen->w;
 		int iByImageWidth = i * image->realSizeX;
-		for (int j = 0; j<SCALED_WIDTH; ++j)
+		//oslDebug(image->realSizeX);
+		for (short j = 0; j<SCALED_WIDTH; ++j)
 		{
 			x = ((j*x_ratio)>>16);
 			if (x != prevX)
 			{
-				cc = colors[scrPixels[yByScreenWidth+x]];
+				cc = colors[screenPixels[yByScreenWidth + x]];
 				prevX = x;
 			}
-			if (cc < 255)
-			{
-				pixels[iByImageWidth+j] = cc;
-			}
+			pixels[iByImageWidth+j] = cc;
 		}
 	}
-
 	oslUnlockImage(image);
 
 	oslStartDrawing();
@@ -184,27 +187,31 @@ void Game::renderGui()
 //			screen->render(x * 8, screen->h - 16 + y * 8, 0 + 12 * 32, Color::get(000, 000, 000, 000), 0);
 //		}
 //	}
-
-	for (int i = 0; i < 10; i++) {
-		if (i < player->health)
-			screen->render(i * 8, screen->h - 16, 0 + 12 * 32, Color::get(-1, 200, 500, 533), 0);
-		else
-			screen->render(i * 8, screen->h - 16, 0 + 12 * 32, Color::get(-1, 100, 000, 000), 0);
-
-		if (player->staminaRechargeDelay > 0) {
-			if (player->staminaRechargeDelay / 4 % 2 == 0)
-				screen->render(i * 8, screen->h - 8, 1 + 12 * 32, Color::get(-1, 555, 000, 000), 0);
+	if (player)
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			if (i < player->health)
+				screen->render(i * 8, screen->h - 16, 0 + 12 * 32, Color::get(-1, 200, 500, 533), 0);
 			else
-				screen->render(i * 8, screen->h - 8, 1 + 12 * 32, Color::get(-1, 110, 000, 000), 0);
-		} else {
-			if (i < player->stamina)
-				screen->render(i * 8, screen->h - 8, 1 + 12 * 32, Color::get(-1, 220, 550, 553), 0);
-			else
-				screen->render(i * 8, screen->h - 8, 1 + 12 * 32, Color::get(-1, 110, 000, 000), 0);
+				screen->render(i * 8, screen->h - 16, 0 + 12 * 32, Color::get(-1, 100, 000, 000), 0);
+
+			if (player->staminaRechargeDelay > 0) {
+				if (player->staminaRechargeDelay / 4 % 2 == 0)
+					screen->render(i * 8, screen->h - 8, 1 + 12 * 32, Color::get(-1, 555, 000, 000), 0);
+				else
+					screen->render(i * 8, screen->h - 8, 1 + 12 * 32, Color::get(-1, 110, 000, 000), 0);
+			} else {
+				if (i < player->stamina)
+					screen->render(i * 8, screen->h - 8, 1 + 12 * 32, Color::get(-1, 220, 550, 553), 0);
+				else
+					screen->render(i * 8, screen->h - 8, 1 + 12 * 32, Color::get(-1, 110, 000, 000), 0);
+			}
 		}
-	}
-	if (player->activeItem != NULL) {
-		player->activeItem->renderInventory(screen, 10 * 8, screen->h - 16);
+		if (player->activeItem != NULL)
+		{
+			player->activeItem->renderInventory(screen, 10 * 8, screen->h - 16);
+		}
 	}
 	if (menu != NULL)
 	{
@@ -214,19 +221,25 @@ void Game::renderGui()
 
 void Game::init()
 {
-		int pp = 0;
-		for (int r = 0; r < 6; r++) {
-			for (int g = 0; g < 6; g++) {
-				for (int b = 0; b < 6; b++) {
-					int rr = (r * 255 / 5);
-					int gg = (g * 255 / 5);
-					int bb = (b * 255 / 5);
-					int mid = (rr * 30 + gg * 59 + bb * 11) / 100;
+		ushort pp = 0;
+		for (ushort r = 0; r < 6; r++)
+		{
+			for (ushort g = 0; g < 6; g++)
+			{
+				for (ushort b = 0; b < 6; b++)
+				{
+					ushort rr = (r * 255 / 5);
+					ushort gg = (g * 255 / 5);
+					ushort bb = (b * 255 / 5);
+					ushort mid = (rr * 30 + gg * 59 + bb * 11) / 100;
 
-					int r1 = ((rr + mid * 1) / 2) * 230 / 255 + 10;
-					int g1 = ((gg + mid * 1) / 2) * 230 / 255 + 10;
-					int b1 = ((bb + mid * 1) / 2) * 230 / 255 + 10;
-					colors[pp++] = 0xff << 24 | b1 << 16 | g1 << 8 | r1;
+					ushort r1 = ((rr + mid * 1) / 2) * 230 / 255 + 10;
+					ushort g1 = ((gg + mid * 1) / 2) * 230 / 255 + 10;
+					ushort b1 = ((bb + mid * 1) / 2) * 230 / 255 + 10;
+					ushort r2 = (r1 >> 3) & 0xFF;
+					ushort g2 = (g1 >> 2) & 0xFF;
+					ushort b2 = (b1 >> 3) & 0xFF;
+					colors[pp++] = RGB16(r1,g1,b1);
 				}
 			}
 		}
@@ -237,7 +250,7 @@ void Game::init()
 		lightScreen =  new Screen(WIDTH, HEIGHT, new SpriteSheet(spriteSheet));
 		//oslDeleteImage(spriteSheet);
 
-		resetGame();
+		//resetGame();
 		setMenu(new TitleMenu());
 
 

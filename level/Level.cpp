@@ -18,6 +18,11 @@
 
 Level::~Level()
 {
+	for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++ )
+	{
+		delete *it;
+	}
+
 	delete[] entitiesInTiles;
 	delete[] tiles;
 	delete[] data;

@@ -238,7 +238,19 @@ void Level::add(Entity * entity)
 	entity->init(this);
 
 	insertEntity(entity->x >> 4, entity->y >> 4, entity);
-	//setTile(entity->x >> 4, (entity->y >> 4) + 1, Tile::stairsDown,0);
+	//uncomment to get straight to AirWizard
+//	if (entity->instanceOf(PLAYER))
+//	{
+//		entity->x = w*8;
+//		entity->y = h*8;
+//		insertEntity(w*8  + 2, h*8 + 2, entity);
+//		setTile(entity->x >> 4, (entity->y >> 4) + 1, Tile::stairsUp,0);
+//	}
+//	else
+//	{
+//		insertEntity(entity->x >> 4, entity->y >> 4, entity);
+//	}
+
 }
 
 void Level::remove(Entity * e)

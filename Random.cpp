@@ -4,6 +4,7 @@
 
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 #include <oslib/oslmath.h>
 
 Random::Random()
@@ -28,7 +29,17 @@ float Random::nextFloat()
 
 double Random::nextGaussian()
 {
-	return nextFloat();
+	//rather slow routine
+	double x = 0;
+	for(ushort i = 0; i < 25; ++i)
+	{
+		x += nextFloat();
+	}
+
+	x -= 25 / 2.0;
+	x /= sqrt(25 / 12.0);
+
+	return x;
 }
 
 bool Random::nextBoolean()

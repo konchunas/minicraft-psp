@@ -4,6 +4,7 @@ OBJS = main.o SpriteSheet.o Color.o Game.o InputHandler.o InputHandler_Key.o \
 	Typeable.o \
 	Random.o \
 	Sound.o \
+	Logger.o \
 	item/Item.o \
 	item/resource/Resource.o \
 	item/resource/PlantableResource.o \

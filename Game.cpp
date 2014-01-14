@@ -115,26 +115,27 @@ void Game::render()
 		level->renderBackground(screen, xScroll, yScroll);
 		level->renderSprites(screen, xScroll, yScroll);
 
-		if (currentLevel < 3)
-		{
-			lightScreen->clear(0);
-			level->renderLight(lightScreen, xScroll, yScroll);
-			screen->overlay(lightScreen, xScroll, yScroll);
-		}
+		if (currentLevel != 0)	//HACK: rendering light in lava level causing CPU overhead
+			if (currentLevel < 3)
+			{
+				lightScreen->clear(0);
+				level->renderLight(lightScreen, xScroll, yScroll);
+				screen->overlay(lightScreen, xScroll, yScroll);
+			}
 	}
 
 	renderGui();
 
 //	if (!hasFocus()) renderFocusNagger();
 
-	std::stringstream ss;
-	int milliseconds = oslBenchmarkTest(OSL_BENCH_GET);
-	ss << milliseconds;
-	Font::draw(ss.str(), screen, 0 , 0 , Color::get(-1, 555, 555, 555));
-
-	std::stringstream ss1;
-	ss1 << oslGetRamStatus().maxAvailable;
-	Font::draw(ss1.str(),screen, 80 , 0 , Color::get(-1, 555, 555, 555));
+//	std::stringstream ss;
+//	int milliseconds = oslBenchmarkTest(OSL_BENCH_GET);
+//	ss << milliseconds;
+//	Font::draw(ss.str(), screen, 0 , 0 , Color::get(-1, 555, 555, 555));
+//
+//	std::stringstream ss1;
+//	ss1 << oslGetRamStatus().maxAvailable;
+//	Font::draw(ss1.str(),screen, 80 , 0 , Color::get(-1, 555, 555, 555));
 //
 //	std::stringstream ss2;
 //	ss2 << frames;
@@ -203,7 +204,8 @@ void Game::renderGui()
 			else
 				screen->render(i * 8, screen->h - 16, 0 + 12 * 32, Color::get(-1, 100, 000, 000), 0);
 
-			if (player->staminaRechargeDelay > 0) {
+			if (player->staminaRechargeDelay > 0)
+			{
 				if (player->staminaRechargeDelay / 4 % 2 == 0)
 					screen->render(i * 8, screen->h - 8, 1 + 12 * 32, Color::get(-1, 555, 000, 000), 0);
 				else

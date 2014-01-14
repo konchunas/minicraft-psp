@@ -14,6 +14,7 @@
 #include "../level/Level.h"
 #include <list>
 #include <memory>
+//#include <sstream>
 
 using namespace std;
 
@@ -65,11 +66,13 @@ void Entity::hurt(Tile * tile, int x, int y, int dmg) {
 
 bool Entity::move(int xa, int ya)
 {
-	if (xa != 0 || ya != 0) {
+	if (xa != 0 || ya != 0)
+	{
 		bool stopped = true;
 		if (xa != 0 && move2(xa, 0)) stopped = false;
 		if (ya != 0 && move2(0, ya)) stopped = false;
-		if (!stopped) {
+		if (!stopped)
+		{
 			int xt = x >> 4;
 			int yt = y >> 4;
 			level->getTile(xt, yt)->steppedOn(level, xt, yt, this);
@@ -94,7 +97,8 @@ bool Entity::move2(int xa, int ya) {
 	int yt1 = ((y + ya) + yr) >> 4;
 	bool blocked = false;
 	for (int yt = yt0; yt <= yt1; yt++)
-		for (int xt = xt0; xt <= xt1; xt++) {
+		for (int xt = xt0; xt <= xt1; xt++)
+		{
 			if (xt >= xto0 && xt <= xto1 && yt >= yto0 && yt <= yto1) continue;
 			level->getTile(xt, yt)->bumpedInto(level, xt, yt, this);
 			if (!level->getTile(xt, yt)->mayPass(level, xt, yt, this))
@@ -105,31 +109,56 @@ bool Entity::move2(int xa, int ya) {
 		}
 	if (blocked) return false;
 
-	auto_ptr<list<Entity*> > wasInside(level->getEntities(x - xr, y - yr, x + xr, y + yr));
-	auto_ptr<list<Entity*> > isInside(level->getEntities(x + xa - xr, y + ya - yr, x + xa + xr, y + ya + yr));
+	auto_ptr<list<Entity*> > wasInside(level->getEntities(x - xr, y - yr, x + xr, y + yr, this));
+	auto_ptr<list<Entity*> > isInside(level->getEntities(x + xa - xr, y + ya - yr, x + xa + xr, y + ya + yr, this));
 
-	for (list<Entity*>::iterator it = isInside->begin(); it != isInside->end(); it++ )
+//	stringstream ss;
+//	ss << "is inside list sized " << isInside->size() << " ";
+//	for (list<Entity*>::iterator it = isInside->begin(); it != isInside->end(); it++ )
+//	{
+//		ss << *it << " ";
+//	}
+//	ss << this;
+//	Logger::log(ss.str().c_str(), 0);
+//
+//	stringstream ss1;
+//	ss1 << "was inside list sized " << wasInside->size() << " ";
+//	for (list<Entity*>::iterator it = wasInside->begin(); it != wasInside->end(); it++ )
+//	{
+//		ss1 << *it << " ";
+//	}
+//	ss1 << this;
+//	Logger::log(ss1.str().c_str(), 0);
+
+
+	if (!isInside->empty())
 	{
-		Entity * e = *it;
-		if (e == this) continue;
-
-		e->touchedBy(this);
-	}
-
-	for (list<Entity*>::iterator it = wasInside->begin(); it != wasInside->end(); it++ )
-	{
-		isInside->remove(*it);
-	}
-	//isInside.removeAll(wasInside);
-
-	for (list<Entity*>::iterator it = isInside->begin(); it != isInside->end(); it++ )
-	{
-		Entity * e = *it;
-		if (e == this) continue;
-
-		if (e->blocks(this))
+		for (list<Entity*>::iterator it = isInside->begin(); it != isInside->end(); it++ )
 		{
-			return false;
+			Entity * e = *it;
+			if (e == this) continue;
+
+			e->touchedBy(this);
+		}
+
+		if (!wasInside->empty())
+		{
+			//isInside.removeAll(wasInside);
+			for (list<Entity*>::iterator it = wasInside->begin(); it != wasInside->end(); it++ )
+			{
+				isInside->remove(*it);
+			}
+		}
+
+		for (list<Entity*>::iterator it = isInside->begin(); it != isInside->end(); it++ )
+		{
+			Entity * e = *it;
+			if (e == this) continue;
+
+			if (e->blocks(this))
+			{
+				return false;
+			}
 		}
 	}
 

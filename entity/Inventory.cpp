@@ -10,13 +10,17 @@
 #include "../item/resource/Resource.h"
 #include "../item/Item.h"
 
-Inventory::Inventory() {
-	// TODO Auto-generated constructor stub
+Inventory::Inventory()
+{
 
 }
 
-Inventory::~Inventory() {
-	// TODO Auto-generated destructor stub
+Inventory::~Inventory()
+{
+	for (deque<Item*>::iterator it = items.begin(); it != items.end(); it++ )
+	{
+		delete *it;
+	}
 }
 
 void Inventory::add(Item * item)

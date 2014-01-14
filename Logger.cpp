@@ -9,8 +9,11 @@ void Logger::init()
 
 void Logger::log(char * msg)
 {
-	 VirtualFilePuts(msg, logFile);
-	 VirtualFilePuts("\n", logFile);
+	char str[255];
+	sprintf(str, "%s\n",msg);
+	VirtualFilePuts(str, logFile);
+	 //VirtualFilePuts(msg, logFile);
+	 //VirtualFilePuts("\n", logFile);
 }
 
 void Logger::log(const char * msg, int number)

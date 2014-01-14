@@ -41,8 +41,8 @@ Level::Level(int w, int h, int level, Level * parentLevel) :
 grassColor(141),
 dirtColor(322),
 sandColor(550),
-monsterDensity(8),
 player(NULL),
+monsterDensity(8),
 random(new Random())
 {
 	if (level < 0) {
@@ -101,7 +101,6 @@ random(new Random())
 
 			}
 	}
-
 	entitiesInTiles = new list<Entity*>[w * h];
 	//for (int i = 0; i < w * h; i++)
 	//{
@@ -115,6 +114,7 @@ random(new Random())
 		aw->y = h*8;
 		add(aw);
 	}
+
 }
 
 	void Level::renderBackground(Screen * screen, int xScroll, int yScroll)
@@ -216,18 +216,21 @@ Tile * Level::getTile(int x, int y)
 	return Tile::tiles[tiles[x + y * w]];
 }
 
-void Level::setTile(int x, int y, Tile * t, int dataVal) {
+void Level::setTile(int x, int y, Tile * t, int dataVal)
+{
 	if (x < 0 || y < 0 || x >= w || y >= h) return;
 	tiles[x + y * w] = t->id;
 	data[x + y * w] = (ushort) dataVal;
 }
 
-int Level::getData(int x, int y) {
+int Level::getData(int x, int y)
+{
 	if (x < 0 || y < 0 || x >= w || y >= h) return 0;
 	return data[x + y * w] & 0xff;
 }
 
-void Level::setData(int x, int y, int val) {
+void Level::setData(int x, int y, int val)
+{
 	if (x < 0 || y < 0 || x >= w || y >= h) return;
 	data[x + y * w] = (ushort) val;
 }
@@ -261,6 +264,14 @@ void Level::add(Entity * entity)
 void Level::remove(Entity * e)
 {
 	entities.remove(e);
+//	for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++ )
+//	{
+//		if (*it == e)
+//		{
+//			entities.erase(it);
+//			break;
+//		}
+//	}
 	int xto = e->x >> 4;
 	int yto = e->y >> 4;
 	removeEntity(xto, yto, e);
@@ -275,6 +286,15 @@ void Level::removeEntity(int x, int y, Entity * e)
 {
 	if (x < 0 || y < 0 || x >= w || y >= h) return;
 	entitiesInTiles[x + y * w].remove(e);
+//	list<Entity*> &entitiesInTile = entitiesInTiles[x + y * w];
+//	for (list<Entity*>::iterator it = entitiesInTile.begin(); it != entitiesInTile.end(); it++ )
+//	{
+//		if (*it == e)
+//		{
+//			entitiesInTile.erase(it);
+//			break;
+//		}
+//	}
 }
 
 void Level::trySpawn(int count)
@@ -343,7 +363,8 @@ void Level::tick()
 			int xt = e->x >> 4;
 			int yt = e->y >> 4;
 
-			if (xto != xt || yto != yt) {
+			if (xto != xt || yto != yt)
+			{
 				removeEntity(xto, yto, e);
 				insertEntity(xt, yt, e);
 			}
@@ -365,12 +386,44 @@ list<Entity*> * Level::getEntities(int x0, int y0, int x1, int y1)
 		for (int x = xt0; x <= xt1; ++x)
 		{
 			if (x < 0  || x >= w) continue;
-			list<Entity*> &entities = entitiesInTiles[x + yByWidth];
-			if (entities.empty()) continue;
-			for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++ )
+			list<Entity*> &ent = entitiesInTiles[x + yByWidth];
+			if (ent.empty()) continue;
+			for (list<Entity*>::iterator it = ent.begin(); it != ent.end(); it++ )
 			{
 				Entity * e = *it;
 				if (e->intersects(x0, y0, x1, y1)) result->push_back(e);
+			}
+		}
+	}
+	return result;
+}
+
+list<Entity*> * Level::getEntities(int x0, int y0, int x1, int y1, Entity * excluded)
+{
+	list<Entity*> * result = new list<Entity*>;
+	int xt0 = (x0 >> 4) - 1;
+	int yt0 = (y0 >> 4) - 1;
+	int xt1 = (x1 >> 4) + 1;
+	int yt1 = (y1 >> 4) + 1;
+	for (int y = yt0; y <= yt1; ++y)
+	{
+		if (y < 0 || y >= h) continue;
+		int yByWidth = y * this->w;
+		for (int x = xt0; x <= xt1; ++x)
+		{
+			if (x < 0  || x >= w) continue;
+			list<Entity*> &ent = entitiesInTiles[x + yByWidth];
+			if (ent.empty()) continue;
+			for (list<Entity*>::iterator it = ent.begin(); it != ent.end(); it++ )
+			{
+				Entity * e = *it;
+				if (e->intersects(x0, y0, x1, y1))
+				{
+					if (e != excluded)
+					{
+						result->push_back(e);
+					}
+				}
 			}
 		}
 	}
@@ -390,9 +443,9 @@ bool Level::isRegionEmpty(int x0, int y0, int x1, int y1)
 		for (int x = xt0; x <= xt1; ++x)
 		{
 			if (x < 0  || x >= w) continue;
-			list<Entity*> &entities = entitiesInTiles[x + yByWidth];
-			if (entities.empty()) continue;
-			for (list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++ )
+			list<Entity*> &ent = entitiesInTiles[x + yByWidth];
+			if (ent.empty()) continue;
+			for (list<Entity*>::iterator it = ent.begin(); it != ent.end(); it++ )
 			{
 				Entity * e = *it;
 				if (e->intersects(x0, y0, x1, y1)) return false;

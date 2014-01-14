@@ -65,7 +65,9 @@ random(new Random())
 	{
 		maps = LevelGen::createAndValidateUndergroundMap(w, h, -level);
 		monsterDensity = 4;
-	} else {
+	}
+	else
+	{
 		maps = LevelGen::createAndValidateSkyMap(w, h); // Sky level
 		monsterDensity = 4;
 	}
@@ -101,6 +103,78 @@ random(new Random())
 
 			}
 	}
+
+	//secret place at the top left of the lowest level
+	if (level == -3)
+	{
+		setTile(1, 1, Tile::water, 0);
+		setTile(1, 2, Tile::water, 0);
+		setTile(1, 3, Tile::water, 0);
+		setTile(1, 4, Tile::water, 0);
+		setTile(1, 5, Tile::water, 0);
+		setTile(1, 6, Tile::water, 0);
+
+		setTile(2, 1, Tile::water, 0);
+		setTile(2, 2, Tile::grass, 0);
+		setTile(2, 3, Tile::grass, 0);
+		setTile(2, 4, Tile::tree, 0);
+		setTile(2, 5, Tile::tree, 0);
+		setTile(2, 6, Tile::water, 0);
+
+		setTile(3, 1, Tile::water, 0);
+		setTile(3, 2, Tile::grass, 0);
+		setTile(3, 3, Tile::grass, 0);
+		setTile(3, 4, Tile::grass, 0);
+		setTile(3, 5, Tile::tree, 0);
+		setTile(3, 6, Tile::tree, 0);
+
+		setTile(4, 1, Tile::water, 0);
+		setTile(4, 2, Tile::cactus, 0);
+		setTile(4, 3, Tile::grass, 0);
+		setTile(4, 4, Tile::grass, 0);
+		setTile(4, 5, Tile::grass, 0);
+		setTile(4, 6, Tile::tree, 0);
+
+		setTile(5, 1, Tile::lava, 0);
+		setTile(5, 2, Tile::sand, 0);
+		setTile(5, 3, Tile::sand, 0);
+		setTile(5, 4, Tile::farmland, 0);
+		setTile(5, 5, Tile::wheat, 0);
+		setTile(5, 6, Tile::wheat, 0);
+
+		setTile(6, 1, Tile::lava, 0);
+		setTile(6, 2, Tile::sand, 0);
+		setTile(6, 3, Tile::sand, 0);
+		setTile(6, 4, Tile::sand, 0);
+		setTile(6, 5, Tile::sand, 0);
+		setTile(6, 5, Tile::dirt, 0);
+		setTile(6, 6, Tile::cloudCactus, 0);
+
+		setTile(7, 1, Tile::lava, 0);
+		setTile(7, 2, Tile::lava, 0);
+		setTile(7, 3, Tile::ironOre, 0);
+		setTile(7, 4, Tile::dirt, 0);
+		setTile(7, 5, Tile::dirt, 0);
+		setTile(7, 6, Tile::cloud, 0);
+
+		setTile(8, 1, Tile::gemOre, 0);
+		setTile(8, 2, Tile::lava, 0);
+		setTile(8, 3, Tile::lava, 0);
+		setTile(8, 4, Tile::goldOre, 0);
+
+		setTile(8, 6, Tile::cloud, 0);
+
+		setTile(9, 2, Tile::gemOre, 0);
+		setTile(9, 3, Tile::lava, 0);
+		setTile(9, 4, Tile::lava, 0);
+
+		setTile(10, 2, Tile::gemOre, 0);
+		setTile(10, 4, Tile::lava, 0);
+		setTile(10, 5, Tile::lava, 0);
+
+		setTile(11, 5, Tile::lava, 0);
+	}
+
 	entitiesInTiles = new list<Entity*>[w * h];
 	//for (int i = 0; i < w * h; i++)
 	//{

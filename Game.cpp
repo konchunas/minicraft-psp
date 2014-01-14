@@ -103,7 +103,7 @@ void Game::render()
 		//while others are handled in fine 1ms interval
 		//if (currentLevel > 3)
 		{
-			//it is special substrate for sky level to create parallax efect
+			//it is special substrate for sky level to create parallax effect
 			int col = Color::get(20, 20, 121, 121);
 				for (ushort y = 0; y < 14; y++)
 					for (ushort x = 0; x < 24; x++)
@@ -127,8 +127,20 @@ void Game::render()
 
 //	if (!hasFocus()) renderFocusNagger();
 
+	std::stringstream ss;
+	int milliseconds = oslBenchmarkTest(OSL_BENCH_GET);
+	ss << milliseconds;
+	Font::draw(ss.str(), screen, 0 , 0 , Color::get(-1, 555, 555, 555));
 
-	//memset((void*)pixels, RGBA(128,255,255,255), screen->w * 4);
+	std::stringstream ss1;
+	ss1 << oslGetRamStatus().maxAvailable;
+	Font::draw(ss1.str(),screen, 80 , 0 , Color::get(-1, 555, 555, 555));
+//
+//	std::stringstream ss2;
+//	ss2 << frames;
+//	Font::draw(ss2.str(),screen, 0 , 40 , Color::get(-1, 555, 555, 555));
+
+	oslLockImage(image);
 //	for (int y = 0; y < screen->h; ++y)
 //	{
 ////		memcpy((int*)(pixels + y * image->realSizeX),
@@ -137,15 +149,10 @@ void Game::render()
 ////	}
 //		for (int x = 0; x < screen->w; ++x)
 //		{
-//			int cc = screen->pixels[x + y * screen->w];
-//			if (cc < 255) pixels[x + y * image->realSizeX] = colors[cc];
+//			ushort cc = screen->pixels[x + y * screen->w];
+//			pixels[x + y * image->realSizeX] = colors[cc];
 //		}
 //	}
-	std::stringstream ss;
-	ss << oslBenchmarkTest(OSL_BENCH_GET);
-	Font::draw(ss.str(),screen, 0 , 0 , Color::get(-1, 555, 555, 555));
-
-	oslLockImage(image);
 
 	//nearest neighbor for scaling
 	//and to move from screen to image
@@ -250,38 +257,20 @@ void Game::init()
 		lightScreen =  new Screen(WIDTH, HEIGHT, new SpriteSheet(spriteSheet));
 		//oslDeleteImage(spriteSheet);
 
-		//resetGame();
 		setMenu(new TitleMenu());
 
-
-//		int arr[5];
-//		for (int i = 0; i < 5; i++)
-//		{
-//			arr[i] = 0;
-//		}
-//		//check distribution of randoms
-//		Random * random = new Random();
-//		for (long int i = 0; i<100000; i++)
-//		{
-//			arr[random->nextInt(5)]++;
-//		}
-//		for (int i = 0; i < 5; i++)
-//		{
-//			oslDebug("%d's %d", i, arr[i]);
-//		}
-
 		running = true;
-		//resetGame();
-		//setMenu(new TitleMenu());
 	}
 
 void Game::run()
 {
-	long lastTime = time(0);
+	//long lastTime = time(0);
+	//u64 last_tick;
+	//sceRtcGetCurrentTick(&last_tick);
 	//double unprocessed = 0;
 	//double nsPerTick = 1000000000.0 / 60;
-	int frames = 0;
-	int ticks = 0;
+	frames = 0;
+	ticks = 0;
 	//long lastTimer1 = System.currentTimeMillis();
 	bool shouldNotRender = false;
 	init();
@@ -289,13 +278,20 @@ void Game::run()
 	while (running)
 	{
 		oslBenchmarkTest(OSL_BENCH_START);
-		unsigned long now = time(0);
+		//u64 now_tick;
+		//sceRtcGetCurrentTick(&now_tick);
+		//if (now_tick - last_tick > 8000)
+		//{
+		//	last_tick = now_tick;
+			ticks++;
+			tick();
+		//}
+
 		//unprocessed += (now - lastTime) / nsPerTick;
 		//lastTime = now;
 		//bool shouldRender = true;
 		//while (unprocessed >= 1) {
-			ticks++;
-			tick();
+
 		//	unprocessed -= 1;
 		//}
 
@@ -314,8 +310,8 @@ void Game::run()
 //			frames = 0;
 //			ticks = 0;
 //		}
-		oslEndFrame();
 		oslBenchmarkTest(OSL_BENCH_END);
+		oslEndFrame();
 		shouldNotRender = oslSyncFrame();
 
 
@@ -365,11 +361,21 @@ void Game::tick()
 
 void Game::setMenu(Menu * menu)
 {
+	//TODO remember current menu as previous and delete it later
+//	if (this->menu)
+//	{
+//		this->previousMenu = this->menu;
+//	}
 	this->menu = menu;
 	if (menu != NULL)
 	{
 		menu->init(this, input);
 	}
+//	if (previousMenu)
+//	{
+//		delete previousMenu;
+//		previousMenu = NULL;
+//	}
 }
 
 void Game::scheduleLevelChange(int dir)

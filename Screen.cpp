@@ -1,10 +1,3 @@
-/*
- * Screen.cpp
- *
- *  Created on: 16 окт. 2013 г.
- *      Author: user
- */
-
 #include "SpriteSheet.h"
 
 #include "Screen.h"
@@ -120,16 +113,21 @@ void Screen::renderLight(int x, int y, int r)
 	if (x1 > w) x1 = w;
 	if (y1 > h) y1 = h;
 	// System.out.println(x0 + ", " + x1 + " -> " + y0 + ", " + y1);
-	for (int yy = y0; yy < y1; yy++) {
+	for (int yy = y0; yy < y1; yy++)
+	{
 		int yd = yy - y;
 		yd = yd * yd;
-		for (int xx = x0; xx < x1; xx++) {
+		int yyByWidth = yy * w;
+		for (int xx = x0; xx < x1; xx++)
+		{
 			int xd = xx - x;
 			int dist = xd * xd + yd;
 			// System.out.println(dist);
-			if (dist <= r * r) {
-				int br = 255 - dist * 255 / (r * r);
-				if (pixels[xx + yy * w] < br) pixels[xx + yy * w] = br;
+			int r2 = r * r;
+			if (dist <= r2)
+			{
+				int br = 255 - dist * 255 / r2;
+				if (pixels[xx + yyByWidth] < br) pixels[xx + yyByWidth] = br;
 			}
 		}
 	}

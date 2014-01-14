@@ -78,8 +78,8 @@ LIBS=$(STDLIBS) $(MYLIBS)
 
 EXTRA_TARGETS = EBOOT.PBP
 PSP_EBOOT_TITLE = Minicraft
-#PSP_EBOOT_ICON= icon0.png
-#PSP_EBOOT_PIC1 = pic1.png
+PSP_EBOOT_ICON= icon0.png
+PSP_EBOOT_PIC1 = pic1.png
 
 PSPSDK=$(shell psp-config --pspsdk-path)
 include $(PSPSDK)/lib/build.mak

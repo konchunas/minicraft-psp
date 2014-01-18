@@ -10,6 +10,8 @@
 #include "../item/resource/Resource.h"
 #include "../item/Item.h"
 
+#include "../item/FurnitureItem.h"
+
 Inventory::Inventory()
 {
 
@@ -117,9 +119,23 @@ int Inventory::count(Item * item)
 	else
 	{
 		int count = 0;
-		for (unsigned int i=0; i<items.size(); i++) //replace with std::iterating
+		for (unsigned int i=0; i<items.size(); ++i) //replace with std::iterating
 		{
-			if (items.at(i)->matches(item)) count++;
+			//count items by matching name item is furniture
+			if (item->instanceOf(FURNITURE_ITEM))
+			{
+				if (items.at(i)->instanceOf(FURNITURE_ITEM))
+				{
+					FurnitureItem * inventoryItem = static_cast<FurnitureItem*>(items.at(i));
+					FurnitureItem * currentItem = static_cast<FurnitureItem*>(item);
+					if (inventoryItem->getName() == currentItem->getName())
+						count++;
+				}
+			}
+			else //count by type matching
+			{
+				if (items.at(i)->matches(item)) count++;
+			}
 		}
 		return count;
 	}

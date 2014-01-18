@@ -504,6 +504,13 @@ list<Entity*> * Level::getEntities(int x0, int y0, int x1, int y1, Entity * excl
 	return result;
 }
 
+list<Entity*> * Level::getEntities(int x0, int y0)
+{
+	int x = (x0 >> 4);
+	int y = (y0 >> 4);
+	return new list<Entity*>(entitiesInTiles[x + y * this->w]);
+}
+
 bool Level::isRegionEmpty(int x0, int y0, int x1, int y1)
 {
 	int xt0 = (x0 >> 4) - 1;

@@ -39,6 +39,7 @@ public:
 	void trySpawn(int count);
 	void tick();
 	list<Entity*> * getEntities(int x0, int y0, int x1, int y1);
+	list<Entity*> * getEntities(int x0, int y0);
 	list<Entity*> * getEntities(int x0, int y0, int x1, int y1, Entity * exclude);
 	bool isRegionEmpty(int x0, int y0, int x1, int y1);
 

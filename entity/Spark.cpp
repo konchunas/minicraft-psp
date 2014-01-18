@@ -42,7 +42,7 @@ void Spark::tick()
 	yy += ya;
 	x = (int) xx;
 	y = (int) yy;
-	auto_ptr<list<Entity*> > toHit(level->getEntities(x, y, x, y));
+	auto_ptr<list<Entity*> > toHit(level->getEntities(x, y));
 	for (list<Entity*>::iterator it = toHit->begin(); it != toHit->end(); it++ )
 	{
 		Entity * e = *it;

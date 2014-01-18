@@ -23,6 +23,6 @@ void InfiniteFallTile::tick(Level * level, int xt, int yt)
 
 bool InfiniteFallTile::mayPass(Level * level, int x, int y, Entity * e)
 {
-	if (e->instanceOf(AIR_WIZARD) || e->instanceOf(PLAYER)) return true;
+	if (e->instanceOf(AIR_WIZARD)/* || e->instanceOf(PLAYER) */) return true;
 	return false;
 }

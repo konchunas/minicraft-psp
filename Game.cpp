@@ -57,10 +57,6 @@ void Game::resetGame()
 		}
 		delete[] levels;
 	}
-	if (player)
-	{
-		delete player;
-	}
 
 	playerDeadTime = 0;
 	wonTimer = 0;

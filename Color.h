@@ -1,14 +1,5 @@
-/*
- * Color.h
- *
- *  Created on: 15 окт. 2013 г.
- *      Author: user
- */
-
 #ifndef COLOR_H_
 #define COLOR_H_
-
-#include <oslib/oslib.h>
 
 class Color {
 public:

@@ -14,7 +14,7 @@
 #include "../item/resource/Resource.h"
 #include "../item/FurnitureItem.h"
 #include "../entity/Workbench.h"
-#include "../entity/Furnace.h" //temporary include
+#include "../menu/PauseMenu.h"
 #include "../item/PowerGloveItem.h"
 #include "../Color.h"
 #include "../item/ToolItem.h"
@@ -139,17 +139,24 @@ void Player::tick() {
 			attack();
 		}
 	}
-	if (input->menu->clicked) {
-		if (!use()) {
+	if (input->menu->clicked)
+	{
+		if (!use())
+		{
 			game->setMenu(new InventoryMenu(this));
 		}
+	}
+	if (input->pause->clicked)
+	{
+		game->setMenu(new PauseMenu());
 	}
 	if (attackTime > 0)
 		attackTime--;
 
 }
 
-bool Player::use() {
+bool Player::use()
+{
 	int yo = -2;
 	if (dir == 0 && use(x - 8, y + 4 + yo, x + 8, y + 12 + yo))
 		return true;

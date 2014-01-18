@@ -1,10 +1,3 @@
-/*
- * Font.cpp
- *
- *  Created on: 17 окт. 2013 г.
- *      Author: user
- */
-
 #include "Font.h"
 #include "Color.h"
 #include <algorithm>

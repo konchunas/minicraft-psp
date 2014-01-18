@@ -20,6 +20,7 @@ public:
     InputHandler_Key* attack;
     InputHandler_Key* menu;
     InputHandler_Key* exit;
+    InputHandler_Key* pause;
     void releaseAll();
     void tick();
     void add(InputHandler_Key*);

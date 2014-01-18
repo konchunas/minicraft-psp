@@ -6,7 +6,8 @@
 #include "../entity/Inventory.h"
 #include "../item/Item.h"
 
-InventoryMenu::~InventoryMenu() {
+InventoryMenu::~InventoryMenu()
+{
 	// TODO Auto-generated destructor stub
 }
 

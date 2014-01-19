@@ -395,7 +395,7 @@ void Game::changeLevel(int dir)
 	if (!levels[currentLevel])
 	{
 		int lowestDepth = -3;
-		levels[currentLevel] = new Level(128, 128, lowestDepth + currentLevel, levels[currentLevel - 1]);
+		levels[currentLevel] = new Level(128, 128, lowestDepth + currentLevel, levels[currentLevel + 1]);
 		levels[currentLevel]->trySpawn(5000);
 	}
 	level = levels[currentLevel];

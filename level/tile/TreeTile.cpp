@@ -21,9 +21,9 @@ TreeTile::~TreeTile() {
 
 void TreeTile::render(Screen * screen, Level * level, int x, int y)
 {
-	int col = Color::get(10, 30, 151, level->grassColor);
-	int barkCol1 = Color::get(10, 30, 430, level->grassColor);
-	int barkCol2 = Color::get(10, 30, 320, level->grassColor);
+	int col = Color::get(10, 30, 151, -1);
+	int barkCol1 = Color::get(10, 30, 430, -1);
+	int barkCol2 = Color::get(10, 30, 320, -1);
 
 	bool u = level->getTile(x, y - 1) == this;
 	bool l = level->getTile(x - 1, y) == this;
@@ -33,6 +33,8 @@ void TreeTile::render(Screen * screen, Level * level, int x, int y)
 	bool ur = level->getTile(x + 1, y - 1) == this;
 	bool dl = level->getTile(x - 1, y + 1) == this;
 	bool dr = level->getTile(x + 1, y + 1) == this;
+
+	Tile::grass->render(screen, level, x, y);
 
 	if (u && ul && l) {
 		screen->render(x * 16 + 0, y * 16 + 0, 10 + 1 * 32, col, 0);

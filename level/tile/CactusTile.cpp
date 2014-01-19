@@ -18,7 +18,8 @@ CactusTile::~CactusTile() {
 
 void CactusTile::render(Screen * screen, Level * level, int x, int y)
 {
-	int col = Color::get(20, 40, 50, level->sandColor);
+	int col = Color::get(20, 40, 50, -1);
+	Tile::sand->render(screen, level, x, y);
 	screen->render(x * 16 + 0, y * 16 + 0, 8 + 2 * 32, col, 0);
 	screen->render(x * 16 + 8, y * 16 + 0, 9 + 2 * 32, col, 0);
 	screen->render(x * 16 + 0, y * 16 + 8, 8 + 3 * 32, col, 0);

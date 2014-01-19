@@ -7,7 +7,7 @@
 
 using namespace std;
 
-typedef unsigned short ushort;
+typedef unsigned char byte;
 
 class Player;
 
@@ -17,8 +17,8 @@ public:
 	virtual ~Level();
 	int w, h;
 
-	ushort * tiles;
-	ushort * data;
+	byte * tiles;
+	byte * data;
 
 	Player * player;
 

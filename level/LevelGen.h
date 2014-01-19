@@ -4,16 +4,16 @@
 #include "../Random.h"
 #include "tile/Tile.h"
 
-typedef unsigned short ushort;
+typedef unsigned char byte;
 
 class LevelGen {
 public:
 	LevelGen(int w, int h, int featureSize);
 	virtual ~LevelGen();
 	float * values;
-	static ushort ** createAndValidateTopMap(int w, int h);
-	static ushort ** createAndValidateUndergroundMap(int w, int h, int depth);
-	static ushort ** createAndValidateSkyMap(int w, int h);
+	static byte ** createAndValidateTopMap(int w, int h);
+	static byte ** createAndValidateUndergroundMap(int w, int h, int depth);
+	static byte ** createAndValidateSkyMap(int w, int h);
 	static Random * random;
 
 private:
@@ -23,9 +23,9 @@ private:
 
 	inline float sample(int x, int y);
 	inline void setSample(int x, int y, float sample);
-	static ushort ** createTopMap(int w, int h);
-	static ushort ** createUndergroundMap(int w, int h, int depth);
-	static ushort ** createSkyMap(int w, int h);
+	static byte ** createTopMap(int w, int h);
+	static byte ** createUndergroundMap(int w, int h, int depth);
+	static byte ** createSkyMap(int w, int h);
 };
 
 #endif /* LEVELGEN_H_ */

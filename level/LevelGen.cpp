@@ -82,10 +82,10 @@ void LevelGen::setSample(int x, int y, float value)
 	values[(x & widthMinusOne) + (y & heightMinusOne) * w] = value;
 }
 
-ushort ** LevelGen::createAndValidateTopMap(int w, int h)
+byte ** LevelGen::createAndValidateTopMap(int w, int h)
 {
 	int attempt = 0;
-	ushort ** result = NULL;
+	byte ** result = NULL;
 	do
 	{
 		if (result)
@@ -135,10 +135,10 @@ ushort ** LevelGen::createAndValidateTopMap(int w, int h)
 	//oslDebug("%d",oslBenchmarkTest(OSL_BENCH_GET));
 }
 
-ushort ** LevelGen::createAndValidateUndergroundMap(int w, int h, int depth)
+byte ** LevelGen::createAndValidateUndergroundMap(int w, int h, int depth)
 {
 	int attempt = 0;
-	ushort ** result = NULL;
+	byte ** result = NULL;
 	do
 	{
 		if (result)
@@ -166,10 +166,10 @@ ushort ** LevelGen::createAndValidateUndergroundMap(int w, int h, int depth)
 	} while (true);
 }
 
-ushort ** LevelGen::createAndValidateSkyMap(int w, int h)
+byte ** LevelGen::createAndValidateSkyMap(int w, int h)
 {
 	int attempt = 0;
-	ushort ** result = NULL;
+	byte ** result = NULL;
 	do
 	{
 		if (result)
@@ -193,7 +193,7 @@ ushort ** LevelGen::createAndValidateSkyMap(int w, int h)
 	} while (true);
 }
 
-ushort ** LevelGen::createTopMap(int w, int h)
+byte ** LevelGen::createTopMap(int w, int h)
 {
 	LevelGen mnoise1(w, h, 16);
 	LevelGen mnoise2(w, h, 16);
@@ -203,9 +203,9 @@ ushort ** LevelGen::createTopMap(int w, int h)
 	LevelGen noise2(w, h, 32);
 
 
-	ushort * map = new ushort[w * h];
-	ushort * data = new ushort[w * h];
-	memset(data, 0 ,w * h * sizeof(ushort));
+	byte * map = new byte[w * h];
+	byte * data = new byte[w * h];
+	memset(data, 0 ,w * h * sizeof(byte));
 	for (int y = 0; y < h; y++) {
 		for (int x = 0; x < w; x++) {
 			int i = x + y * w;
@@ -291,7 +291,7 @@ ushort ** LevelGen::createTopMap(int w, int h)
 				if (map[xx + yy * w] == Tile::grass->id) {
 					map[xx + yy * w] = Tile::flower->id;
 					data[xx + yy * w] =
-							(ushort) (col + random->nextInt(4) * 16);
+							(byte) (col + random->nextInt(4) * 16);
 				}
 			}
 		}
@@ -332,13 +332,13 @@ ushort ** LevelGen::createTopMap(int w, int h)
 		i++;
 	}
 
-	ushort ** result = new ushort*[2];
+	byte ** result = new byte*[2];
 	result[0] = map;
 	result[1] = data;
 	return result;
 }
 
-ushort ** LevelGen::createUndergroundMap(int w, int h, int depth)
+byte ** LevelGen::createUndergroundMap(int w, int h, int depth)
 {
 	LevelGen mnoise1(w, h, 16);
 	LevelGen mnoise2(w, h, 16);
@@ -355,9 +355,9 @@ ushort ** LevelGen::createUndergroundMap(int w, int h, int depth)
 	LevelGen noise1(w, h, 32);
 	LevelGen noise2(w, h, 32);
 
-	ushort * map = new ushort[w * h];
-	ushort * data = new ushort[w * h];
-	memset(data, 0 ,w * h * sizeof(ushort));
+	byte * map = new byte[w * h];
+	byte * data = new byte[w * h];
+	memset(data, 0 ,w * h * sizeof(byte));
 	for (int y = 0; y < h; y++)
 	{
 		for (int x = 0; x < w; x++)
@@ -413,7 +413,7 @@ ushort ** LevelGen::createUndergroundMap(int w, int h, int depth)
 				int yy = y + random->nextInt(5) - random->nextInt(5);
 				if (xx >= r && yy >= r && xx < w - r && yy < h - r) {
 					if (map[xx + yy * w] == Tile::rock->id) {
-						map[xx + yy * w] = (ushort) ((Tile::ironOre->id & 0xff) + depth - 1);
+						map[xx + yy * w] = (byte) ((Tile::ironOre->id & 0xff) + depth - 1);
 					}
 				}
 			}
@@ -448,20 +448,20 @@ ushort ** LevelGen::createUndergroundMap(int w, int h, int depth)
 		}
 	}
 
-	ushort ** result = new ushort*[2];
+	byte ** result = new byte*[2];
 	result[0] = map;
 	result[1] = data;
 	return result;
 }
 
-ushort ** LevelGen::createSkyMap(int w, int h)
+byte ** LevelGen::createSkyMap(int w, int h)
 {
 	LevelGen noise1(w, h, 8);
 	LevelGen noise2(w, h, 8);
 
-	ushort * map = new ushort[w * h];
-	ushort * data = new ushort[w * h];
-	memset(data, 0 ,w * h * sizeof(ushort));
+	byte * map = new byte[w * h];
+	byte * data = new byte[w * h];
+	memset(data, 0 ,w * h * sizeof(byte));
 	for (int y = 0; y < h; y++) {
 		for (int x = 0; x < w; x++) {
 			int i = x + y * w;
@@ -543,7 +543,7 @@ ushort ** LevelGen::createSkyMap(int w, int h)
 		i++;
 	}
 
-	ushort ** result = new ushort*[2];
+	byte ** result = new byte*[2];
 	result[0] = map;
 	result[1] = data;
 	return result;

@@ -13,8 +13,6 @@
 #include "Game.h"
 #include "Logger.h"
 
-typedef unsigned short ushort;
-
 PSP_MODULE_INFO("Minicraft", 0, 1, 0);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
 PSP_HEAP_SIZE_KB(12*1024);

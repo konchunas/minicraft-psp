@@ -51,7 +51,7 @@ random(new Random())
 	this->depth = level;
 	this->w = w;
 	this->h = h;
-	ushort ** maps;
+	byte ** maps;
 
 	if (level == 1) {
 		dirtColor = 444;
@@ -294,7 +294,7 @@ void Level::setTile(int x, int y, Tile * t, int dataVal)
 {
 	if (x < 0 || y < 0 || x >= w || y >= h) return;
 	tiles[x + y * w] = t->id;
-	data[x + y * w] = (ushort) dataVal;
+	data[x + y * w] = (byte) dataVal;
 }
 
 int Level::getData(int x, int y)
@@ -306,7 +306,7 @@ int Level::getData(int x, int y)
 void Level::setData(int x, int y, int val)
 {
 	if (x < 0 || y < 0 || x >= w || y >= h) return;
-	data[x + y * w] = (ushort) val;
+	data[x + y * w] = (byte) val;
 }
 
 void Level::add(Entity * entity)

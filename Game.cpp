@@ -68,9 +68,13 @@ void Game::resetGame()
 
 	levels[4] = new Level(128, 128, 1, NULL);
 	levels[3] = new Level(128, 128, 0, levels[4]);
-	levels[2] = new Level(128, 128, -1, levels[3]);
-	levels[1] = new Level(128, 128, -2, levels[2]);
-	levels[0] = new Level(128, 128, -3, levels[1]);
+	levels[2] = NULL;
+	levels[1] = NULL;
+	levels[0] = NULL;
+//	levels[2] = new Level(128, 128, -1, levels[3]);
+//	levels[1] = new Level(128, 128, -2, levels[2]);
+//	levels[0] = new Level(128, 128, -3, levels[1]);
+
 
 	level = levels[currentLevel];
 	player = new Player(this, input);
@@ -78,10 +82,13 @@ void Game::resetGame()
 
 	level->add(player);
 
-	for (int i = 0; i < 5; i++)
-	{
-		levels[i]->trySpawn(5000);
-	}
+	levels[4]->trySpawn(5000);
+	levels[3]->trySpawn(5000);
+
+//	for (int i = 0; i < 5; i++)
+//	{
+//		levels[i]->trySpawn(5000);
+//	}
 }
 
 void Game::render()
@@ -385,6 +392,12 @@ void Game::changeLevel(int dir)
 {
 	level->remove(player);
 	currentLevel += dir;
+	if (!levels[currentLevel])
+	{
+		int lowestDepth = -3;
+		levels[currentLevel] = new Level(128, 128, lowestDepth + currentLevel, levels[currentLevel - 1]);
+		levels[currentLevel]->trySpawn(5000);
+	}
 	level = levels[currentLevel];
 	player->x = (player->x >> 4) * 16 + 8;
 	player->y = (player->y >> 4) * 16 + 8;

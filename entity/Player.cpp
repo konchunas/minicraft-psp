@@ -49,12 +49,11 @@ attackTime(0)
 
 	//inventory->add(new ResourceItem(Resource::dirt));
 	//inventory->add(new ResourceItem(Resource::wood));
-	inventory->add(new FurnitureItem(new Workbench()));
-	inventory->add(new FurnitureItem(new Furnace()));
-	inventory->add(new ToolItem(ToolType::pickaxe,1));
-	inventory->add(new ResourceItem(Resource::sand, 30));
-	inventory->add(new ResourceItem(Resource::coal, 30));
-
+	//inventory->add(new FurnitureItem(new Workbench()));
+//	inventory->add(new FurnitureItem(new Lantern()));
+//	inventory->add(new ToolItem(ToolType::hoe,4));
+//	inventory->add(new ToolItem(ToolType::shovel,4));
+//	inventory->add(new ToolItem(ToolType::pickaxe,4));
 
 	inventory->add(new FurnitureItem(new Workbench()));
 	inventory->add(new PowerGloveItem());
@@ -435,7 +434,7 @@ bool Player::findStartPos(Level * level) {
 	{
 		int x = random->nextInt(level->w);
 		int y = random->nextInt(level->h);
-		if (level->getTile(x, y) == Tile::tiles[0]) {
+		if (level->getTile(x, y) == Tile::grass) {
 			this->x = x * 16 + 8;
 			this->y = y * 16 + 8;
 			return true;

@@ -54,8 +54,9 @@ void ContainerMenu::tick()
 	if (selected >= len) selected -= len;
 
 	if (input->attack->clicked && len > 0) {
-		i2->add(oSelected, i->removeAt(selected));
-		if (selected >= i->items.size()) selected = i->items.size() - 1;
+		i2->add(i->removeAt(selected));
+		if (selected >= i->items.size())
+			selected = i->items.size() - 1;
 	}
 }
 

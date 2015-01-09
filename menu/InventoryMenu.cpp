@@ -18,7 +18,7 @@ selected(0)
 
 	if (player->activeItem != NULL)
 	{
-		player->inventory->items.push_front(player->activeItem);
+		player->inventory->add(0,player->activeItem);
 		player->activeItem = NULL;
 	}
 }
